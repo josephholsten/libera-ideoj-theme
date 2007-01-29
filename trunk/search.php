@@ -33,7 +33,7 @@
 
 <?php else : ?>
 
-			<div id="post-0" class="post">
+			<div id="post-0" class="post hentry">
 				<h2 class="entry-title"><?php _e('Nothing Found', 'simplr') ?></h2>
 				<div class="entry-content">
 					<p><?php _e('Sorry, but nothing matched your search criteria. Please try again with some different keywords.', 'simplr') ?></p>
@@ -51,5 +51,4 @@
 		</div>
 	</div>
 
-<?php get_sidebar() ?>
 <?php get_footer() ?>

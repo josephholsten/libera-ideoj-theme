@@ -395,12 +395,18 @@ function simplr_add_admin() {
 			update_option( 'simplr_basefontsize', $_REQUEST['sr_basefontsize'] );
 			update_option( 'simplr_basefontfamily', $_REQUEST['sr_basefontfamily'] );
 			update_option( 'simplr_headingfontfamily', $_REQUEST['sr_headingfontfamily'] );
+			update_option( 'simplr_layoutwidth', $_REQUEST['sr_layoutwidth'] );
 			update_option( 'simplr_posttextalignment', $_REQUEST['sr_posttextalignment'] );
+			update_option( 'simplr_sidebarposition', $_REQUEST['sr_sidebarposition'] );
+			update_option( 'simplr_accesslinks', $_REQUEST['sr_accesslinks'] );
 
 			if( isset( $_REQUEST['sr_basefontsize'] ) ) { update_option( 'simplr_basefontsize', $_REQUEST['sr_basefontsize']  ); } else { delete_option( 'simplr_basefontsize' ); }
 			if( isset( $_REQUEST['sr_basefontfamily'] ) ) { update_option( 'simplr_basefontfamily', $_REQUEST['sr_basefontfamily']  ); } else { delete_option( 'simplr_basefontfamily' ); }
 			if( isset( $_REQUEST['sr_headingfontfamily'] ) ) { update_option( 'simplr_headingfontfamily', $_REQUEST['sr_headingfontfamily']  ); } else { delete_option('simplr_headingfontfamily'); }
+			if( isset( $_REQUEST['sr_layoutwidth'] ) ) { update_option( 'simplr_layoutwidth', $_REQUEST['sr_layoutwidth']  ); } else { delete_option('simplr_layoutwidth'); }
 			if( isset( $_REQUEST['sr_posttextalignment' ] ) ) { update_option( 'simplr_posttextalignment', $_REQUEST['sr_posttextalignment']  ); } else { delete_option('simplr_posttextalignment'); }
+			if( isset( $_REQUEST['sr_sidebarposition' ] ) ) { update_option( 'simplr_sidebarposition', $_REQUEST['sr_sidebarposition']  ); } else { delete_option('simplr_sidebarposition'); }
+			if( isset( $_REQUEST['sr_accesslinks' ] ) ) { update_option( 'simplr_accesslinks', $_REQUEST['sr_accesslinks']  ); } else { delete_option('simplr_accesslinks'); }
 
 			header("Location: themes.php?page=functions.php&saved=true");
 			die;
@@ -409,7 +415,10 @@ function simplr_add_admin() {
 			delete_option('simplr_basefontsize');
 			delete_option('simplr_basefontfamily');
 			delete_option('simplr_headingfontfamily');
+			delete_option('simplr_layoutwidth');
 			delete_option('simplr_posttextalignment');
+			delete_option('simplr_sidebarposition');
+			delete_option('simplr_accesslinks');
 
 			header("Location: themes.php?page=functions.php&reset=true");
 			die;
@@ -431,7 +440,6 @@ div.wrap table.editform th h3{font:normal 2em/133% georgia,times,serif;margin:1e
 div.wrap table.editform td.important span {background:#f5f5df;padding:0.1em 0.2em;font:85%/175% georgia,times,serif;}
 span.info{color:#555;display:block;font-size:90%;margin:3px 0 9px;}
 span.info span{font-weight:bold;}
-a.xfn-me:hover{background:url(<?php echo get_template_directory_uri(); ?>/images/xfn-me.png) no-repeat top right;padding-right:18px;}
 .arial{font-family:arial,helvetica,sans-serif;}
 .courier{font-family:'courier new',courier,monospace;}
 .georgia{font-family:georgia,times,serif;}
@@ -447,8 +455,11 @@ a.xfn-me:hover{background:url(<?php echo get_template_directory_uri(); ?>/images
 }
 
 function simplr_admin() {
-	if ( $_REQUEST['saved'] ) { ?><div id="message1" class="updated fade"><p><strong><?php printf(__('Simplr theme options saved. <a href="%s">View site &rsaquo;</a>', 'simplr'), get_bloginfo('home') . '/'); ?></strong></p></div><?php }
-	if ( $_REQUEST['reset'] ) { ?><div id="message2" class="updated fade"><p><strong><?php _e('Simplr theme options reset.', 'simplr'); ?></strong></p></div><?php } ?>
+	if ( $_REQUEST['saved'] ) { ?><div id="message1" class="updated fade"><p><?php printf(__('Simplr theme options saved. <a href="%s">View site &raquo;</a>', 'simplr'), get_bloginfo('home') . '/'); ?></p></div><?php }
+	if ( $_REQUEST['reset'] ) { ?><div id="message2" class="updated fade"><p><?php _e('Simplr theme options reset.', 'simplr'); ?></p></div><?php } ?>
+
+<?php $installedVersion = "3.0"; ?>
+<script src="http://www.plaintxt.org/themes/simplr-ver-check.php?version=<?php echo $installedVersion; ?>" type="text/javascript"></script>
 
 <div class="wrap">
 
@@ -466,8 +477,8 @@ function simplr_admin() {
 			<tr valign="top">
 				<th scope="row" width="33%"><label for="sr_basefontsize"><?php _e('Base font size', 'simplr'); ?></label></th> 
 				<td>
-					<input id="sr_basefontsize" name="sr_basefontsize" type="text" class="text" value="<?php if ( get_settings('simplr_basefontsize') == "" ) { echo "90%"; } else { echo get_settings('simplr_basefontsize'); } ?>" tabindex="1" size="10" /><br/>
-					<span class="info"><?php _e('The base font size globally affects the size of text throughout your blog. This can be in any unit (e.g., px, pt, em), but I suggest using a percentage (%). Default is 90%.', 'simplr'); ?></span>
+					<input id="sr_basefontsize" name="sr_basefontsize" type="text" class="text" value="<?php if ( get_settings('simplr_basefontsize') == "" ) { echo "75%"; } else { echo get_settings('simplr_basefontsize'); } ?>" tabindex="1" size="10" /><br/>
+					<span class="info"><?php _e('The base font size globally affects the size of text throughout your blog. This can be in any unit (e.g., px, pt, em), but I suggest using a percentage (%). Default is 75%.', 'simplr'); ?></span>
 				</td>
 			</tr>
 
@@ -480,10 +491,10 @@ function simplr_admin() {
 					<label for="sr_basefontLucidaConsole" class="lucida-console"><input id="sr_basefontLucidaConsole" name="sr_basefontfamily" type="radio" class="radio" value="'lucida console', monaco, monospace" <?php if ( get_settings('simplr_basefontfamily') == "\'lucida console\', monaco, monospace" ) { echo 'checked="checked"'; } ?> tabindex="5" />Lucida Console</label><br/>
 					<label for="sr_basefontLucidaUnicode" class="lucida-unicode"><input id="sr_basefontLucidaUnicode" name="sr_basefontfamily" type="radio" class="radio" value="'lucida sans unicode', 'lucida grande', sans-serif" <?php if ( get_settings('simplr_basefontfamily') == "\'lucida sans unicode\', \'lucida grande\', sans-serif" ) { echo 'checked="checked"'; } ?> tabindex="6" />Lucida Sans Unicode</label><br/>
 					<label for="sr_basefontTahoma" class="tahoma"><input id="sr_basefontTahoma" name="sr_basefontfamily" type="radio" class="radio" value="tahoma, geneva, sans-serif" <?php if ( get_settings('simplr_basefontfamily') == "tahoma, geneva, sans-serif" ) { echo 'checked="checked"'; } ?> tabindex="7" />Tahoma</label><br/>
-					<label for="sr_basefontTimes" class="times"><input id="sr_basefontTimes" name="sr_basefontfamily" type="radio" class="radio" value="'times new roman', times, serif" <?php if ( ( get_settings('simplr_basefontfamily') == "") || ( get_settings('simplr_basefontfamily') == "\'times new roman\', times, serif") ) { echo 'checked="checked"'; } ?> tabindex="8" />Times</label><br/>
+					<label for="sr_basefontTimes" class="times"><input id="sr_basefontTimes" name="sr_basefontfamily" type="radio" class="radio" value="'times new roman', times, serif" <?php if ( get_settings('simplr_basefontfamilyfamily') == "\'times new roman\', times, serif" ) { echo 'checked="checked"'; } ?> tabindex="8" />Times</label><br/>
 					<label for="sr_basefontTrebuchetMS" class="trebuchet"><input id="sr_basefontTrebuchetMS" name="sr_basefontfamily" type="radio" class="radio" value="'trebuchet ms', helvetica, sans-serif" <?php if ( get_settings('simplr_basefontfamily') == "\'trebuchet ms\', helvetica, sans-serif" ) { echo 'checked="checked"'; } ?> tabindex="9" />Trebuchet MS</label><br/>
-					<label for="sr_basefontVerdana" class="verdana"><input id="sr_basefontVerdana" name="sr_basefontfamily" type="radio" class="radio" value="verdana, geneva, sans-serif" <?php if ( get_settings('simplr_basefontfamilyfamily') == "verdana, geneva, sans-serif" ) { echo 'checked="checked"'; } ?> tabindex="10" />Verdana</label><br/>
-					<span class="info"><?php printf(__('The base font family sets the font for everything except content headings. The selection is limited to %1$s fonts, as they will display correctly. Default is <span class="times">Times</span>.', 'simplr'), '<cite><a href="http://en.wikipedia.org/wiki/Web_safe_fonts" title="Web safe fonts - Wikipedia">web safe</a></cite>'); ?></span>
+					<label for="sr_basefontVerdana" class="verdana"><input id="sr_basefontVerdana" name="sr_basefontfamily" type="radio" class="radio" value="verdana, geneva, sans-serif" <?php if ( ( get_settings('simplr_basefontfamily') == "") || ( get_settings('simplr_basefontfamily') == "verdana, geneva, sans-serif") ) { echo 'checked="checked"'; } ?> tabindex="10" />Verdana</label><br/>
+					<span class="info"><?php printf(__('The base font family sets the font for everything except content headings. The selection is limited to %1$s fonts, as they will display correctly. Default is <span class="verdana">Verdana</span>.', 'simplr'), '<cite><a href="http://en.wikipedia.org/wiki/Web_safe_fonts" title="Web safe fonts - Wikipedia">web safe</a></cite>'); ?></span>
 				</td>
 			</tr>
 
@@ -508,9 +519,17 @@ function simplr_admin() {
 			</tr>
 
 			<tr valign="top">
+				<th scope="row" width="33%"><label for="sr_layoutwidth"><?php _e('Layout width', 'simplr'); ?></label></th> 
+				<td>
+					<input id="sr_layoutwidth" name="sr_layoutwidth" type="text" class="text" value="<?php if ( get_settings('simplr_layoutwidth') == "" ) { echo "45em"; } else { echo get_settings('simplr_layoutwidth'); } ?>" tabindex="20" size="10" /><br/>
+					<span class="info"><?php _e('The layout width determines the normal width of the entire layout. This can be in any unit (e.g., px, pt, %), but I suggest using an em value. Default is 45em.', 'veryplaintxt'); ?></span>
+				</td>
+			</tr>
+
+			<tr valign="top">
 				<th scope="row" width="33%"><label for="sr_posttextalignment"><?php _e('Post text alignment', 'simplr'); ?></label></th> 
 				<td>
-					<select id="sr_posttextalignment" name="sr_posttextalignment" tabindex="23" class="dropdown">
+					<select id="sr_posttextalignment" name="sr_posttextalignment" tabindex="21" class="dropdown">
 						<option value="center" <?php if ( get_settings('simplr_posttextalignment') == "center" ) { echo 'selected="selected"'; } ?>><?php _e('Centered', 'simplr'); ?> </option>
 						<option value="justified" <?php if ( get_settings('simplr_posttextalignment') == "justify" ) { echo 'selected="selected"'; } ?>><?php _e('Justified', 'simplr'); ?> </option>
 						<option value="left" <?php if ( ( get_settings('simplr_posttextalignment') == "") || ( get_settings('simplr_posttextalignment') == "left") ) { echo 'selected="selected"'; } ?>><?php _e('Left', 'simplr'); ?> </option>
@@ -521,10 +540,39 @@ function simplr_admin() {
 				</td>
 			</tr>
 
+			<tr valign="top">
+				<th scope="row" width="33%"><label for="sr_sidebarposition"><?php _e('Sidebar position', 'simplr'); ?></label></th> 
+				<td>
+					<select id="sr_sidebarposition" name="sr_sidebarposition" tabindex="22" class="dropdown">
+						<option value="col1-col2" <?php if ( ( get_settings('simplr_sidebarposition') == "") || ( get_settings('simplr_sidebarposition') == "col1-col2") ) { echo 'selected="selected"'; } ?>><?php _e('Column 1 - Column 2', 'simplr'); ?> </option>
+						<option value="col2-col1" <?php if ( get_settings('simplr_sidebarposition') == "col2-col1" ) { echo 'selected="selected"'; } ?>><?php _e('Column 2 - Column 1', 'simplr'); ?> </option>
+					</select>
+					<br/>
+					<span class="info"><?php _e('Choose one of the options for the position of the "sidebar" columns. Default is Column 1 - Column 2.', 'simplr'); ?></span>
+				</td>
+			</tr>
+
+			<tr valign="top">
+				<th scope="row" width="33%"><h3><?php _e('Banner Nav', 'simplr'); ?></h3></th>
+			</tr>
+
+			<tr valign="top">
+				<th scope="row" width="33%"><label for="sr_accesslinks"><?php _e('Access links', 'simplr'); ?></label></th> 
+				<td>
+					<select id="sr_accesslinks" name="sr_accesslinks" tabindex="23" class="dropdown">
+						<option value="hide" <?php if ( get_settings('simplr_accesslinks') == "hide" ) { echo 'selected="selected"'; } ?>><?php _e('Hide always', 'simplr'); ?> </option>
+						<option value="show" <?php if ( get_settings('simplr_accesslinks') == "show" ) { echo 'selected="selected"'; } ?>><?php _e('Show always', 'simplr'); ?> </option>
+						<option value="mouseover" <?php if ( ( get_settings('simplr_accesslinks') == "") || ( get_settings('simplr_accesslinks') == "mouseover") ) { echo 'selected="selected"'; } ?>><?php _e('Show on mouseover', 'simplr'); ?> </option>
+					</select>
+					<br/>
+					<span class="info"><?php _e('Choose to either show, hide, or show on mouseover the "Skip to . . ." links in the banner. Note that mouseover doesn\'t work with IE6. Default is Show on mouseover.', 'simplr'); ?></span>
+				</td>
+			</tr>
+
 		</table>
 
 		<p class="submit">
-			<input name="save" type="submit" value="<?php _e('Save Options &rsaquo;', 'simplr'); ?>" tabindex="26" accesskey="S" />  
+			<input name="save" type="submit" value="<?php _e('Save Options &raquo;', 'simplr'); ?>" tabindex="24" accesskey="S" />  
 			<input name="action" type="hidden" value="save" />
 		</p>
 
@@ -535,7 +583,7 @@ function simplr_admin() {
 
 	<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
 		<p class="submit">
-			<input name="reset" type="submit" value="<?php _e('Reset', 'simplr'); ?>" onclick="return confirm('<?php _e('Click OK to reset. Any changes to these theme options will be lost!', 'verylaintxt'); ?>');" tabindex="27" accesskey="R" />
+			<input name="reset" type="submit" value="<?php _e('Reset', 'simplr'); ?>" onclick="return confirm('<?php _e('Click OK to reset. Any changes to these theme options will be lost!', 'simplr'); ?>');" tabindex="25" accesskey="R" />
 			<input name="action" type="hidden" value="reset" />
 		</p>
 	</form>
@@ -545,9 +593,9 @@ function simplr_admin() {
 <div id="theme-information" class="wrap">
 
 	<h2 id="info"><?php _e('Theme Information'); ?></h2>
-	<p><?php _e('You are currently using the <a href="http://www.plaintxt.org/themes/simplr/" title="Simplr for WordPress"><span class="theme-title">Simplr</span></a> theme, version 3.0, by <span class="vcard"><a class="url xfn-me" href="http://scottwallick.com/" title="scottwallick.com" rel="me designer"><span class="n"><span class="given-name">Scott</span> <span class="additional-name">Allan</span> <span class="family-name">Wallick</span></span></a></span>.', 'simplr'); ?></p>
+	<p><?php _e('You are currently using the <a href="http://www.plaintxt.org/themes/simplr/" title="Simplr for WordPress"><span class="theme-title">Simplr</span></a> theme, version ' . $installedVersion . ', by <span class="vcard"><a class="url xfn-me" href="http://scottwallick.com/" title="scottwallick.com" rel="me designer"><span class="n"><span class="given-name">Scott</span> <span class="additional-name">Allan</span> <span class="family-name">Wallick</span></span></a></span>.', 'simplr'); ?></p>
 
-	<p><?php printf(__('Please read the included <a href="%1$s" title="Open the readme.html" rel="enclosure"  tabindex="28">documentation</a> for more information about the <span class="theme-title">simplr</span> theme and its advanced features.', 'simplr'), get_template_directory_uri() . '/readme.html'); ?></p>
+	<p><?php printf(__('Please read the included <a href="%1$s" title="Open the readme.html" rel="enclosure"  tabindex="26">documentation</a> for more information about the <span class="theme-title">Simplr</span> theme and its advanced features.', 'simplr'), get_template_directory_uri() . '/readme.html'); ?></p>
 
 	<h3 id="license" style="margin-bottom:-8px;"><?php _e('License', 'simplr'); ?></h3>
 	<p><?php printf(__('The <span class="theme-title">Simplr</span> theme copyright &copy; %1$s by <span class="vcard"><a class="url xfn-me" href="http://scottwallick.com/" title="scottwallick.com" rel="me designer"><span class="n"><span class="given-name">Scott</span> <span class="additional-name">Allan</span> <span class="family-name">Wallick</span></span></a></span> is distributed with the <cite class="vcard"><a class="fn org url" href="http://www.gnu.org/licenses/gpl.html" title="GNU General Public License" rel="license">GNU General Public License</a></cite>.', 'simplr'), gmdate('Y') ); ?></p>
@@ -559,12 +607,12 @@ function simplr_admin() {
 
 function simplr_wp_head() {
 	if ( get_settings('simplr_basefontsize') == "" ) {
-		$basefontsize = '90%';
+		$basefontsize = '75%';
 	} else {
 		$basefontsize = stripslashes( get_settings('simplr_basefontsize') ); 
 	};
 	if ( get_settings('simplr_basefontfamily') == "" ) {
-		$basefontfamily = '\'times new roman\', times, serif';
+		$basefontfamily = 'verdana, geneva, sans-serif';
 	} else {
 		$basefontfamily = stripslashes( get_settings('simplr_basefontfamily') ); 
 	};
@@ -573,15 +621,45 @@ function simplr_wp_head() {
 	} else {
 		$headingfontfamily = stripslashes( get_settings('simplr_headingfontfamily') ); 
 	};
+	if ( get_settings('simplr_layoutwidth') == "" ) {
+		$layoutwidth = '45em';
+	} else {
+		$layoutwidth = stripslashes( get_settings('simplr_layoutwidth') ); 
+	};
 	if ( get_settings('simplr_posttextalignment') == "" ) {
 		$posttextalignment = 'left';
 	} else {
 		$posttextalignment = stripslashes( get_settings('simplr_posttextalignment') ); 
 	};
+	if ( get_settings('simplr_sidebarposition') == "" ) {
+		$sidebarposition = 'body div#primary{clear:both;float:left;}
+body div#secondary{float:right;}';
+		} else if ( get_settings('simplr_sidebarposition') =="col1-col2" ) {
+			$sidebarposition = 'body div#primary{clear:both;float:left;}
+body div#secondary{float:right;}';
+		} else if ( get_settings('simplr_sidebarposition') =="col2-col1" ) {
+			$sidebarposition = 'body div#secondary{float:left;}
+body div#primary{float:right;}';
+	};
+	if ( get_settings('simplr_accesslinks') == "" ) {
+		$accesslinks = 'div.banner:hover div.access{display:block;}';
+		} else if ( get_settings('simplr_accesslinks') =="hide" ) {
+			$accesslinks = 'div.banner:hover div.access{display:none;}';
+		} else if ( get_settings('simplr_accesslinks') =="show" ) {
+			$accesslinks = 'body div.banner div.access{display:block;background:#cbd3db;color:#0c141c;font-size:0.8em;font-style:italic;letter-spacing:1px;line-height:100%;padding:0.6em 0;text-transform:uppercase;}';
+		} else if ( get_settings('simplr_accesslinks') =="mouseover" ) {
+			$accesslinks = 'div.banner:hover div.access{display:block;}';
+	};
 ?>
 <style type="text/css" media="all">
 /*<![CDATA[*/
 /* CSS inserted by theme options */
+body{font-family:<?php echo $basefontfamily; ?>;font-size:<?php echo $basefontsize; ?>;}
+body div#wrapper{width:<?php echo $layoutwidth; ?>;}
+div#header,div.hentry .entry-title,div#content .page-title,div.entry-content h2,div.entry-content h3,div.entry-content h4,div.entry-content h5,div.entry-content h6{font-family:<?php echo $headingfontfamily; ?>;}
+div.hentry{text-align:<?php echo $posttextalignment; ?>;}
+<?php echo $sidebarposition; ?>
+<?php echo $accesslinks; ?>
 
 /*]]>*/
 </style>
