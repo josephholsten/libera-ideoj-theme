@@ -40,6 +40,9 @@ div.entry-content strong,div.comments ol#comments li strong{text-transform:upper
 div.entry-content blockquote{background:#ebeef1;border-left:3px solid #c8cacd;}
 div.entry-content blockquote p{padding:0.5em 1em;}
 div.entry-content blockquote blockquote{background:#f0f3f5;border-left:3px solid #c8cacd;}
+div.entry-content ul#linkcats{margin:0;padding:0;list-style:none;}
+div.entry-content ul#linkcats li ul{margin:0.8em 0 0 2em;padding:0;}
+div.entry-content ul#linkcats li ul li{list-style:disc;}
 div#wrapper .html,div#wrapper .download,div#wrapper .pdf,div#wrapper .zip{margin-left:2px;padding:2px 0 2px 19px;}
 div#wrapper .download{background:url(images/file-download.png) no-repeat center left;}
 div#wrapper .html{background:url(images/file-html.png) no-repeat center left;}
