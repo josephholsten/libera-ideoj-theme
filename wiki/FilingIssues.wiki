@@ -1,0 +1,19 @@
+#summary How to file an issue: for developers and enthusiasts
+#labels Featured,Phase-Deploy
+
+==On filing an issue==
+
+Issues are essentially bugs, feature requests, or suggestions that you believe should be incorporated into the theme. Anyone (with a Google account) may file an issue and it will be tracked accordingly. It's simple. 
+
+For our purposes here, a bug is when the theme does something that it explicitly shouldn't, whether intentionally or accidentally.
+
+Before filing an issue, however, consider:
+
+  * Does this keep in the minimalist philosophy behind the theme?
+  * Could this be done by a plugin instead?
+  * Is this a request for personalization?
+  * Could this be something accomplished with CSS alone?
+
+But it's better to suggest something that isn't incorporated instead of keeping it to yourself.
+
+And thanks for taking the time to check this out. Your input is both welcome and needed.
