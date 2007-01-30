@@ -80,7 +80,7 @@ dl dd span.caps{font-variant:small-caps;}
 	<ol id="readme-content">
 		<li id="about">
 			<h3>About Simplr</h3>
-			<p><a href="http://www.plaintxt.org/themes/Simplr/" title="Simplr for WordPress">Simplr</a> is a single-column theme for <a href="http://wordpress.org/" title="WordPress">WordPress</a>. It provides a unique format for presenting content to the reader. Simplr is about reducing clutter so the focus can land on the content at hand.</p>
+			<p><a href="http://www.plaintxt.org/themes/Simplr/" title="Simplr for WordPress">Simplr</a> is a single-column theme for <a href="http://wordpress.org/" title="WordPress">WordPress</a>. It provides a unique format for narrowing focus tothe content at hand. Simplr is about reducing clutter.</p>
 			<p>Simplr v3.0 is fully compatible with WordPress 2.0.x and 2.1.</p>
 			<p class="rubric">The Simplr theme features:</p>
 			<ul id="features">
@@ -103,8 +103,11 @@ dl dd span.caps{font-variant:small-caps;}
 				<li>highly <a href="http://en.wikipedia.org/wiki/Semantic_web" title="Semantic web on Wikipedia">semantic markup</a></li>
 				<li><a href="http://automattic.com/code/widgets/" title="Widgets plugin for WordPress">Widgets plugin</a> ready</li>
 			</ul>
-			<p>Please note if a newer version of the Simplr theme is available, a notice will appear in the <i>Presentation &rsaquo; Simplr Options</i> submenu. This check is done automatically when the <i>Simplr Options</i> submenu is loaded.</p>
+			<p>Please note if a newer version of the Simplr theme becomes available, a notice will appear in the <i>Presentation &rsaquo; Simplr Options</i> submenu. This check is done automatically when the <i>Simplr Options</i> submenu is loaded.</p>
 			<p>Simplr 3.0 is completely reworked from version 1 (I just skipped version 2 frankly), building on my experiences developing the <a href="htt://www.plaintxt.org/themes/sandbox/" title="Sandbox theme for WordPress">Sandbox</a>. This version also allows for translation. If you have translated Simplr, please let me know. Thanks.</p>
+			<h4>Using Simplr Effectively</h4>
+			<p>The key to using the Simplr theme effectively, in my opinion, is to limit the number of posts appearing to one: one column, one post. Posts are then accessed in index pages (i.e., with the previous/next post links) or in Simplr's unique Recent Posts sidebar content.</p>
+			<p>To limit the number of posts appearing on the blog pages to one, go to <i>Options &rsaquo; Reading</i> and change the value for <i>Blog Pages &rsaquo; Show at most:</i> to <code>1</code>. But that's just how I think this theme is best used.</p>
 		</li>
 		<li id="installing">
 			<h3>Installing the theme files</h3>
@@ -123,8 +126,7 @@ dl dd span.caps{font-variant:small-caps;}
 		</li>
 		<li id="enabling">
 			<h3>Enabling comments on pages</h3>
-			<p><a href="http://codex.wordpress.org/Pages" title="Pages - WordPress Codex">Pages</a> are usually considered static in blogging and different from posts, which are what make a blog a blog. Comments are not displayed on pages by default; however, you can enable this feature with this theme.</p>
-			<p>Comments are not displayed on pages by default, but are displayed on posts per convention. You can enabled comments on a per page basis by adding a key/value with the text "comments."</p>
+			<p><a href="http://codex.wordpress.org/Pages" title="Pages - WordPress Codex">Pages</a> are usually considered static in blogging and different from posts, which are what make a blog a blog. Comments are not displayed on pages by default; however, you can enable this feature with this theme by adding a key/value with the text "comments."</p>
 			<p class="rubric">To enable comments on a page:</p>
 			<ol>
 				<li>In the <i>Write &rsaquo; Page</i> menu, expand the <a href="http://codex.wordpress.org/Using_Custom_Fields" title="Custom Fields - WordPress Codex">Custom Fields</a> box</li>
@@ -161,7 +163,7 @@ dl dd span.caps{font-variant:small-caps;}
 				<li><a href="http://www.stylegala.com/features/css-reference/" title="Stylegala's CSS Reference">Stylegala's CSS Reference</a></li>
 			</ul>
 			<p>The Simplr theme automatically replaces a few of the default widgets that come with the Widgets plugin, e.g., Meta, Links, Search, with ones that match the default Simplr sidebar style.</p>
-			<p>Similarly the theme also automatically loads some of its own widgets, e.g., RSS Links, Home Link. This allows the default Simplr sidebar to be completely replicated using the Widgets plugin.</p>
+			<p>Similarly the theme also automatically loads some of its own widgets, e.g., Simplr Recent Comments, RSS Links. This allows the default Simplr sidebar to be completely replicated using the Widgets plugin.</p>
 		</li>
 		<li id="special">
 			<h3>Special classes and styled elements</h3>
@@ -308,7 +310,7 @@ dl dd span.caps{font-variant:small-caps;}
 			<p>For a thorough discussion of the significance of hAtom in blogging, read the <a href="http://wordpress.com/forums/topic.php?id=3329" title="Challenge to geeks: Explain hAtom">WordPress.com hAtom support thread</a>.</p>
 			<h4>hCard microformat</h4>
 			<p><a href="http://microformats.org/wiki/hcard" title="hCard - Microformats">hCard</a> is a microformat that expresses basic contact information much like a <a href="http://en.wikipedia.org/wiki/VCard" title="vCard - Wikipedia">vCard</a>, except within your blog itself. Basically this is done by using <code>&lt;span&gt;</code>'s with certain class attributes.</p>
-			<p>The first name, last name, and website information for the <i>admin</i> user (as set in the <i>Users &rsaquo; Your Profile</i> submenu) is automatically used to create an hCard that is placed in the footer following the copyright information (with the function <code>Simplr_admin_hCard() </code>).</p>
+			<p>The first name, last name, and website information for the <i>admin</i> user (as set in the <i>Users &rsaquo; Your Profile</i> submenu) is automatically used to create an hCard that is placed in the footer following the copyright information (with the function <code>simplr_admin_hCard() </code>).</p>
 			<p>The hCard microformat is used throughout the theme, actually, for author links, bylines, and comment authors. You don't need to do anything, as basically hAtom and hCard are ways of making your blog <a href="http://kitchen.technorati.com/search/" title="Technorati Microformats Search">more accessible</a>.</p>
 		</li>
 		<li id="license">
