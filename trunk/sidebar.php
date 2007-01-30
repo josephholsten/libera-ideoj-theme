@@ -29,7 +29,7 @@ $comments = $wpdb->get_results("SELECT comment_author, comment_author_url, comme
 					get_comment_author_link(),
 					strip_tags($comment->comment_excerpt),
 					'<a href="'. get_permalink($comment->comment_post_ID) . '#comment-' . $comment->comment_ID . '" title="">' . get_the_title($comment->comment_post_ID) . '</a>') . '</li>';
-				endforeach; endif;?></ul>
+				endforeach; endif; ?></ul>
 			</li>
 
 <?php endif;  ?>
