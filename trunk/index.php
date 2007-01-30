@@ -23,8 +23,6 @@
 				</div>
 			</div>
 
-<?php comments_template() ?>
-
 <?php endwhile ?>
 
 			<div id="nav-below" class="navigation">
