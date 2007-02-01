@@ -95,6 +95,7 @@ div.sidebar ul,div.sidebar ul li{list-style:none;margin:0;padding:0;}
 div.sidebar ul li .textwidget{margin:0.5em 0 1.5em;}
 div.sidebar ul li h3{border-bottom:2px solid #637b93;font-size:1em;line-height:133%;margin:1em 0 0;}
 div.sidebar ul li#simplr-rss-links a{background:url(images/feed.png) no-repeat right center;padding-right:15px;}
+div.sidebar ul p a.rss-linK{background:url(images/feed.png) no-repeat left center;padding-left:13px;}
 div.sidebar ul li#search form{margin:0;padding:0.4em 0 0;width:99%;}
 div.sidebar ul li#search input#s{border:1px inset #637b93;font-size:1em;margin:0;padding:0.2em;width:70%;}
 div.sidebar ul li#search input#searchsubmit{width:25%;}
