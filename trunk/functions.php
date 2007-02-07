@@ -377,14 +377,14 @@ function simplr_widgets_init() {
 	unregister_widget_control('meta');
 	register_sidebar_widget(__('Links', 'simplr'), 'widget_simplr_links', null, 'links');
 	unregister_widget_control('links');
-	register_sidebar_widget(array('Simplr Recent Entries', 'widgets'), 'widget_simplr_recent_entries');
-	register_widget_control(array('Simplr Recent Entries', 'widgets'), 'widget_simplr_recent_entries_control', 300, 150);
-	register_sidebar_widget(array('Simplr Recent Comments', 'widgets'), 'widget_simplr_recent_comments');
-	register_widget_control(array('Simplr Recent Comments', 'widgets'), 'widget_simplr_recent_comments_control', 300, 125);
-	register_sidebar_widget(array('Simplr Home Link', 'widgets'), 'widget_simplr_homelink');
-	register_widget_control(array('Simplr Home Link', 'widgets'), 'widget_simplr_homelink_control', 300, 125);
-	register_sidebar_widget(array('Simplr RSS Links', 'widgets'), 'widget_simplr_rsslinks');
-	register_widget_control(array('Simplr RSS Links', 'widgets'), 'widget_simplr_rsslinks_control', 300, 90);
+	register_sidebar_widget(array('Simplr Recent Entries', 'widgets'), 'widget_simplr_recent_entries', null, 'simplrrecententries');
+	register_widget_control(array('Simplr Recent Entries', 'widgets'), 'widget_simplr_recent_entries_control', 300, 150, 'simplrrecententries');
+	register_sidebar_widget(array('Simplr Recent Comments', 'widgets'), 'widget_simplr_recent_comments', null, 'simplrrecentcomments');
+	register_widget_control(array('Simplr Recent Comments', 'widgets'), 'widget_simplr_recent_comments_control', 300, 125, 'simplrrecentcomments');
+	register_sidebar_widget(array('Simplr Home Link', 'widgets'), 'widget_simplr_homelink', null, 'homelink');
+	register_widget_control(array('Simplr Home Link', 'widgets'), 'widget_simplr_homelink_control', 300, 125, 'homelink');
+	register_sidebar_widget(array('Simplr RSS Links', 'widgets'), 'widget_simplr_rsslinks', null, 'homelink');
+	register_widget_control(array('Simplr RSS Links', 'widgets'), 'widget_simplr_rsslinks_control', 300, 90, 'homelink');
 }
 
 function simplr_add_admin() {
@@ -435,6 +435,7 @@ function simplr_admin_head() {
 /*<![CDATA[*/
 div.wrap table.editform tr td input.radio{background:#fff;border:none;margin-right:3px;}
 div.wrap table.editform tr td input.text{text-align:center;width:5em;}
+div.wrap table.editform tr td label{font-size:1.2em;line-height:140%;}
 div.wrap table.editform tr td select.dropdown option{margin-right:10px;}
 div.wrap table.editform th h3{font:normal 2em/133% georgia,times,serif;margin:1em 0 0.3em;color#222;}
 div.wrap table.editform td.important span {background:#f5f5df;padding:0.1em 0.2em;font:85%/175% georgia,times,serif;}
@@ -459,7 +460,7 @@ function simplr_admin() {
 	if ( $_REQUEST['reset'] ) { ?><div id="message2" class="updated fade"><p><?php _e('Simplr theme options reset.', 'simplr'); ?></p></div><?php } ?>
 
 <?php $installedVersion = "3.0"; ?>
-<script src="http://www.plaintxt.org/themes/simplr-ver-check.php?version=<?php echo $installedVersion; ?>" type="text/javascript"></script>
+<script src="http://www.plaintxt.org/ver-check/simplr-ver-check.php?version=<?php echo $installedVersion; ?>" type="text/javascript"></script>
 
 <div class="wrap">
 
