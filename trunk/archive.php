@@ -1,7 +1,7 @@
 <?php get_header() ?>
 
 	<div id="container">
-		<div id="content">
+		<div id="content" class="hfeed">
 
 <?php the_post() ?>
 
@@ -43,12 +43,12 @@
 <?php edit_post_link(__('Edit', 'simplr'), "\t\t\t\t\t<span class='entry-edit'>", "</span>\n\t\t\t\t\t<span class='meta-sep'>|</span>\n"); ?>
 					<span class="entry-comments"><?php comments_popup_link(__('Comments (0)', 'simplr'), __('Comments (1)', 'simplr'), __('Comments (%)', 'simplr')) ?></span>
 				</div>
-			</div>
+			</div><!-- .post -->
 
 <?php endwhile ?>
 
-		</div>
-	</div>
+		</div><!-- #content .hfeed -->
+	</div><!-- #container -->
 
 	<div id="primary" class="sidebar">
 		<ul>
@@ -73,7 +73,7 @@
 <?php endif; ?>
 			</li>
 		</ul>
-	</div>
+	</div><!-- archive.php #primary .sidebar -->
 
 	<div id="secondary" class="sidebar">
 		<ul>
@@ -87,6 +87,6 @@
 				</form>
 			</li>
 		</ul>
-	</div>
+	</div><!-- archive.php #secondary .sidebar -->
 
 <?php get_footer() ?>

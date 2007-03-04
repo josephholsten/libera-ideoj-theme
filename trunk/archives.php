@@ -6,7 +6,7 @@ Template Name: Archives Page
 <?php get_header() ?>
 	
 	<div id="container">
-		<div id="content">
+		<div id="content" class="hfeed">
 
 <?php the_post() ?>
 
@@ -32,9 +32,11 @@ Template Name: Archives Page
 <?php edit_post_link(__('Edit this entry.', 'simplr'),'<p class="entry-edit">','</p>') ?>
 
 				</div>
-			</div>
-		</div>
-	</div>
+			</div><!-- .post -->
+		</div><!-- #content .hfeed -->
+	</div><!-- #container -->
+
+	<?php if ( get_post_custom_values('comments') ) : comments_template(); else : // To show comments on this page, see the readme.html ?>
 
 	<div id="primary" class="sidebar">
 		<ul>
@@ -48,7 +50,7 @@ Template Name: Archives Page
 				get_the_time() ) ?>
 			</li>
 		</ul>
-	</div>
+	</div><!-- archives.php #primary .sidebar -->
 
 	<div id="secondary" class="sidebar">
 		<ul>
@@ -62,6 +64,7 @@ Template Name: Archives Page
 				</form>
 			</li>
 		</ul>
-	</div>
+	</div><!-- archives.php #secondary .sidebar -->
+<?php endif; ?>
 
 <?php get_footer() ?>

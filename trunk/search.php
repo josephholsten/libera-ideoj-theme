@@ -1,7 +1,7 @@
 <?php get_header() ?>
 
 	<div id="container">
-		<div id="content">
+		<div id="content" class="hfeed">
 
 <?php if (have_posts()) : ?>
 
@@ -22,7 +22,7 @@
 <?php edit_post_link(__('Edit', 'simplr'), "\t\t\t\t\t<span class='entry-edit'>", "</span>\n\t\t\t\t\t<span class='meta-sep'>|</span>\n"); ?>
 					<span class="entry-comments"><?php comments_popup_link(__('Comments (0)', 'simplr'), __('Comments (1)', 'simplr'), __('Comments (%)', 'simplr')) ?></span>
 				</div>
-			</div>
+			</div><!-- .post -->
 
 <?php endwhile; ?>
 
@@ -38,7 +38,7 @@
 				<div class="entry-content">
 					<p><?php _e('Sorry, but nothing matched your search criteria. Please try again with some different keywords.', 'simplr') ?></p>
 				</div>
-			</div>
+			</div><!-- #post-0 .post -->
 			<form id="searchform" method="get" action="<?php bloginfo('home') ?>">
 				<div>
 					<input id="s" name="s" type="text" value="<?php echo wp_specialchars(stripslashes($_GET['s']), true); ?>" tabindex="1" size="40" />
@@ -48,7 +48,7 @@
 
 <?php endif; ?>
 
-		</div>
-	</div>
+		</div><!-- #content .hfeed -->
+	</div><!-- #container -->
 
 <?php get_footer() ?>

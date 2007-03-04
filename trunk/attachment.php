@@ -1,7 +1,7 @@
 <?php get_header(); ?>
 
 	<div id="container">
-		<div id="content">
+		<div id="content" class="hfeed">
 
 <?php the_post() ?>
 
@@ -36,9 +36,9 @@
 <?php endif; ?>
 
 				</div>
-			</div>
-		</div>
-	</div>
+			</div><!-- .post -->
+		</div><!-- #content .hfeed -->
+	</div><!-- #container -->
 
 <?php comments_template(); ?>
 

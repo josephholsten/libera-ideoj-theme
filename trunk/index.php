@@ -21,7 +21,7 @@
 <?php edit_post_link(__('Edit', 'simplr'), "\t\t\t\t\t<span class='entry-edit'>", "</span>\n\t\t\t\t\t<span class='meta-sep'>|</span>\n"); ?>
 					<span class="entry-comments"><?php comments_popup_link(__('Comments (0)', 'simplr'), __('Comments (1)', 'simplr'), __('Comments (%)', 'simplr')) ?></span>
 				</div>
-			</div>
+			</div><!-- .post -->
 
 <?php endwhile ?>
 
@@ -30,8 +30,8 @@
 				<div class="nav-next"><?php previous_posts_link(__('Newer posts &gt;', 'simplr')) ?></div>
 			</div>
 
-		</div>
-	</div>
+		</div><!-- #content .hfeed -->
+	</div><!-- #container -->
 
 <?php get_sidebar() ?>
 <?php get_footer() ?>

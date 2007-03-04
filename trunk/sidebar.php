@@ -1,8 +1,8 @@
 	<div id="primary" class="sidebar">
 		<ul>
-<?php if (!function_exists('dynamic_sidebar') || !dynamic_sidebar(1) ) :  ?>
+<?php if (!function_exists('dynamic_sidebar') || !dynamic_sidebar(1) ) : // Begin Widgets for Sidebar 1; displays widgets or default contents below ?>
 
-<?php global $wpdb, $r; $r = new WP_Query("showposts=5"); if ($r->have_posts()) : ?>
+<?php global $wpdb, $r; $r = new WP_Query("showposts=5"); if ($r->have_posts()) : // Custom recent posts for Simplr ?>
 			<li id="simplr-recent-entries">
 				<h3><?php _e('Recent Entries', 'simplr') ?></h3>
 				<ul><?php while ($r->have_posts()) : $r->the_post(); ?>
@@ -19,7 +19,7 @@
 			</li>
 <?php endif; ?>
 
-<?php global $wpdb, $comments, $comment;
+<?php global $wpdb, $comments, $comment; // Custom recent comments for Simplr
 $comments = $wpdb->get_results("SELECT comment_author, comment_author_url, comment_ID, comment_post_ID, SUBSTRING(comment_content,1,65) AS comment_excerpt FROM $wpdb->comments LEFT OUTER JOIN $wpdb->posts ON ($wpdb->comments.comment_post_ID = $wpdb->posts.ID) WHERE comment_approved = '1' AND comment_type = '' AND post_password = '' ORDER BY comment_date_gmt DESC LIMIT 5"); ?>
 			<li id="simplr-recent-comments">
 				<h3><?php _e('Recent Comments', 'simplr') ?></h3>
@@ -31,14 +31,14 @@ $comments = $wpdb->get_results("SELECT comment_author, comment_author_url, comme
 					'<a href="'. get_permalink($comment->comment_post_ID) . '#comment-' . $comment->comment_ID . '" title="">' . get_the_title($comment->comment_post_ID) . '</a>') . '</li>';
 				endforeach; endif; ?></ul>
 			</li>
+<?php endif; // End Widgets ?>
 
-<?php endif;  ?>
 		</ul>
-	</div>
+	</div><!-- #primary .sidebar -->
 
 	<div id="secondary" class="sidebar">
 		<ul>
-<?php if (!function_exists('dynamic_sidebar') || !dynamic_sidebar(2) ) : ?>
+<?php if (!function_exists('dynamic_sidebar') || !dynamic_sidebar(2) ) : // Begin Widgets for Sidebar 2; displays widgets or default contents below ?>
 			<li id="search">
 				<h3><label for="s"><?php _e('Search', 'plaintxtblog') ?></label></h3>
 				<form id="searchform" method="get" action="<?php bloginfo('home') ?>">
@@ -77,10 +77,11 @@ wp_list_cats('sort_column=name&hierarchical=0'); endif; ?>
 				<ul>
 					<?php wp_register() ?>
 					<li><?php wp_loginout() ?></li>
-					<?php wp_meta() ?>
+					<?php wp_meta() // Do not remove; helps plugins work ?>
 				</ul>
 			</li>
 			<?php } ?>
-<?php endif;  ?>
+<?php endif; // End Widgets ?>
+
 		</ul>
-	</div>
+	</div><!-- #primary .sidebar -->

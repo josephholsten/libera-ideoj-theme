@@ -46,7 +46,7 @@ foreach ( $comments as $comment )
 <?php endif; ?>
 <?php endforeach; ?>
 
-	</ol>
+	</ol><!-- end #comments .commentlist -->
 
 <?php endif; ?>
 
@@ -74,12 +74,12 @@ foreach ( $comments as $comment )
 <?php endif ?>
 <?php endforeach; ?>
 
-	</ol>
+	</ol><!-- end #pingbacks .commentlist -->
 
 <?php endif ?>
 <?php endif ?>
 
-</div>
+</div><!-- .comments -->
 
 <div id="primary" class="sidebar">
 	<ul>
@@ -104,7 +104,7 @@ foreach ( $comments as $comment )
 		</li>
 		<?php } ?>
 	</ul>
-</div>
+</div><!-- comments.php #primary .sidebar -->
 
 <div id="secondary" class="sidebar">
 
@@ -161,8 +161,8 @@ foreach ( $comments as $comment )
 
 <?php do_action('comment_form', $post->ID); ?>
 
-				</form>
-			</div>
+				</form><!-- #commentform -->
+			</div><!-- .formcontainer -->
 
 <?php endif ?>
 
@@ -171,4 +171,4 @@ foreach ( $comments as $comment )
 
 <?php endif ?>
 
-</div>
+</div><!-- comments.php #secondary .sidebar -->

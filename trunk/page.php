@@ -1,7 +1,7 @@
 <?php get_header() ?>
 
 	<div id="container">
-		<div id="content">
+		<div id="content" class="hfeed">
 
 <?php the_post() ?>
 
@@ -15,11 +15,11 @@
 <?php edit_post_link(__('Edit this entry.', 'simplr'),'<p class="entry-edit">','</p>') ?>
 
 				</div>
-			</div>
-		</div>
-	</div>
+			</div><!-- .post -->
+		</div><!-- #content .hfeed -->
+	</div><!-- #container -->
 
-<?php if ( get_post_custom_values('comments') ) : comments_template(); else : ?>
+<?php if ( get_post_custom_values('comments') ) : comments_template(); else : // To show comments on this page, see the readme.html ?>
 
 	<div id="primary" class="sidebar">
 		<ul>
@@ -33,7 +33,7 @@
 				get_the_time() ) ?>
 			</li>
 		</ul>
-	</div>
+	</div><!-- page.php #primary .sidebar -->
 
 	<div id="secondary" class="sidebar">
 		<ul>
@@ -47,7 +47,7 @@
 				</form>
 			</li>
 		</ul>
-	</div>
+	</div><!-- page.php #secondary .sidebar -->
 <?php endif; ?>
 
 <?php get_footer() ?>

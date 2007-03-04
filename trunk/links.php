@@ -6,7 +6,7 @@ Template Name: Links Page
 <?php get_header() ?>
 	
 	<div id="container">
-		<div id="content">
+		<div id="content" class="hfeed">
 
 <?php the_post() ?>
 
@@ -33,9 +33,11 @@ foreach ($link_cats as $link_cat) :
 <?php edit_post_link(__('Edit this entry.', 'simplr'),'<p class="entry-edit">','</p>') ?>
 
 				</div>
-			</div>
-		</div>
-	</div>
+			</div><!-- .post -->
+		</div><!-- #content .hfeed -->
+	</div><!-- #container -->
+	
+<?php if ( get_post_custom_values('comments') ) : comments_template(); else : // To show comments on this page, see the readme.html ?>
 
 	<div id="primary" class="sidebar">
 		<ul>
@@ -49,7 +51,7 @@ foreach ($link_cats as $link_cat) :
 				get_the_time() ) ?>
 			</li>
 		</ul>
-	</div>
+	</div><!-- links.php #primary .sidebar -->
 
 	<div id="secondary" class="sidebar">
 		<ul>
@@ -63,6 +65,7 @@ foreach ($link_cats as $link_cat) :
 				</form>
 			</li>
 		</ul>
-	</div>
+	</div><!-- links.php #secondary .sidebar -->
+<?php endif; ?>
 
 <?php get_footer() ?>

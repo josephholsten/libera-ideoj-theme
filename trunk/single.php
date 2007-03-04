@@ -1,7 +1,7 @@
 <?php get_header(); ?>
 
 	<div id="container">
-		<div id="content">
+		<div id="content" class="hfeed">
 		
 			<div id="nav-above" class="navigation">
 				<div class="nav-previous"><?php previous_post_link(__('&lt; %link', 'simplr')) ?></div>
@@ -35,9 +35,9 @@
 <?php endif; ?>
 
 				</div>
-			</div>
-		</div>
-	</div>
+			</div><!-- .post -->
+		</div><!-- #content .hfeed -->
+	</div><!-- #container -->
 
 <?php comments_template(); ?>
 
