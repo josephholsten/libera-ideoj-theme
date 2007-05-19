@@ -2,11 +2,29 @@
 // Produces links for every page just below the header
 function simplr_globalnav() {
 	echo "<div id=\"globalnav\"><ul id=\"menu\">";
-	if ( !is_home() || is_paged() ) { ?><li class="page_item home_page_item"><a href="<?php bloginfo('home') ?>" title="<?php echo wp_specialchars(get_bloginfo('name'), 1) ?>"><?php _e('Home', 'simplr') ?></a></li><?php }
+	echo simplr_homelink();
 	$menu = wp_list_pages('title_li=&sort_column=post_title&echo=0');
 	echo str_replace(array("\r", "\n", "\t"), '', $menu);
-	{ ?><li class="page_item feed_page_item"><a href="<?php bloginfo('rss2_url'); ?>" title="<?php bloginfo('name') ?> RSS feed" rel="alternate" type="application/rss+xml"><img src="<?php bloginfo('stylesheet_directory'); ?>/images/feed.png" alt="<?php bloginfo('name') ?> RSS feed" /></a></li><?php }
 	echo "</ul></div>\n";
+}
+
+// Creates a link to the 'home' page when elsewhere; credit to Adam , http://sunburntkamel.archgfx.net/
+function simplr_homelink() {
+	global $wp_db_version;
+	$simplr_frontpage = get_option('show_on_front');
+	$simplr_is_front = get_option('page_on_front');
+
+	if ( $simplr_frontpage == 'page' ) {
+		if ( !is_page($simplr_is_front) || is_paged() ) { ?><li class="page_item_home home-link"><a href="<?php bloginfo('home'); ?>/" title="<?php echo wp_specialchars(get_bloginfo('name'), 1) ?>" rel="home"><?php _e('Home', 'sandbox') ?></a></li><?php }
+	} else {
+		if ( !is_home() || is_paged() ) { ?><li class="page_item_home home-link"><a href="<?php bloginfo('home'); ?>/" title="<?php echo wp_specialchars(get_bloginfo('name'), 1) ?>" rel="home"><?php _e('Home', 'sandbox') ?></a></li><?php }
+	}
+}
+
+// Checks for WP 2.1.x language_attributes() function
+function simplr_blog_lang() {
+	if ( function_exists('language_attributes') )
+		return language_attributes();
 }
 
 // Produces an hCard for the "admin" user
@@ -280,15 +298,17 @@ function widget_simplr_recent_comments_control() {
 // Loads the the Home Link widget
 function widget_simplr_homelink($args) {
 	extract($args);
+	global $wp_db_version;
 	$options = get_option('widget_simplr_homelink');
 	$title = empty($options['title']) ? __('Home', 'simplr') : $options['title'];
+	$simplr_frontpage = get_option('show_on_front');
+	$simplr_is_front = get_option('page_on_front');
 ?>
-<?php if ( !is_home() || is_paged() ) { ?>
-		<?php echo $before_widget; ?>
-			<?php echo $before_title ?><a href="<?php bloginfo('home') ?>" title="<?php echo wp_specialchars(get_bloginfo('name'), 1) ?>"><?php echo $title ?></a><?php echo $after_title ?>
-		<?php echo $after_widget; ?>
-<?php } ?>
-<?php
+<?php if ( $simplr_frontpage == 'page' ) {
+		if ( !is_page($simplr_is_front) || is_paged() ) { ?><?php echo $before_widget; ?><a href="<?php bloginfo('home'); ?>/" title="<?php echo wp_specialchars(get_bloginfo('name'), 1) ?>" rel="home"><?php echo $title ?></a><?php echo $after_widget; ?><?php }
+	} else {
+		if ( !is_home() || is_paged() ) { ?><?php echo $before_widget; ?><a href="<?php bloginfo('home'); ?>/" title="<?php echo wp_specialchars(get_bloginfo('name'), 1) ?>" rel="home"><?php echo $title ?></a><?php echo $after_widget; ?><?php }
+	}
 }
 
 // Loads the control functions for the Home Link, allowing control of its text
@@ -401,10 +421,10 @@ function simplr_widgets_init() {
 	register_widget_control(array('Simplr Recent Entries', 'widgets'), 'widget_simplr_recent_entries_control', 300, 150, 'simplrrecententries');
 	register_sidebar_widget(array('Simplr Recent Comments', 'widgets'), 'widget_simplr_recent_comments', null, 'simplrrecentcomments');
 	register_widget_control(array('Simplr Recent Comments', 'widgets'), 'widget_simplr_recent_comments_control', 300, 125, 'simplrrecentcomments');
-	register_sidebar_widget(array('Simplr Home Link', 'widgets'), 'widget_simplr_homelink', null, 'homelink');
-	register_widget_control(array('Simplr Home Link', 'widgets'), 'widget_simplr_homelink_control', 300, 125, 'homelink');
-	register_sidebar_widget(array('Simplr RSS Links', 'widgets'), 'widget_simplr_rsslinks', null, 'homelink');
-	register_widget_control(array('Simplr RSS Links', 'widgets'), 'widget_simplr_rsslinks_control', 300, 90, 'homelink');
+	register_sidebar_widget(array('Home Link', 'widgets'), 'widget_simplr_homelink', null, 'homelink');
+	register_widget_control(array('Home Link', 'widgets'), 'widget_simplr_homelink_control', 300, 125, 'homelink');
+	register_sidebar_widget(array('RSS Links', 'widgets'), 'widget_simplr_rsslinks', null, 'homelink');
+	register_widget_control(array('RSS Links', 'widgets'), 'widget_simplr_rsslinks_control', 300, 90, 'homelink');
 }
 
 // Loads the admin menu; sets default settings for each
@@ -630,6 +650,11 @@ function simplr_admin() { // Theme options menu
 
 // Loads settings for the theme options to use
 function simplr_wp_head() {
+	global $wp_version;
+
+	if ( version_compare($wp_version, '2.1.10', '>') )
+		echo "\t", '<link rel="introspection" type="application/atomserv+xml" title="' . get_bloginfo('name') .__(" Atom API"). '" href="' . get_bloginfo('url') . '/wp-app.php" />', "\n";
+
 	if ( get_settings('simplr_basefontsize') == "" ) {
 		$basefontsize = '75%';
 	} else {
