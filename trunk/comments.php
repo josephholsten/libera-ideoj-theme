@@ -103,6 +103,10 @@ foreach ( $comments as $comment )
 				<li><?php the_category('</li><li>') ?></li>
 			</ul>
 		</li>
+		<li id="tags" class="entry-category">
+			<h3><?php _e('Tagged', 'simplr') ?></h3>
+			<p><?php the_tags('<span>','</span> <span>','</span>') ?></p>
+		</li>
 		<?php } ?>
 	</ul>
 </div><!-- comments.php #primary .sidebar -->

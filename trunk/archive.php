@@ -15,6 +15,8 @@
 			<h2 class="page-title"><?php _e('Author Archives: ', 'simplr'); echo $authordata->display_name; ?></h2>
 <?php elseif ( is_category() ) : ?>
 			<h2 class="page-title"><?php _e('Category Archives:', 'simplr') ?> <span class="page-cat"><?php echo single_cat_title(); ?></span></h2>
+<?php elseif ( is_tag() ) : ?>
+			<h2 class="page-title"><?php _e('Tag Archives:', 'simplr') ?> <span class="tag-cat"><?php single_tag_title(); ?></span></h2>
 <?php elseif ( isset($_GET['paged']) && !empty($_GET['paged']) ) : ?>
 			<h2 class="page-title"><?php _e('Blog Archives', 'simplr') ?></h2>
 <?php endif; ?>
@@ -36,9 +38,11 @@
 
 				</div>
 				<div class="entry-meta">
-					<span class="entry-category"><?php printf(__('Filed in %s', 'simplr'), get_the_category_list(', ')) ?></span>
+					<span class="entry-category"><?php if ( !is_category() ) { printf(__('Filed in %s', 'simplr'), get_the_category_list(', ') ); } else { $other_cats = simplr_other_cats(', '); printf(__('Also filed in %s', 'simplr'), $other_cats ); } ?></span>
 					<span class="meta-sep">|</span>
-					<span class="entry-permalink"><?php printf(__('<a href="%1$s" title="Permalink to %2$s">Permalink</a>', 'barthelme'), get_permalink(), wp_specialchars(get_the_title(), 'double') ) ?></span>
+					<span class="entry-tags"><?php if ( !is_tag() ) { echo the_tags(__('Tagged ', 'simplr'), ", "); } else { $other_tags = simplr_other_tags(', '); printf(__('Also tagged %s', 'simplr'), $other_tags); } ?></span>
+					<span class="meta-sep">|</span>
+					<span class="entry-permalink"><?php printf(__('<a href="%1$s" title="Permalink to %2$s">Permalink</a>', 'simplr'), get_permalink(), wp_specialchars(get_the_title(), 'double') ) ?></span>
 					<span class="meta-sep">|</span>
 <?php edit_post_link(__('Edit', 'simplr'), "\t\t\t\t\t<span class='entry-edit'>", "</span>\n\t\t\t\t\t<span class='meta-sep'>|</span>\n"); ?>
 					<span class="entry-comments"><?php comments_popup_link(__('Comments (0)', 'simplr'), __('Comments (1)', 'simplr'), __('Comments (%)', 'simplr')) ?></span>
@@ -78,11 +82,11 @@
 	<div id="secondary" class="sidebar">
 		<ul>
 			<li id="search">
-				<h3><label for="s"><?php _e('Search', 'plaintxtblog') ?></label></h3>
+				<h3><label for="s"><?php _e('Search', 'simplr') ?></label></h3>
 				<form id="searchform" method="get" action="<?php bloginfo('home') ?>">
 					<div>
 						<input id="s" name="s" type="text" value="<?php echo wp_specialchars(stripslashes($_GET['s']), true) ?>" size="10" />
-						<input id="searchsubmit" name="searchsubmit" type="submit" value="<?php _e('Find', 'plaintxtblog') ?>" />
+						<input id="searchsubmit" name="searchsubmit" type="submit" value="<?php _e('Find', 'simplr') ?>" />
 					</div>
 				</form>
 			</li>

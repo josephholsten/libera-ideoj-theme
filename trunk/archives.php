@@ -16,18 +16,20 @@ Template Name: Archives Page
 <?php the_content(); ?>
 
 					<div class="alignleft content-column">
-					<h3><?php _e('Archives by Category', 'simplr') ?></h3>
+						<h3><?php _e('Archives by Category', 'simplr') ?></h3>
 						<ul>
-						<?php if ( function_exists('wp_list_categories') ) : 
-							wp_list_categories('title_li=&orderby=name&show_count=1&use_desc_for_title=1&feed_image='.get_bloginfo('template_url').'/images/feed.png'); else :
-							wp_list_cats('sort_column=name&optioncount=1&feed=(RSS)&feed_image='.get_bloginfo('template_url').'/images/feed.png&hierarchical=1'); endif; ?>
+							<?php wp_list_categories('title_li=&orderby=name&show_count=1&use_desc_for_title=1&feed_image='.get_bloginfo('template_url').'/images/feed.png') ?>
 						</ul>
 					</div>
 					<div class="alignleft content-column">
-					<h3><?php _e('Archives by Month', 'simplr') ?></h3>
+						<h3><?php _e('Archives by Month', 'simplr') ?></h3>
 						<ul>
 							<?php wp_get_archives('type=monthly&show_post_count=1') ?>
 						</ul>
+					</div>
+					<div class="tag-archives">
+						<h3><?php _e('Archives by Tag', 'simplr') ?></h3>
+						<p><?php wp_tag_cloud() ?></p>
 					</div>
 <?php edit_post_link(__('Edit this entry.', 'simplr'),'<p class="entry-edit">','</p>') ?>
 
@@ -55,11 +57,11 @@ Template Name: Archives Page
 	<div id="secondary" class="sidebar">
 		<ul>
 			<li id="search">
-				<h3><label for="s"><?php _e('Search', 'plaintxtblog') ?></label></h3>
+				<h3><label for="s"><?php _e('Search', 'simplr') ?></label></h3>
 				<form id="searchform" method="get" action="<?php bloginfo('home') ?>">
 					<div>
 						<input id="s" name="s" type="text" value="<?php echo wp_specialchars(stripslashes($_GET['s']), true) ?>" size="10" />
-						<input id="searchsubmit" name="searchsubmit" type="submit" value="<?php _e('Find', 'plaintxtblog') ?>" />
+						<input id="searchsubmit" name="searchsubmit" type="submit" value="<?php _e('Find', 'simplr') ?>" />
 					</div>
 				</form>
 			</li>

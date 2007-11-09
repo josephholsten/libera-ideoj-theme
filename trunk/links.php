@@ -56,11 +56,11 @@ foreach ($link_cats as $link_cat) :
 	<div id="secondary" class="sidebar">
 		<ul>
 			<li id="search">
-				<h3><label for="s"><?php _e('Search', 'plaintxtblog') ?></label></h3>
+				<h3><label for="s"><?php _e('Search', 'simplr') ?></label></h3>
 				<form id="searchform" method="get" action="<?php bloginfo('home') ?>">
 					<div>
 						<input id="s" name="s" type="text" value="<?php echo wp_specialchars(stripslashes($_GET['s']), true) ?>" size="10" />
-						<input id="searchsubmit" name="searchsubmit" type="submit" value="<?php _e('Find', 'plaintxtblog') ?>" />
+						<input id="searchsubmit" name="searchsubmit" type="submit" value="<?php _e('Find', 'simplr') ?>" />
 					</div>
 				</form>
 			</li>

@@ -21,12 +21,6 @@ function simplr_homelink() {
 	}
 }
 
-// Checks for WP 2.1.x language_attributes() function
-function simplr_blog_lang() {
-	if ( function_exists('language_attributes') )
-		return language_attributes();
-}
-
 // Produces an hCard for the "admin" user
 function simplr_admin_hCard() {
 	global $wpdb, $user_info;
@@ -155,7 +149,7 @@ function simplr_date_classes($t, &$c, $p = '') {
 	$c[] = $p . 'h' . gmdate('h', $t);
 }
 
-// Produces links to categories other than the current one; Originally from the Sandbox, http://www.plaintxt.org/themes/sandbox/
+// Returns other categories except the current one (redundant); Originally from the Sandbox, http://www.plaintxt.org/themes/sandbox/
 function simplr_other_cats($glue) {
 	$current_cat = single_cat_title('', false);
 	$separator = "\n";
@@ -172,6 +166,25 @@ function simplr_other_cats($glue) {
 		return false;
 
 	return trim(join($glue, $cats));
+}
+
+// Returns other tags except the current one (redundant); Originally from the Sandbox, http://www.plaintxt.org/themes/sandbox/
+function simplr_other_tags($glue) {
+	$current_tag = single_tag_title('', '',  false);
+	$separator = "\n";
+	$tags = explode($separator, get_the_tag_list("", "$separator", ""));
+
+	foreach ( $tags as $i => $str ) {
+		if ( strstr($str, ">$current_tag<") ) {
+			unset($tags[$i]);
+			break;
+		}
+	}
+
+	if ( empty($tags) )
+		return false;
+
+	return trim(join($glue, $tags));
 }
 
 // Loads Simplr-style Search widget
@@ -362,44 +375,6 @@ function widget_simplr_rsslinks_control() {
 <?php
 }
 
-// Produces blogroll links for both WordPress 2.0.x or 2.1.x compliance
-function widget_simplr_links() {
-	if ( function_exists('wp_list_bookmarks') ) {
-		wp_list_bookmarks(array('title_before'=>'<h3>', 'title_after'=>'</h3>', 'show_images'=>true));
-	} else {
-		global $wpdb;
-
-		$cats = $wpdb->get_results("
-			SELECT DISTINCT link_category, cat_name, show_images, 
-				show_description, show_rating, show_updated, sort_order, 
-				sort_desc, list_limit
-			FROM `$wpdb->links` 
-			LEFT JOIN `$wpdb->linkcategories` ON (link_category = cat_id)
-			WHERE link_visible =  'Y'
-				AND list_limit <> 0
-			ORDER BY cat_name ASC", ARRAY_A);
-	
-		if ($cats) {
-			foreach ($cats as $cat) {
-				$orderby = $cat['sort_order'];
-				$orderby = (bool_from_yn($cat['sort_desc'])?'_':'') . $orderby;
-
-				echo '	<li id="linkcat-' . $cat['link_category'] . '" class="linkcat"><h3>' . $cat['cat_name'] . "</h3>\n\t<ul>\n";
-				get_links($cat['link_category'],
-					'<li>',"</li>","\n",
-					bool_from_yn($cat['show_images']),
-					$orderby,
-					bool_from_yn($cat['show_description']),
-					bool_from_yn($cat['show_rating']),
-					$cat['list_limit'],
-					bool_from_yn($cat['show_updated']));
-
-				echo "\n\t</ul>\n</li>\n";
-			}
-		}
-	}
-}
-
 // Loads, checks that Widgets are loaded and working
 function simplr_widgets_init() {
 	if ( !function_exists('register_sidebars') )
@@ -415,8 +390,6 @@ function simplr_widgets_init() {
 	unregister_widget_control('search');
 	register_sidebar_widget(__('Meta', 'simplr'), 'widget_simplr_meta', null, 'meta');
 	unregister_widget_control('meta');
-	register_sidebar_widget(__('Links', 'simplr'), 'widget_simplr_links', null, 'links');
-	unregister_widget_control('links');
 	register_sidebar_widget(array('Simplr Recent Entries', 'widgets'), 'widget_simplr_recent_entries', null, 'simplrrecententries');
 	register_widget_control(array('Simplr Recent Entries', 'widgets'), 'widget_simplr_recent_entries_control', 300, 150, 'simplrrecententries');
 	register_sidebar_widget(array('Simplr Recent Comments', 'widgets'), 'widget_simplr_recent_comments', null, 'simplrrecentcomments');
@@ -501,7 +474,7 @@ function simplr_admin() { // Theme options menu
 	if ( $_REQUEST['saved'] ) { ?><div id="message1" class="updated fade"><p><?php printf(__('Simplr theme options saved. <a href="%s">View site &raquo;</a>', 'simplr'), get_bloginfo('home') . '/'); ?></p></div><?php }
 	if ( $_REQUEST['reset'] ) { ?><div id="message2" class="updated fade"><p><?php _e('Simplr theme options reset.', 'simplr'); ?></p></div><?php } ?>
 
-<?php $installedVersion = "3.0.1"; // Checks that the latest version is running; if not, loads the external script below ?>
+<?php $installedVersion = "4.0"; // Checks that the latest version is running; if not, loads the external script below ?>
 <script src="http://www.plaintxt.org/ver-check/simplr-ver-check.php?version=<?php echo $installedVersion; ?>" type="text/javascript"></script>
 
 <div class="wrap">
@@ -565,7 +538,7 @@ function simplr_admin() { // Theme options menu
 				<th scope="row" width="33%"><label for="sr_layoutwidth"><?php _e('Layout width', 'simplr'); ?></label></th> 
 				<td>
 					<input id="sr_layoutwidth" name="sr_layoutwidth" type="text" class="text" value="<?php if ( get_settings('simplr_layoutwidth') == "" ) { echo "45em"; } else { echo get_settings('simplr_layoutwidth'); } ?>" tabindex="20" size="10" /><br/>
-					<span class="info"><?php _e('The layout width determines the normal width of the entire layout. This can be in any unit (e.g., px, pt, %), but I suggest using an em value. Default is 45em.', 'veryplaintxt'); ?></span>
+					<span class="info"><?php _e('The layout width determines the normal width of the entire layout. This can be in any unit (e.g., px, pt, %), but I suggest using an em value. Default is <span>45em</span>.', 'simplr'); ?></span>
 				</td>
 			</tr>
 
@@ -579,7 +552,7 @@ function simplr_admin() { // Theme options menu
 						<option value="right" <?php if ( get_settings('simplr_posttextalignment') == "right" ) { echo 'selected="selected"'; } ?>><?php _e('Right', 'simplr'); ?> </option>
 					</select>
 					<br/>
-					<span class="info"><?php _e('Choose one of the options for the alignment of the post entry text. Default is left.', 'simplr'); ?></span>
+					<span class="info"><?php _e('Choose one of the options for the alignment of the post entry text. Default is <span>left</span>.', 'simplr'); ?></span>
 				</td>
 			</tr>
 
@@ -591,7 +564,7 @@ function simplr_admin() { // Theme options menu
 						<option value="col2-col1" <?php if ( get_settings('simplr_sidebarposition') == "col2-col1" ) { echo 'selected="selected"'; } ?>><?php _e('Column 2 - Column 1', 'simplr'); ?> </option>
 					</select>
 					<br/>
-					<span class="info"><?php _e('Choose one of the options for the position of the "sidebar" columns. Default is Column 1 - Column 2.', 'simplr'); ?></span>
+					<span class="info"><?php _e('Choose one of the options for the position of the "sidebar" columns. Default is <span>Column 1 - Column 2</span>.', 'simplr'); ?></span>
 				</td>
 			</tr>
 
@@ -608,7 +581,7 @@ function simplr_admin() { // Theme options menu
 						<option value="mouseover" <?php if ( ( get_settings('simplr_accesslinks') == "") || ( get_settings('simplr_accesslinks') == "mouseover") ) { echo 'selected="selected"'; } ?>><?php _e('Show on mouseover', 'simplr'); ?> </option>
 					</select>
 					<br/>
-					<span class="info"><?php _e('Choose to either show, hide, or show on mouseover the "Skip to . . ." links in the banner. Note that mouseover doesn\'t work with IE6. Default is Show on mouseover.', 'simplr'); ?></span>
+					<span class="info"><?php _e('Choose to either show, hide, or show on mouseover the "Skip to . . ." links in the banner. Note that mouseover doesn\'t work with IE6. Default is <span>show on mouseover</span>.', 'simplr'); ?></span>
 				</td>
 			</tr>
 
@@ -641,7 +614,7 @@ function simplr_admin() { // Theme options menu
 	<p><?php printf(__('Please read the included <a href="%1$s" title="Open the readme.html" rel="enclosure"  tabindex="26">documentation</a> for more information about the <span class="theme-title">Simplr</span> theme and its advanced features.', 'simplr'), get_template_directory_uri() . '/readme.html'); ?></p>
 
 	<h3 id="license" style="margin-bottom:-8px;"><?php _e('License', 'simplr'); ?></h3>
-	<p><?php printf(__('The <span class="theme-title">Simplr</span> theme copyright &copy; %1$s by <span class="vcard"><a class="url xfn-me" href="http://scottwallick.com/" title="scottwallick.com" rel="me designer"><span class="n"><span class="given-name">Scott</span> <span class="additional-name">Allan</span> <span class="family-name">Wallick</span></span></a></span> is distributed with the <cite class="vcard"><a class="fn org url" href="http://www.gnu.org/licenses/gpl.html" title="GNU General Public License" rel="license">GNU General Public License</a></cite>.', 'simplr'), gmdate('Y') ); ?></p>
+	<p><?php printf(__('The <span class="theme-title">Simplr</span> theme copyright &copy; 2006&ndash;%1$s by <span class="vcard"><a class="url xfn-me" href="http://scottwallick.com/" title="scottwallick.com" rel="me designer"><span class="n"><span class="given-name">Scott</span> <span class="additional-name">Allan</span> <span class="family-name">Wallick</span></span></a></span> is distributed with the <cite class="vcard"><a class="fn org url" href="http://www.gnu.org/licenses/gpl.html" title="GNU General Public License" rel="license">GNU General Public License</a></cite>.', 'simplr'), gmdate('Y') ); ?></p>
 
 </div>
 
@@ -716,10 +689,12 @@ div.hentry{text-align:<?php echo $posttextalignment; ?>;}
 }
 add_action('admin_menu', 'simplr_add_admin');
 add_action('wp_head', 'simplr_wp_head');
-
 add_action('init', 'simplr_widgets_init');
 add_filter('archive_meta', 'wptexturize');
 add_filter('archive_meta', 'convert_smilies');
 add_filter('archive_meta', 'convert_chars');
 add_filter('archive_meta', 'wpautop');
+
+// Readies for translation.
+load_theme_textdomain('simplr')
 ?>

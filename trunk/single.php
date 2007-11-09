@@ -21,8 +21,6 @@
 
 				</div>
 
-<!-- <?php trackback_rdf(); ?> -->
-
 				<div class="entry-footer">
 <?php if (('open' == $post-> comment_status) && ('open' == $post->ping_status)) : ?>
 					<?php printf(__('<a href="#respond" title="Post a comment">Post a comment</a> <span class="meta-sep">|</span> <a href="%s" rel="trackback" title="Trackback URL for your post">Trackback URI</a>', 'simplr'), get_trackback_url()) ?>

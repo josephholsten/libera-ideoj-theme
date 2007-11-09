@@ -17,7 +17,11 @@
 
 				</div>
 				<div class="entry-meta">
-					<span class="entry-category"><?php printf(__('Posted in %s', 'simplr'), get_the_category_list(', ')) ?></span>
+					<span class="entry-category"><?php printf(__('Filed in %s', 'simplr'), get_the_category_list(', ')) ?></span>
+					<span class="meta-sep">|</span>
+					<span class="entry-tags"><?php the_tags(__('Tagged ', 'simplr'), ", ", "") ?></span>
+					<span class="meta-sep">|</span>
+					<span class="entry-permalink"><?php printf(__('<a href="%1$s" title="Permalink to %2$s">Permalink</a>', 'simplr'), get_permalink(), wp_specialchars(get_the_title(), 'double') ) ?></span>
 					<span class="meta-sep">|</span>
 <?php edit_post_link(__('Edit', 'simplr'), "\t\t\t\t\t<span class='entry-edit'>", "</span>\n\t\t\t\t\t<span class='meta-sep'>|</span>\n"); ?>
 					<span class="entry-comments"><?php comments_popup_link(__('Comments (0)', 'simplr'), __('Comments (1)', 'simplr'), __('Comments (%)', 'simplr')) ?></span>
@@ -39,10 +43,10 @@
 					<p><?php _e('Sorry, but nothing matched your search criteria. Please try again with some different keywords.', 'simplr') ?></p>
 				</div>
 			</div><!-- #post-0 .post -->
-			<form id="searchform" method="get" action="<?php bloginfo('home') ?>">
+			<form id="noresults-searchform" method="get" action="<?php bloginfo('home') ?>">
 				<div>
-					<input id="s" name="s" type="text" value="<?php echo wp_specialchars(stripslashes($_GET['s']), true); ?>" tabindex="1" size="40" />
-					<input id="searchsubmit" name="searchsubmit" type="submit" value="<?php _e('Search', 'simplr') ?>" tabindex="2" />
+					<input id="noresults-s" name="s" type="text" value="<?php echo wp_specialchars(stripslashes($_GET['s']), true) ?>" size="40" />
+					<input id="noresults-searchsubmit" name="searchsubmit" type="submit" value="<?php _e('Search', 'barthelme') ?>" />
 				</div>
 			</form>
 

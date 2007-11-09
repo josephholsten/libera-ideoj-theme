@@ -40,40 +40,42 @@ $comments = $wpdb->get_results("SELECT comment_author, comment_author_url, comme
 		<ul>
 <?php if (!function_exists('dynamic_sidebar') || !dynamic_sidebar(2) ) : // Begin Widgets for Sidebar 2; displays widgets or default contents below ?>
 			<li id="search">
-				<h3><label for="s"><?php _e('Search', 'plaintxtblog') ?></label></h3>
+				<h3><label for="s"><?php _e('Search', 'simplr') ?></label></h3>
 				<form id="searchform" method="get" action="<?php bloginfo('home') ?>">
 					<div>
 						<input id="s" name="s" type="text" value="<?php echo wp_specialchars(stripslashes($_GET['s']), true) ?>" size="10" />
-						<input id="searchsubmit" name="searchsubmit" type="submit" value="<?php _e('Find', 'plaintxtblog') ?>" />
+						<input id="searchsubmit" name="searchsubmit" type="submit" value="<?php _e('Find', 'simplr') ?>" />
 					</div>
 				</form>
 			</li>
 			<li id="categories">
-				<h3><?php _e('Categories', 'plaintxtblog'); ?></h3>
+				<h3><?php _e('Categories', 'simplr'); ?></h3>
 				<ul>
-				<?php if ( function_exists('wp_list_categories') ) : 
-wp_list_categories('title_li=&orderby=name&use_desc_for_title=1&hierarchical=0'); else :
-wp_list_cats('sort_column=name&hierarchical=0'); endif; ?>
+<?php wp_list_categories('title_li=&orderby=name&use_desc_for_title=1&hierarchical=0') ?>
 
 				</ul>
 			</li>
+			<li id="tag-cloud">
+				<h3><?php _e('Tags', 'simplr'); ?></h3>
+				<p><?php wp_tag_cloud() ?></p>
+			</li>
 			<li id="archives">
-				<h3><?php _e('Archives', 'plaintxtblog') ?></h3>
+				<h3><?php _e('Archives', 'simplr') ?></h3>
 				<ul>
 <?php wp_get_archives('type=monthly') ?>
 
 				</ul>
 			</li>
 			<li id="simplr-rss-links">
-				<h3><?php _e('RSS Feeds', 'plaintxtblog') ?></h3>
+				<h3><?php _e('RSS Feeds', 'simplr') ?></h3>
 				<ul>
-					<li><a href="<?php bloginfo('rss2_url') ?>" title="<?php echo wp_specialchars(get_bloginfo('name'), 1) ?> RSS 2.0 Feed" rel="alternate" type="application/rss+xml"><?php _e('All posts', 'plaintxtblog') ?></a></li>
-					<li><a href="<?php bloginfo('comments_rss2_url') ?>" title="<?php echo wp_specialchars(bloginfo('name'), 1) ?> Comments RSS 2.0 Feed" rel="alternate" type="application/rss+xml"><?php _e('All comments', 'plaintxtblog') ?></a></li>
+					<li><a href="<?php bloginfo('rss2_url') ?>" title="<?php echo wp_specialchars(get_bloginfo('name'), 1) ?> RSS 2.0 Feed" rel="alternate" type="application/rss+xml"><?php _e('All posts', 'simplr') ?></a></li>
+					<li><a href="<?php bloginfo('comments_rss2_url') ?>" title="<?php echo wp_specialchars(bloginfo('name'), 1) ?> Comments RSS 2.0 Feed" rel="alternate" type="application/rss+xml"><?php _e('All comments', 'simplr') ?></a></li>
 				</ul>
 			</li>
 			<?php if ( is_home() || is_paged() ) { ?>
 			<li id="meta">
-				<h3><?php _e('Meta', 'plaintxtblog') ?></h3>
+				<h3><?php _e('Meta', 'simplr') ?></h3>
 				<ul>
 					<?php wp_register() ?>
 					<li><?php wp_loginout() ?></li>
