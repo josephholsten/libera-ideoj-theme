@@ -72,6 +72,9 @@
 <?php elseif ( is_category() ) : ?>
 			<h3><?php printf(__('<a href="%1$s" title="%2$s">Home</a> &gt; %3$s', 'simplr'), get_bloginfo('home'), wp_specialchars(get_bloginfo('name'), 1), single_cat_title("", false) ) ?></h3>
 			<div class="archive-meta"><?php if ( !(''== category_description()) ) : echo apply_filters('archive_meta', category_description()); else : printf(__('<p>You are viewing the %s category archives.</p>', 'simplr'), single_cat_title("", false) ); endif; ?></div>
+<?php elseif ( is_tag() ) : ?>
+			<h3><?php printf(__('<a href="%1$s" title="%2$s">Home</a> &gt; %3$s', 'simplr'), get_bloginfo('home'), wp_specialchars(get_bloginfo('name'), 1), single_tag_title("", false) ) ?></h3>
+			<div class="archive-meta"><p><?php printf(__('You are viewing the %s tag archives.', 'simplr'), single_cat_title("", false)) ?></p></div>
 <?php elseif ( isset($_GET['paged']) && !empty($_GET['paged']) ) : ?>
 			<h3><?php printf(__('<a href="%1$s" title="%2$s">Home</a> &gt; Blog Archives', 'simplr'), get_bloginfo('home'), wp_specialchars(get_bloginfo('name'), 1) ) ?></h3>
 <?php endif; ?>

@@ -8,7 +8,7 @@ AUTHOR URI: http://scottwallick.com/
 */
 body{background:#fff;color:#111;line-height:133%;margin:0 0 3em;padding:0;text-align:center;}
 a,a:link{color:#28425e;outline:none;}
-div#header a,div#header a:link,div#header a:visited,body div.navigation a,body div.navigation a:link,.entry-title a,.entry-title a:link,div.sidebar h3 a,div.sidebar h3 a:link{text-decoration:none;}
+div#header a,div#header a:link,div#header a:visited,body div.navigation a,body div.navigation a:link,.entry-title a,.entry-title a:link,div.sidebar h3 a,div.sidebar li#tag-cloud a,div.sidebar h3 a:link,div.sidebar li#tag-cloud a:link{text-decoration:none;}
 div#footer a,div#footer a:link,div#footer a:visited{color:#637b93;}
 div#header a:visited,.entry-title a:visited,div.sidebar h3 a:visited{color:#28425e;}
 a:active,div#header a:active,.entry-title a:active,div.sidebar h3 a:active{color:#e97d53;}
