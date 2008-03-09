@@ -2,23 +2,10 @@
 // Produces links for every page just below the header
 function simplr_globalnav() {
 	echo "<div id=\"globalnav\"><ul id=\"menu\">";
-	echo simplr_homelink();
-	$menu = wp_list_pages('title_li=&sort_column=post_title&echo=0');
+	if ( !is_front_page() ) { ?><li class="page_item_home home-link"><a href="<?php bloginfo('home'); ?>/" title="<?php echo wp_specialchars(get_bloginfo('name'), 1) ?>" rel="home"><?php _e('Home', 'plaintxtblog') ?></a></li><?php }
+	$menu = wp_list_pages('title_li=&sort_column=menu_order&echo=0'); // Params for the page list in header.php
 	echo str_replace(array("\r", "\n", "\t"), '', $menu);
 	echo "</ul></div>\n";
-}
-
-// Creates a link to the 'home' page when elsewhere; credit to Adam , http://sunburntkamel.archgfx.net/
-function simplr_homelink() {
-	global $wp_db_version;
-	$simplr_frontpage = get_option('show_on_front');
-	$simplr_is_front = get_option('page_on_front');
-
-	if ( $simplr_frontpage == 'page' ) {
-		if ( !is_page($simplr_is_front) || is_paged() ) { ?><li class="page_item_home home-link"><a href="<?php bloginfo('home'); ?>/" title="<?php echo wp_specialchars(get_bloginfo('name'), 1) ?>" rel="home"><?php _e('Home', 'sandbox') ?></a></li><?php }
-	} else {
-		if ( !is_home() || is_paged() ) { ?><li class="page_item_home home-link"><a href="<?php bloginfo('home'); ?>/" title="<?php echo wp_specialchars(get_bloginfo('name'), 1) ?>" rel="home"><?php _e('Home', 'sandbox') ?></a></li><?php }
-	}
 }
 
 // Produces an hCard for the "admin" user
@@ -61,19 +48,19 @@ function simplr_body_class( $print = true ) {
 		rewind_posts();
 	}
 
-	else if ( is_author() ) {
+	elseif ( is_author() ) {
 		$author = $wp_query->get_queried_object();
 		$c[] = 'author';
 		$c[] = 'author-' . $author->user_nicename;
 	}
 	
-	else if ( is_category() ) {
+	elseif ( is_category() ) {
 		$cat = $wp_query->get_queried_object();
 		$c[] = 'category';
 		$c[] = 'category-' . $cat->category_nicename;
 	}
 
-	else if ( is_page() ) {
+	elseif ( is_page() ) {
 		the_post();
 		$c[] = 'page';
 		$c[] = 'page-author-' . get_the_author_login();
@@ -187,19 +174,50 @@ function simplr_other_tags($glue) {
 	return trim(join($glue, $tags));
 }
 
-// Loads Simplr-style Search widget
+// Produces an avatar image with the hCard-compliant photo class
+function simplr_commenter_link() {
+	$simplr_commenter = str_replace( "<a href", "<a class='url' href", get_comment_author_link() );
+	$email = get_comment_author_email();
+	$simplr_avatar = str_replace( "class='avatar", "class='photo avatar", get_avatar( "$email", 32 ) );
+	echo $simplr_avatar . '<span class="fn n">' . $simplr_commenter . '</span>';
+}
+
+// Loads a simplr-style Search widget
 function widget_simplr_search($args) {
 	extract($args);
+	$options = get_option('widget_simplr_search');
+	$title = empty($options['title']) ? __( 'Search', 'simplr' ) : $options['title'];
+	$button = empty($options['button']) ? __( 'Find', 'simplr' ) : $options['button'];
 ?>
 		<?php echo $before_widget ?>
-			<?php echo $before_title ?><label for="s"><?php _e('Search', 'simplr') ?></label><?php echo $after_title ?>
+				<?php echo $before_title ?><label for="s"><?php echo $title ?></label><?php echo $after_title ?>
 			<form id="searchform" method="get" action="<?php bloginfo('home') ?>">
 				<div>
-					<input id="s" name="s" type="text" value="<?php echo wp_specialchars(stripslashes($_GET['s']), true) ?>" size="10" />
-					<input id="searchsubmit" name="searchsubmit" type="submit" value="<?php _e('Find', 'simplr') ?>" />
+					<input id="s" name="s" class="text-input" type="text" value="<?php the_search_query() ?>" size="10" tabindex="1" accesskey="S" />
+					<input id="searchsubmit" name="searchsubmit" class="submit-button" type="submit" value="<?php echo $button ?>" tabindex="2" />
 				</div>
 			</form>
 		<?php echo $after_widget ?>
+<?php
+}
+
+// Widget: Search; element controls for customizing text within Widget plugin
+function widget_simplr_search_control() {
+	$options = $newoptions = get_option('widget_simplr_search');
+	if ( $_POST['search-submit'] ) {
+		$newoptions['title'] = strip_tags( stripslashes( $_POST['search-title'] ) );
+		$newoptions['button'] = strip_tags( stripslashes( $_POST['search-button'] ) );
+	}
+	if ( $options != $newoptions ) {
+		$options = $newoptions;
+		update_option( 'widget_simplr_search', $options );
+	}
+	$title = attribute_escape( $options['title'] );
+	$button = attribute_escape( $options['button'] );
+?>
+			<p><label for="search-title"><?php _e( 'Title:', 'simplr' ) ?> <input class="widefat" id="search-title" name="search-title" type="text" value="<?php echo $title; ?>" /></label></p>
+			<p><label for="search-button"><?php _e( 'Button Text:', 'simplr' ) ?> <input class="widefat" id="search-button" name="search-button" type="text" value="<?php echo $button; ?>" /></label></p>
+			<input type="hidden" id="search-submit" name="search-submit" value="1" />
 <?php
 }
 
@@ -220,14 +238,79 @@ function widget_simplr_meta($args) {
 <?php
 }
 
+function widget_simplr_homelink($args) {
+	extract($args);
+	$options = get_option('widget_simplr_homelink');
+	$title = empty($options['title']) ? __( 'Home', 'simplr' ) : $options['title'];
+	if ( !is_front_page() || is_paged() ) {
+?>
+			<?php echo $before_widget; ?>
+				<?php echo $before_title; ?><a href="<?php bloginfo('home'); ?>/" title="<?php echo wp_specialchars(get_bloginfo('name'), 1) ?>" rel="home"><?php echo $title; ?></a><?php echo $after_title; ?>
+			<?php echo $after_widget; ?>
+<?php }
+}
+
+// Loads the control functions for the Home Link, allowing control of its text
+function widget_simplr_homelink_control() {
+	$options = $newoptions = get_option('widget_simplr_homelink');
+	if ( $_POST['homelink-submit'] ) {
+		$newoptions['title'] = strip_tags( stripslashes( $_POST['homelink-title'] ) );
+	}
+	if ( $options != $newoptions ) {
+		$options = $newoptions;
+		update_option( 'widget_simplr_homelink', $options );
+	}
+	$title = attribute_escape( $options['title'] );
+?>
+			<p><?php _e('Adds a link to the home page on every page <em>except</em> the home.', 'simplr'); ?></p>
+			<p><label for="homelink-title"><?php _e( 'Title:', 'simplr' ) ?> <input class="widefat" id="homelink-title" name="homelink-title" type="text" value="<?php echo $title; ?>" /></label></p>
+			<input type="hidden" id="homelink-submit" name="homelink-submit" value="1" />
+<?php
+}
+
+// Loads simplr-style RSS Links (separate from Meta) widget
+function widget_simplr_rsslinks($args) {
+	extract($args);
+	$options = get_option('widget_simplr_rsslinks');
+	$title = empty($options['title']) ? __( 'RSS Links', 'simplr' ) : $options['title'];
+?>
+		<?php echo $before_widget; ?>
+			<?php echo $before_title . $title . $after_title; ?>
+			<ul>
+				<li><a href="<?php bloginfo('rss2_url') ?>" title="<?php echo wp_specialchars( get_bloginfo('name'), 1 ) ?> <?php _e( 'Posts RSS feed', 'simplr' ); ?>" rel="alternate" type="application/rss+xml"><?php _e( 'All posts', 'simplr' ) ?></a></li>
+				<li><a href="<?php bloginfo('comments_rss2_url') ?>" title="<?php echo wp_specialchars(bloginfo('name'), 1) ?> <?php _e( 'Comments RSS feed', 'simplr' ); ?>" rel="alternate" type="application/rss+xml"><?php _e( 'All comments', 'simplr' ) ?></a></li>
+			</ul>
+		<?php echo $after_widget; ?>
+<?php
+}
+
+// Loads the control functions for the RSS Links, allowing control of its text
+function widget_simplr_rsslinks_control() {
+	$options = $newoptions = get_option('widget_simplr_rsslinks');
+	if ( $_POST['rsslinks-submit'] ) {
+		$newoptions['title'] = strip_tags( stripslashes( $_POST['rsslinks-title'] ) );
+	}
+	if ( $options != $newoptions ) {
+		$options = $newoptions;
+		update_option( 'widget_simplr_rsslinks', $options );
+	}
+	$title = attribute_escape( $options['title'] );
+?>
+			<p><label for="rsslinks-title"><?php _e( 'Title:', 'simplr' ) ?> <input class="widefat" id="rsslinks-title" name="rsslinks-title" type="text" value="<?php echo $title; ?>" /></label></p>
+			<input type="hidden" id="rsslinks-submit" name="rsslinks-submit" value="1" />
+<?php
+}
+
 // Loads the Simplr-style recent entries widget
 function widget_simplr_recent_entries($args) {
+	global $wpdb, $comments, $comment;
 	extract($args);
 	$options = get_option('widget_simplr_recent_entries');
 	$title = empty($options['title']) ? __('Recent Entries', 'simplr') : $options['title'];
-	$recount = empty($options['recount']) ? __('5') : $options['recount'];
-?>
-<?php global $wpdb, $r; $r = new WP_Query("showposts=$recount"); if ($r->have_posts()) : ?>
+	$count = empty($options['count']) ? __('5', 'simplr') : $options['count'];
+	global $wpdb, $r;
+	$r = new wp_query("showposts=$count");
+	if ($r->have_posts()) : ?>
 		<?php echo $before_widget; ?>
 			<?php echo $before_title ?><?php echo $title ?><?php echo $after_title ?>
 			<ul><?php while ($r->have_posts()) : $r->the_post(); ?>
@@ -249,20 +332,24 @@ function widget_simplr_recent_entries($args) {
 // Loads controls for changing the options of the Simplr recent entries widget
 function widget_simplr_recent_entries_control() {
 	$options = $newoptions = get_option('widget_simplr_recent_entries');
-	if ( $_POST["recententries-submit"] ) {
-		$newoptions['title'] = strip_tags(stripslashes($_POST["recententries-title"]));
-		$newoptions['recount'] = strip_tags(stripslashes($_POST["recententries-recount"]));
+	if ( $_POST['rc-submit'] ) {
+		$newoptions['title'] = strip_tags( stripslashes( $_POST['re-title'] ) );
+		$newoptions['count'] = strip_tags( stripslashes( $_POST['re-count'] ) );
 	}
 	if ( $options != $newoptions ) {
 		$options = $newoptions;
-		update_option('widget_simplr_recent_entries', $options);
+		update_option( 'widget_simplr_recent_entries', $options );
 	}
-	$title = htmlspecialchars($options['title'], ENT_QUOTES);
-	$recount = htmlspecialchars($options['recount'], ENT_QUOTES);
+	$re_title = attribute_escape( $options['title'] );
+	$re_count = attribute_escape( $options['count'] );
 ?>
-		<p style="text-align:right;margin-right:40px;><label for="recententries-title"><?php _e('Title:', 'simplr'); ?> <input style="width: 175px;" id="recententries-title" name="recententries-title" type="text" value="<?php echo $title; ?>" /></label></p>
-		<p style="text-align:right;margin-right:40px;><label for="recententries-recount"><?php _e('Number to display:', 'simplr'); ?> <input style="width: 75px;" id="recententries-recount" name="recententries-recount" type="text" value="<?php echo $recount; ?>" /></label></p>
-		<input type="hidden" id="recententries-submit" name="recententries-submit" value="1" />
+			<p><label for="re-title"><?php _e( 'Title:', 'simplr' ) ?> <input class="widefat" id="re-title" name="re-title" type="text" value="<?php echo $re_title; ?>" /></label></p>
+			<p>
+				<label for="re-count"><?php _e('Number of entries to show:', 'simplr'); ?> <input style="width:25px;text-align:center;" id="re-count" name="re-count" type="text" value="<?php echo $re_count; ?>" /></label>
+				<br />
+				<small><?php _e('(at most 15)'); ?></small>
+			</p>
+			<input type="hidden" id="re-submit" name="re-submit" value="1" />
 <?php
 }
 
@@ -272,8 +359,8 @@ function widget_simplr_recent_comments($args) {
 	extract($args);
 	$options = get_option('widget_simplr_recent_comments');
 	$title = empty($options['title']) ? __('Recent Comments', 'simplr') : $options['title'];
-	$rccount = empty($options['rccount']) ? __('5', 'simplr') : $options['rccount'];
-	$comments = $wpdb->get_results("SELECT comment_author, comment_author_url, comment_ID, comment_post_ID, SUBSTRING(comment_content,1,65) AS comment_excerpt FROM $wpdb->comments LEFT OUTER JOIN $wpdb->posts ON ($wpdb->comments.comment_post_ID = $wpdb->posts.ID) WHERE comment_approved = '1' AND comment_type = '' AND post_password = '' ORDER BY comment_date_gmt DESC LIMIT $rccount"); 
+	$count = empty($options['count']) ? __('5', 'simplr') : $options['count'];
+	$comments = $wpdb->get_results("SELECT comment_author, comment_author_url, comment_ID, comment_post_ID, SUBSTRING(comment_content,1,65) AS comment_excerpt FROM $wpdb->comments LEFT OUTER JOIN $wpdb->posts ON ($wpdb->comments.comment_post_ID = $wpdb->posts.ID) WHERE comment_approved = '1' AND comment_type = '' AND post_password = '' ORDER BY comment_date_gmt DESC LIMIT $count");
 ?>
 		<?php echo $before_widget; ?>
 			<?php echo $before_title ?><?php echo $title ?><?php echo $after_title ?>
@@ -291,87 +378,24 @@ function widget_simplr_recent_comments($args) {
 // Loads controls to change the options of the Simplr recent comments widget
 function widget_simplr_recent_comments_control() {
 	$options = $newoptions = get_option('widget_simplr_recent_comments');
-	if ( $_POST["recentcomments-submit"] ) {
-		$newoptions['title'] = strip_tags(stripslashes($_POST["recentcomments-title"]));
-		$newoptions['rccount'] = strip_tags(stripslashes($_POST["recentcomments-rccount"]));
+	if ( $_POST['rc-submit'] ) {
+		$newoptions['title'] = strip_tags( stripslashes( $_POST['rc-title'] ) );
+		$newoptions['count'] = strip_tags( stripslashes( $_POST['rc-count'] ) );
 	}
 	if ( $options != $newoptions ) {
 		$options = $newoptions;
-		update_option('widget_simplr_recent_comments', $options);
+		update_option( 'widget_simplr_recent_comments', $options );
 	}
-	$title = htmlspecialchars($options['title'], ENT_QUOTES);
-	$rccount = htmlspecialchars($options['rccount'], ENT_QUOTES);
+	$rc_title = attribute_escape( $options['title'] );
+	$rc_count = attribute_escape( $options['count'] );
 ?>
-		<p style="text-align:right;margin-right:40px;><label for="recentcomments-title"><?php _e('Title:', 'simplr'); ?> <input style="width:175px;" id="recentcomments-title" name="recentcomments-title" type="text" value="<?php echo $title; ?>" /></label></p>
-		<p style="text-align:right;margin-right:40px;><label for="recentcomments-rccount"><?php _e('Number to display:', 'simplr'); ?> <input style="width:75px;" id="recentcomments-rccount" name="recentcomments-rccount" type="text" value="<?php echo $rccount; ?>" /></label></p>
-		<input type="hidden" id="recentcomments-submit" name="recentcomments-submit" value="1" />
-<?php
-}
-
-// Loads the the Home Link widget
-function widget_simplr_homelink($args) {
-	extract($args);
-	global $wp_db_version;
-	$options = get_option('widget_simplr_homelink');
-	$title = empty($options['title']) ? __('Home', 'simplr') : $options['title'];
-	$simplr_frontpage = get_option('show_on_front');
-	$simplr_is_front = get_option('page_on_front');
-?>
-<?php if ( $simplr_frontpage == 'page' ) {
-		if ( !is_page($simplr_is_front) || is_paged() ) { ?><?php echo $before_widget; ?><a href="<?php bloginfo('home'); ?>/" title="<?php echo wp_specialchars(get_bloginfo('name'), 1) ?>" rel="home"><?php echo $title ?></a><?php echo $after_widget; ?><?php }
-	} else {
-		if ( !is_home() || is_paged() ) { ?><?php echo $before_widget; ?><a href="<?php bloginfo('home'); ?>/" title="<?php echo wp_specialchars(get_bloginfo('name'), 1) ?>" rel="home"><?php echo $title ?></a><?php echo $after_widget; ?><?php }
-	}
-}
-
-// Loads the control functions for the Home Link, allowing control of its text
-function widget_simplr_homelink_control() {
-	$options = $newoptions = get_option('widget_simplr_homelink');
-	if ( $_POST["homelink-submit"] ) {
-		$newoptions['title'] = strip_tags(stripslashes($_POST["homelink-title"]));
-	}
-	if ( $options != $newoptions ) {
-		$options = $newoptions;
-		update_option('widget_simplr_homelink', $options);
-	}
-	$title = htmlspecialchars($options['title'], ENT_QUOTES);
-?>
-		<p style="text-align:left;"><?php _e('Adds a link to the home page on every page <em>except</em> the home.', 'simplr'); ?></p>
-		<p style="text-align:right;margin-right:40px;><label for="homelink-title"><?php _e('Link Text:', 'simplr'); ?> <input style="width: 175px;" id="homelink-title" name="homelink-title" type="text" value="<?php echo $title; ?>" /></label></p>
-		<input type="hidden" id="homelink-submit" name="homelink-submit" value="1" />
-<?php
-}
-
-// Loads Simplr-style RSS Links (separate from Meta) widget
-function widget_simplr_rsslinks($args) {
-	extract($args);
-	$options = get_option('widget_simplr_rsslinks');
-	$title = empty($options['title']) ? __('RSS Links', 'simplr') : $options['title'];
-?>
-		<?php echo $before_widget; ?>
-			<?php echo $before_title . $title . $after_title; ?>
-			<ul>
-				<li><a href="<?php bloginfo('rss2_url') ?>" title="<?php echo wp_specialchars(get_bloginfo('name'), 1) ?> RSS 2.0 Feed" rel="alternate" type="application/rss+xml"><?php _e('All posts', 'simplr') ?></a></li>
-				<li><a href="<?php bloginfo('comments_rss2_url') ?>" title="<?php echo wp_specialchars(bloginfo('name'), 1) ?> Comments RSS 2.0 Feed" rel="alternate" type="application/rss+xml"><?php _e('All comments', 'simplr') ?></a></li>
-			</ul>
-		<?php echo $after_widget; ?>
-<?php
-}
-
-// Loads controls for the Simplr-style RSS Link text
-function widget_simplr_rsslinks_control() {
-	$options = $newoptions = get_option('widget_simplr_rsslinks');
-	if ( $_POST["rsslinks-submit"] ) {
-		$newoptions['title'] = strip_tags(stripslashes($_POST["rsslinks-title"]));
-	}
-	if ( $options != $newoptions ) {
-		$options = $newoptions;
-		update_option('widget_simplr_rsslinks', $options);
-	}
-	$title = htmlspecialchars($options['title'], ENT_QUOTES);
-?>
-			<p style="text-align:right;margin-right:40px;><label for="rsslinks-title"><?php _e('Title:'); ?> <input style="width: 175px;" id="rsslinks-title" name="rsslinks-title" type="text" value="<?php echo $title; ?>" /></label></p>
-			<input type="hidden" id="rsslinks-submit" name="rsslinks-submit" value="1" />
+			<p><label for="rc-title"><?php _e( 'Title:', 'simplr' ) ?> <input class="widefat" id="rc-title" name="rc-title" type="text" value="<?php echo $rc_title; ?>" /></label></p>
+			<p>
+				<label for="rc-count"><?php _e('Number of comments to show:', 'simplr'); ?> <input style="width:25px;text-align:center;" id="rc-count" name="rc-count" type="text" value="<?php echo $rc_count; ?>" /></label>
+				<br />
+				<small><?php _e('(at most 15)'); ?></small>
+			</p>
+			<input type="hidden" id="rc-submit" name="rc-submit" value="1" />
 <?php
 }
 
@@ -384,48 +408,76 @@ function simplr_widgets_init() {
 		'before_title' => "<h3 class='widgettitle'>",
 		'after_title' => "</h3>\n",
 	);
+
 	register_sidebars(2, $p);
 
-	register_sidebar_widget(__('Search', 'simplr'), 'widget_simplr_search', null, 'search');
+	// Finished intializing Widgets plugin, now let's load the Simplr default widgets; first, Simplr search widget
+	$widget_ops = array(
+		'classname'    =>  'widget_search',
+		'description'  =>  __( "A search form for your blog (Simplr)", "simplr" )
+	);
+	wp_register_sidebar_widget( 'search', __( 'Search', 'simplr' ), 'widget_simplr_search', $widget_ops );
 	unregister_widget_control('search');
-	register_sidebar_widget(__('Meta', 'simplr'), 'widget_simplr_meta', null, 'meta');
+	wp_register_widget_control( 'search', __( 'Search', 'simplr' ), 'widget_simplr_search_control' );
+
+	// Simplr Meta widget
+	$widget_ops = array(
+		'classname'    =>  'widget_meta',
+		'description'  =>  __( "Log in/out and administration links (Simplr)", "simplr" )
+	);
+	wp_register_sidebar_widget( 'meta', __( 'Meta', 'simplr' ), 'widget_simplr_meta', $widget_ops );
 	unregister_widget_control('meta');
-	register_sidebar_widget(array('Simplr Recent Entries', 'widgets'), 'widget_simplr_recent_entries', null, 'simplrrecententries');
-	register_widget_control(array('Simplr Recent Entries', 'widgets'), 'widget_simplr_recent_entries_control', 300, 150, 'simplrrecententries');
-	register_sidebar_widget(array('Simplr Recent Comments', 'widgets'), 'widget_simplr_recent_comments', null, 'simplrrecentcomments');
-	register_widget_control(array('Simplr Recent Comments', 'widgets'), 'widget_simplr_recent_comments_control', 300, 125, 'simplrrecentcomments');
-	register_sidebar_widget(array('Home Link', 'widgets'), 'widget_simplr_homelink', null, 'homelink');
-	register_widget_control(array('Home Link', 'widgets'), 'widget_simplr_homelink_control', 300, 125, 'homelink');
-	register_sidebar_widget(array('RSS Links', 'widgets'), 'widget_simplr_rsslinks', null, 'homelink');
-	register_widget_control(array('RSS Links', 'widgets'), 'widget_simplr_rsslinks_control', 300, 90, 'homelink');
+	wp_register_widget_control( 'meta', __('Meta'), 'wp_widget_meta_control' );
+
+	//Simplr Home Link widget
+	$widget_ops = array(
+		'classname'    =>  'widget_home_link',
+		'description'  =>  __( "Link to the front page when elsewhere (Simplr)", "simplr" )
+	);
+	wp_register_sidebar_widget( 'home_link', __( 'Home Link', 'simplr' ), 'widget_simplr_homelink', $widget_ops );
+	wp_register_widget_control( 'home_link', __( 'Home Link', 'simplr' ), 'widget_simplr_homelink_control' );
+
+	//Simplr Recent Comments widget
+	$widget_ops = array(
+		'classname'    =>  'widget_simplr_recent_entries',
+		'description'  =>  __( "Semantic recent entries (Simplr)", "simplr" )
+	);
+	wp_register_sidebar_widget( 'simplr-recent-entries', __( 'Recent Entries', 'simplr' ), 'widget_simplr_recent_entries', $widget_ops );
+	wp_register_widget_control( 'simplr-recent-entries', __( 'Recent Entries', 'simplr' ), 'widget_simplr_recent_entries_control' );
+
+	//Simplr Recent Comments widget
+	$widget_ops = array(
+		'classname'    =>  'widget_simplr_recent_comments',
+		'description'  =>  __( "Semantic recent comments (Simplr)", "simplr" )
+	);
+	wp_register_sidebar_widget( 'simplr-recent-comments', __( 'Recent Comments', 'simplr' ), 'widget_simplr_recent_comments', $widget_ops );
+	wp_register_widget_control( 'simplr-recent-comments', __( 'Recent Comments', 'simplr' ), 'widget_simplr_recent_comments_control' );
+
+	//Simplr RSS Links widget
+	$widget_ops = array(
+		'classname'    =>  'widget_rss_links',
+		'description'  =>  __( "RSS links for both posts and comments (Simplr)", "simplr" )
+	);
+	wp_register_sidebar_widget( 'rss_links', __( 'RSS Links', 'simplr' ), 'widget_simplr_rsslinks', $widget_ops );
+	wp_register_widget_control( 'rss_links', __( 'RSS Links', 'simplr' ), 'widget_simplr_rsslinks_control' );
 }
 
 // Loads the admin menu; sets default settings for each
 function simplr_add_admin() {
 	if ( $_GET['page'] == basename(__FILE__) ) {
-	
 		if ( 'save' == $_REQUEST['action'] ) {
-
-			update_option( 'simplr_basefontsize', $_REQUEST['sr_basefontsize'] );
-			update_option( 'simplr_basefontfamily', $_REQUEST['sr_basefontfamily'] );
-			update_option( 'simplr_headingfontfamily', $_REQUEST['sr_headingfontfamily'] );
-			update_option( 'simplr_layoutwidth', $_REQUEST['sr_layoutwidth'] );
-			update_option( 'simplr_posttextalignment', $_REQUEST['sr_posttextalignment'] );
-			update_option( 'simplr_sidebarposition', $_REQUEST['sr_sidebarposition'] );
-			update_option( 'simplr_accesslinks', $_REQUEST['sr_accesslinks'] );
-
-			if( isset( $_REQUEST['sr_basefontsize'] ) ) { update_option( 'simplr_basefontsize', $_REQUEST['sr_basefontsize']  ); } else { delete_option( 'simplr_basefontsize' ); }
-			if( isset( $_REQUEST['sr_basefontfamily'] ) ) { update_option( 'simplr_basefontfamily', $_REQUEST['sr_basefontfamily']  ); } else { delete_option( 'simplr_basefontfamily' ); }
-			if( isset( $_REQUEST['sr_headingfontfamily'] ) ) { update_option( 'simplr_headingfontfamily', $_REQUEST['sr_headingfontfamily']  ); } else { delete_option('simplr_headingfontfamily'); }
-			if( isset( $_REQUEST['sr_layoutwidth'] ) ) { update_option( 'simplr_layoutwidth', $_REQUEST['sr_layoutwidth']  ); } else { delete_option('simplr_layoutwidth'); }
-			if( isset( $_REQUEST['sr_posttextalignment' ] ) ) { update_option( 'simplr_posttextalignment', $_REQUEST['sr_posttextalignment']  ); } else { delete_option('simplr_posttextalignment'); }
-			if( isset( $_REQUEST['sr_sidebarposition' ] ) ) { update_option( 'simplr_sidebarposition', $_REQUEST['sr_sidebarposition']  ); } else { delete_option('simplr_sidebarposition'); }
-			if( isset( $_REQUEST['sr_accesslinks' ] ) ) { update_option( 'simplr_accesslinks', $_REQUEST['sr_accesslinks']  ); } else { delete_option('simplr_accesslinks'); }
-
+			check_admin_referer('simplr_save_options');
+			update_option( 'simplr_basefontsize', strip_tags( stripslashes( $_REQUEST['sr_basefontsize'] ) ) );
+			update_option( 'simplr_basefontfamily', strip_tags( stripslashes( $_REQUEST['sr_basefontfamily'] ) ) );
+			update_option( 'simplr_headingfontfamily', strip_tags( stripslashes( $_REQUEST['sr_headingfontfamily'] ) ) );
+			update_option( 'simplr_layoutwidth', strip_tags( stripslashes( $_REQUEST['sr_layoutwidth'] ) ) );
+			update_option( 'simplr_posttextalignment', strip_tags( stripslashes( $_REQUEST['sr_posttextalignment'] ) ) );
+			update_option( 'simplr_sidebarposition', strip_tags( stripslashes( $_REQUEST['sr_sidebarposition'] ) ) );
+			update_option( 'simplr_accesslinks', strip_tags( stripslashes( $_REQUEST['sr_accesslinks'] ) ) );
 			header("Location: themes.php?page=functions.php&saved=true");
 			die;
-
 		} else if( 'reset' == $_REQUEST['action'] ) {
+			check_admin_referer('simplr_reset_options');
 			delete_option('simplr_basefontsize');
 			delete_option('simplr_basefontfamily');
 			delete_option('simplr_headingfontfamily');
@@ -433,117 +485,109 @@ function simplr_add_admin() {
 			delete_option('simplr_posttextalignment');
 			delete_option('simplr_sidebarposition');
 			delete_option('simplr_accesslinks');
-
 			header("Location: themes.php?page=functions.php&reset=true");
 			die;
 		}
 		add_action('admin_head', 'simplr_admin_head');
 	}
-    add_theme_page("Simplr Options", "Simplr Options", 'edit_themes', basename(__FILE__), 'simplr_admin');
+	add_theme_page( __( 'Simplr Theme Options', 'simplr' ), __( 'Theme Options', 'simplr' ), 'edit_themes', basename(__FILE__), 'simplr_admin' );
+}
+
+function simplr_donate() { 
+	$form = '<form id="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+		<div id="donate">
+			<input type="hidden" name="cmd" value="_s-xclick" />
+			<input type="image" name="submit" src="https://www.paypal.com/en_US/i/btn/x-click-butcc-donate.gif" alt="Donate with PayPal - it\'s fast, free and secure!" />
+			<img src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" alt="Donate with PayPal" />
+			<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----MIIHVwYJKoZIhvcNAQcEoIIHSDCCB0QCAQExggEwMIIBLAIBADCBlDCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20CAQAwDQYJKoZIhvcNAQEBBQAEgYCneZJCjZ6zaa02uuugoAfoDShoDW2vbH1n2Zg2cwT1SXXjgV0ulJqbFGzpnVHzwnCuK/exUgCTTuj2J2lVUNEA0EbwaHzW2HIS0p+1Y7JGOwbsGMSna+Z2LD0DO6zY2NVSh8tVt1Np3X83SWHH1qRDWlBXlmxLkxBPUu5LY37erTELMAkGBSsOAwIaBQAwgdQGCSqGSIb3DQEHATAUBggqhkiG9w0DBwQIiVg6LUpWwqGAgbA28dNjaHy2raV/KENQWpyCZGnlmm9w201AaNlVb+fbguBDGXaNSdXwPfaodwEteYw3xB7pd4POlxcQzO/Qqz/0KBGKbJYjKs/kiaeOqMdyQxqwo2mYxWyhQv1D8hmZUjpCgEVjoN0zsvAaLg5RF7V/50Op82M522n8VR78aYRQO6HlaMs6bDOqStdr6/Xqc3Iqiun9WInn6IqCr3kMSesd3pkT8dI+mvSIs61WQUpWIqCCA4cwggODMIIC7KADAgECAgEAMA0GCSqGSIb3DQEBBQUAMIGOMQswCQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDU1vdW50YWluIFZpZXcxFDASBgNVBAoTC1BheVBhbCBJbmMuMRMwEQYDVQQLFApsaXZlX2NlcnRzMREwDwYDVQQDFAhsaXZlX2FwaTEcMBoGCSqGSIb3DQEJARYNcmVAcGF5cGFsLmNvbTAeFw0wNDAyMTMxMDEzMTVaFw0zNTAyMTMxMDEzMTVaMIGOMQswCQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDU1vdW50YWluIFZpZXcxFDASBgNVBAoTC1BheVBhbCBJbmMuMRMwEQYDVQQLFApsaXZlX2NlcnRzMREwDwYDVQQDFAhsaXZlX2FwaTEcMBoGCSqGSIb3DQEJARYNcmVAcGF5cGFsLmNvbTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAwUdO3fxEzEtcnI7ZKZL412XvZPugoni7i7D7prCe0AtaHTc97CYgm7NsAtJyxNLixmhLV8pyIEaiHXWAh8fPKW+R017+EmXrr9EaquPmsVvTywAAE1PMNOKqo2kl4Gxiz9zZqIajOm1fZGWcGS0f5JQ2kBqNbvbg2/Za+GJ/qwUCAwEAAaOB7jCB6zAdBgNVHQ4EFgQUlp98u8ZvF71ZP1LXChvsENZklGswgbsGA1UdIwSBszCBsIAUlp98u8ZvF71ZP1LXChvsENZklGuhgZSkgZEwgY4xCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFsIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRwwGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tggEAMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQEFBQADgYEAgV86VpqAWuXvX6Oro4qJ1tYVIT5DgWpE692Ag422H7yRIr/9j/iKG4Thia/Oflx4TdL+IFJBAyPK9v6zZNZtBgPBynXb048hsP16l2vi0k5Q2JKiPDsEfBhGI+HnxLXEaUWAcVfCsQFvd2A1sxRr67ip5y2wwBelUecP3AjJ+YcxggGaMIIBlgIBATCBlDCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20CAQAwCQYFKw4DAhoFAKBdMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTA4MDMwOTA1NDg1NFowIwYJKoZIhvcNAQkEMRYEFDxxlVVWBHQvcMEUTLsPggDjO/hNMA0GCSqGSIb3DQEBAQUABIGAClw7WL32Lqd4xl5G0p5K5s9m8R05cqjdgskbFwJYE7qtIOCRPbZBtwkiloxzgGumGfbNh6gA0g0uaLU90y2/Ii02BuilVN50MUWxKQukDkvI7avsuL8+6XpO15GjUnLw/QPx6inPFHLs+UUg1pR3MBpnf8OD2e0NPaZ/WBnHoPA=-----END PKCS7-----" />
+		</div>
+	</form>' . "\n\t";
+	echo $form;
 }
 
 function simplr_admin_head() {
 // Additional CSS styles for the theme options menu
 ?>
-<meta name="author" content="Scott Allan Wallick" />
-<style type="text/css" media="all">
+<style type="text/css" media="screen,projection">
 /*<![CDATA[*/
-div.wrap table.editform tr td input.radio{background:#fff;border:none;margin-right:3px;}
-div.wrap table.editform tr td input.text{text-align:center;width:5em;}
-div.wrap table.editform tr td label{font-size:1.2em;line-height:140%;}
-div.wrap table.editform tr td select.dropdown option{margin-right:10px;}
-div.wrap table.editform th h3{font:normal 2em/133% georgia,times,serif;margin:1em 0 0.3em;color#222;}
-div.wrap table.editform td.important span {background:#f5f5df;padding:0.1em 0.2em;font:85%/175% georgia,times,serif;}
-span.info{color:#555;display:block;font-size:90%;margin:3px 0 9px;}
-span.info span{font-weight:bold;}
-.arial{font-family:arial,helvetica,sans-serif;}
-.courier{font-family:'courier new',courier,monospace;}
-.georgia{font-family:georgia,times,serif;}
-.lucida-console{font-family:'lucida console',monaco,monospace;}
-.lucida-unicode{font-family:'lucida sans unicode','lucida grande',sans-serif;}
-.tahoma{font-family:tahoma,geneva,sans-serif;}
-.times{font-family:'times new roman',times,serif;}
-.trebuchet{font-family:'trebuchet ms',helvetica,sans-serif;}
-.verdana{font-family:verdana,geneva,sans-serif;}
+	p.info span{font-weight:bold;}
+	label.arial,label.courier,label.georgia,label.lucida-console,label.lucida-unicode,label.tahoma,label.times,label.trebuchet,label.verdana{font-size:1.2em;line-height:175%;}
+	.arial{font-family:arial,helvetica,sans-serif;}
+	.courier{font-family:'courier new',courier,monospace;}
+	.georgia{font-family:georgia,times,serif;}
+	.lucida-console{font-family:'lucida console',monaco,monospace;}
+	.lucida-unicode{font-family:'lucida sans unicode','lucida grande',sans-serif;}
+	.tahoma{font-family:tahoma,geneva,sans-serif;}
+	.times{font-family:'times new roman',times,serif;}
+	.trebuchet{font-family:'trebuchet ms',helvetica,sans-serif;}
+	.verdana{font-family:verdana,geneva,sans-serif;}
+	form#paypal{float:right;margin:1em 0 0.5em 1em;}
 /*]]>*/
 </style>
 <?php
 }
 
 function simplr_admin() { // Theme options menu 
-	if ( $_REQUEST['saved'] ) { ?><div id="message1" class="updated fade"><p><?php printf(__('Simplr theme options saved. <a href="%s">View site &raquo;</a>', 'simplr'), get_bloginfo('home') . '/'); ?></p></div><?php }
+	if ( $_REQUEST['saved'] ) { ?><div id="message1" class="updated fade"><p><?php printf(__('Simplr theme options saved. <a href="%s">View site</a>', 'simplr'), get_bloginfo('home') . '/'); ?></p></div><?php }
 	if ( $_REQUEST['reset'] ) { ?><div id="message2" class="updated fade"><p><?php _e('Simplr theme options reset.', 'simplr'); ?></p></div><?php } ?>
 
-<?php $installedVersion = "4.0"; // Checks that the latest version is running; if not, loads the external script below ?>
-<script src="http://www.plaintxt.org/ver-check/simplr-ver-check.php?version=<?php echo $installedVersion; ?>" type="text/javascript"></script>
-
 <div class="wrap">
+	<h2><?php _e('Simplr Theme Options', 'simplr'); ?></h2>
+	<?php printf( __('%1$s<p>Thanks for selecting the <a href="http://www.plaintxt.org/themes/simplr/" title="Simplr theme for WordPress">Simplr</a> theme by <span class="vcard"><a class="url fn n" href="http://scottwallick.com/" title="scottwallick.com" rel="me designer"><span class="given-name">Scott</span> <span class="additional-name">Allan</span> <span class="family-name">Wallick</span></a></span>. Please read the included <a href="%2$s" title="Open the readme.html" rel="enclosure" id="readme">documentation</a> for more information about the blog.txt and its advanced features. <strong>If you find this theme useful, please consider <label for="paypal">donating</label>.</strong> You can customize blog.txt by modifying the options below. You must click on <i><u>S</u>ave Options</i> to save any changes. You can also discard your changes and reload the default settings by clicking on <i><u>R</u>eset</i>.</p>', 'simplr'), simplr_donate(), get_template_directory_uri() . '/readme.html' ); ?>
 
-	<h2><?php _e('Theme Options', 'simplr'); ?></h2>
-	<p><?php _e('Thanks for selecting the <span class="theme-title">Simplr</span> theme. You can customize this theme with the options below. <strong>You must click on <i><u>S</u>ave Options</i> to save any changes.</strong> You can also discard your changes and reload the default settings by clicking on <i><u>R</u>eset</i>.', 'simplr'); ?></p>
-	
-	<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
-
-		<table class="editform" cellspacing="2" cellpadding="5" width="100%" border="0" summary="simplr theme options">
-
+	<form action="<?php echo wp_specialchars( $_SERVER['REQUEST_URI'] ) ?>" method="post">
+		<?php wp_nonce_field('simplr_save_options'); echo "\n"; ?>
+		<h3><?php _e('Typography', 'simplr'); ?></h3>
+		<table class="form-table" summary="Simplr typography options">
 			<tr valign="top">
-				<th scope="row" width="33%"><h3><?php _e('Typography', 'simplr'); ?></h3></th>
-			</tr>
-
-			<tr valign="top">
-				<th scope="row" width="33%"><label for="sr_basefontsize"><?php _e('Base font size', 'simplr'); ?></label></th> 
+				<th scope="row"><label for="sr_basefontsize"><?php _e('Base font size', 'simplr'); ?></label></th> 
 				<td>
-					<input id="sr_basefontsize" name="sr_basefontsize" type="text" class="text" value="<?php if ( get_settings('simplr_basefontsize') == "" ) { echo "75%"; } else { echo get_settings('simplr_basefontsize'); } ?>" tabindex="1" size="10" /><br/>
-					<span class="info"><?php _e('The base font size globally affects the size of text throughout your blog. This can be in any unit (e.g., px, pt, em), but I suggest using a percentage (%). Default is 75%.', 'simplr'); ?></span>
+					<input id="sr_basefontsize" name="sr_basefontsize" type="text" class="text" value="<?php if ( get_settings('simplr_basefontsize') == "" ) { echo "75%"; } else { echo attribute_escape( get_settings('simplr_basefontsize') ); } ?>" tabindex="1" size="10" />
+					<p class="info"><?php _e('The base font size globally affects the size of text throughout your blog. This can be in any unit (e.g., px, pt, em), but I suggest using a percentage (%). Default is 75%.', 'simplr'); ?></p>
 				</td>
 			</tr>
-
 			<tr valign="top">
-				<th scope="row" width="33%"><?php _e('Base font family', 'simplr'); ?></th> 
+				<th scope="row"><?php _e('Base font family', 'simplr'); ?></th> 
 				<td>
-					<label for="sr_basefontArial" class="arial"><input id="sr_basefontArial" name="sr_basefontfamily" type="radio" class="radio" value="arial, helvetica, sans-serif" <?php if ( get_settings('simplr_basefontfamily') == "arial, helvetica, sans-serif" ) { echo 'checked="checked"'; } ?> tabindex="2" />Arial</label><br/>
-					<label for="sr_basefontCourier" class="courier"><input id="sr_basefontCourier" name="sr_basefontfamily" type="radio" class="radio" value="'courier new', courier, monospace" <?php if ( get_settings('simplr_basefontfamily') == "\'courier new\', courier, monospace" ) { echo 'checked="checked"'; } ?> tabindex="3" />Courier</label><br/>
-					<label for="sr_basefontGeorgia" class="georgia"><input id="sr_basefontGeorgia" name="sr_basefontfamily" type="radio" class="radio" value="georgia, times, serif" <?php if ( get_settings('simplr_basefontfamily') == "georgia, times, serif" ) { echo 'checked="checked"'; } ?> tabindex="4" />Georgia</label><br/>
-					<label for="sr_basefontLucidaConsole" class="lucida-console"><input id="sr_basefontLucidaConsole" name="sr_basefontfamily" type="radio" class="radio" value="'lucida console', monaco, monospace" <?php if ( get_settings('simplr_basefontfamily') == "\'lucida console\', monaco, monospace" ) { echo 'checked="checked"'; } ?> tabindex="5" />Lucida Console</label><br/>
-					<label for="sr_basefontLucidaUnicode" class="lucida-unicode"><input id="sr_basefontLucidaUnicode" name="sr_basefontfamily" type="radio" class="radio" value="'lucida sans unicode', 'lucida grande', sans-serif" <?php if ( get_settings('simplr_basefontfamily') == "\'lucida sans unicode\', \'lucida grande\', sans-serif" ) { echo 'checked="checked"'; } ?> tabindex="6" />Lucida Sans Unicode</label><br/>
-					<label for="sr_basefontTahoma" class="tahoma"><input id="sr_basefontTahoma" name="sr_basefontfamily" type="radio" class="radio" value="tahoma, geneva, sans-serif" <?php if ( get_settings('simplr_basefontfamily') == "tahoma, geneva, sans-serif" ) { echo 'checked="checked"'; } ?> tabindex="7" />Tahoma</label><br/>
-					<label for="sr_basefontTimes" class="times"><input id="sr_basefontTimes" name="sr_basefontfamily" type="radio" class="radio" value="'times new roman', times, serif" <?php if ( get_settings('simplr_basefontfamilyfamily') == "\'times new roman\', times, serif" ) { echo 'checked="checked"'; } ?> tabindex="8" />Times</label><br/>
-					<label for="sr_basefontTrebuchetMS" class="trebuchet"><input id="sr_basefontTrebuchetMS" name="sr_basefontfamily" type="radio" class="radio" value="'trebuchet ms', helvetica, sans-serif" <?php if ( get_settings('simplr_basefontfamily') == "\'trebuchet ms\', helvetica, sans-serif" ) { echo 'checked="checked"'; } ?> tabindex="9" />Trebuchet MS</label><br/>
-					<label for="sr_basefontVerdana" class="verdana"><input id="sr_basefontVerdana" name="sr_basefontfamily" type="radio" class="radio" value="verdana, geneva, sans-serif" <?php if ( ( get_settings('simplr_basefontfamily') == "") || ( get_settings('simplr_basefontfamily') == "verdana, geneva, sans-serif") ) { echo 'checked="checked"'; } ?> tabindex="10" />Verdana</label><br/>
-					<span class="info"><?php printf(__('The base font family sets the font for everything except content headings. The selection is limited to %1$s fonts, as they will display correctly. Default is <span class="verdana">Verdana</span>.', 'simplr'), '<cite><a href="http://en.wikipedia.org/wiki/Web_safe_fonts" title="Web safe fonts - Wikipedia">web safe</a></cite>'); ?></span>
+					<input id="sr_basefontArial" name="sr_basefontfamily" type="radio" class="radio" value="arial, helvetica, sans-serif" <?php if ( get_settings('simplr_basefontfamily') == "arial, helvetica, sans-serif" ) { echo 'checked="checked"'; } ?> tabindex="2" /> <label for="sr_basefontArial" class="arial">Arial</label><br />
+					<input id="sr_basefontCourier" name="sr_basefontfamily" type="radio" class="radio" value="'courier new', courier, monospace" <?php if ( get_settings('simplr_basefontfamily') == "'courier new', courier, monospace" ) { echo 'checked="checked"'; } ?> tabindex="3" /> <label for="sr_basefontCourier" class="courier">Courier</label><br />
+					<input id="sr_basefontGeorgia" name="sr_basefontfamily" type="radio" class="radio" value="georgia, times, serif" <?php if ( get_settings('simplr_basefontfamily') == "georgia, times, serif" ) { echo 'checked="checked"'; } ?> tabindex="4" /> <label for="sr_basefontGeorgia" class="georgia">Georgia</label><br />
+					<input id="sr_basefontLucidaConsole" name="sr_basefontfamily" type="radio" class="radio" value="'lucida console', monaco, monospace" <?php if ( get_settings('simplr_basefontfamily') == "'lucida console', monaco, monospace" ) { echo 'checked="checked"'; } ?> tabindex="5" /> <label for="sr_basefontLucidaConsole" class="lucida-console">Lucida Console</label><br />
+					<input id="sr_basefontLucidaUnicode" name="sr_basefontfamily" type="radio" class="radio" value="'lucida sans unicode', 'lucida grande', sans-serif" <?php if ( get_settings('simplr_basefontfamily') == "'lucida sans unicode', 'lucida grande', sans-serif" ) { echo 'checked="checked"'; } ?> tabindex="6" /> <label for="sr_basefontLucidaUnicode" class="lucida-unicode">Lucida Sans Unicode</label><br />
+					<input id="sr_basefontTahoma" name="sr_basefontfamily" type="radio" class="radio" value="tahoma, geneva, sans-serif" <?php if ( get_settings('simplr_basefontfamily') == "tahoma, geneva, sans-serif" ) { echo 'checked="checked"'; } ?> tabindex="7" /> <label for="sr_basefontTahoma" class="tahoma">Tahoma</label><br />
+					<input id="sr_basefontTimes" name="sr_basefontfamily" type="radio" class="radio" value="'times new roman', times, serif" <?php if ( get_settings('simplr_basefontfamilyfamily') == "'times new roman', times, serif" ) { echo 'checked="checked"'; } ?> tabindex="8" /> <label for="sr_basefontTimes" class="times">Times</label><br />
+					<input id="sr_basefontTrebuchetMS" name="sr_basefontfamily" type="radio" class="radio" value="'trebuchet ms', helvetica, sans-serif" <?php if ( get_settings('simplr_basefontfamily') == "'trebuchet ms', helvetica, sans-serif" ) { echo 'checked="checked"'; } ?> tabindex="9" /> <label for="sr_basefontTrebuchetMS" class="trebuchet">Trebuchet MS</label><br />
+					<input id="sr_basefontVerdana" name="sr_basefontfamily" type="radio" class="radio" value="verdana, geneva, sans-serif" <?php if ( ( get_settings('simplr_basefontfamily') == "") || ( get_settings('simplr_basefontfamily') == "verdana, geneva, sans-serif") ) { echo 'checked="checked"'; } ?> tabindex="10" /> <label for="sr_basefontVerdana" class="verdana">Verdana</label>
+					<p class="info"><?php printf(__('The base font family sets the font for everything except content headings. The selection is limited to %1$s fonts, as they will display correctly. Default is <span class="verdana">Verdana</span>.', 'simplr'), '<cite><a href="http://en.wikipedia.org/wiki/Web_safe_fonts" title="Web safe fonts - Wikipedia">web safe</a></cite>'); ?></p>
 				</td>
 			</tr>
-
 			<tr valign="top">
-				<th scope="row" width="33%"><?php _e('Heading font family', 'simplr'); ?></th> 
+				<th scope="row"><?php _e('Heading font family', 'simplr'); ?></th> 
 				<td>
-					<label for="sr_headingfontArial" class="arial"><input id="sr_headingfontArial" name="sr_headingfontfamily" type="radio" class="radio" value="arial, helvetica, sans-serif" <?php if ( ( get_settings('simplr_headingfontfamily') == "") || ( get_settings('simplr_headingfontfamily') == "arial, helvetica, sans-serif") ) { echo 'checked="checked"'; } ?> tabindex="11" />Arial</label><br/>
-					<label for="sr_headingfontCourier" class="courier"><input id="sr_headingfontCourier" name="sr_headingfontfamily" type="radio" class="radio" value="'courier new', courier, monospace" <?php if ( get_settings('simplr_headingfontfamily') == "\'courier new\', courier, monospace" ) { echo 'checked="checked"'; } ?> tabindex="12" />Courier</label><br/>
-					<label for="sr_headingfontGeorgia" class="georgia"><input id="sr_headingfontGeorgia" name="sr_headingfontfamily" type="radio" class="radio" value="georgia, times, serif" <?php if ( get_settings('simplr_headingfontfamily') == "georgia, times, serif" ) { echo 'checked="checked"'; } ?> tabindex="13" />Georgia</label><br/>
-					<label for="sr_headingfontLucidaConsole" class="lucida-console"><input id="sr_headingfontLucidaConsole" name="sr_headingfontfamily" type="radio" class="radio" value="'lucida console', monaco, monospace" <?php if ( get_settings('simplr_headingfontfamily') == "\'lucida console\', monaco, monospace" ) { echo 'checked="checked"'; } ?> tabindex="14" />Lucida Console</label><br/>
-					<label for="sr_headingfontLucidaUnicode" class="lucida-unicode"><input id="sr_headingfontLucidaUnicode" name="sr_headingfontfamily" type="radio" class="radio" value="'lucida sans unicode', 'lucida grande', sans-serif" <?php if ( get_settings('simplr_headingfontfamily') == "\'lucida sans unicode\', \'lucida grande\', sans-serif" ) { echo 'checked="checked"'; } ?> tabindex="15" />Lucida Sans Unicode</label><br/>
-					<label for="sr_headingfontTahoma" class="tahoma"><input id="sr_headingfontTahoma" name="sr_headingfontfamily" type="radio" class="radio" value="tahoma, geneva, sans-serif" <?php if ( get_settings('simplr_headingfontfamily') == "tahoma, geneva, sans-serif" ) { echo 'checked="checked"'; } ?> tabindex="16" />Tahoma</label><br/>
-					<label for="sr_headingfontTimes" class="times"><input id="sr_headingfontTimes" name="sr_headingfontfamily" type="radio" class="radio" value="'times new roman', times, serif" <?php if ( get_settings('simplr_headingfontfamily') == "\'times new roman\', times, serif" ) { echo 'checked="checked"'; } ?> tabindex="17" />Times</label><br/>
-					<label for="sr_headingfontTrebuchetMS" class="trebuchet"><input id="sr_headingfontTrebuchetMS" name="sr_headingfontfamily" type="radio" class="radio" value="'trebuchet ms', helvetica, sans-serif" <?php if ( get_settings('simplr_headingfontfamily') == "\'trebuchet ms\', helvetica, sans-serif" ) { echo 'checked="checked"'; } ?> tabindex="18" />Trebuchet MS</label><br/>
-					<label for="sr_headingfontVerdana" class="verdana"><input id="sr_headingfontVerdana" name="sr_headingfontfamily" type="radio" class="radio" value="verdana, geneva, sans-serif" <?php if ( get_settings('simplr_headingfontfamilyfamily') == "verdana, geneva, sans-serif" ) { echo 'checked="checked"'; } ?> tabindex="19" />Verdana</label><br/>
-					<span class="info"><?php printf(__('The heading font family sets the font for all content headings. The selection is limited to %1$s fonts, as they will display correctly. Default is <span class="arial">Arial</span>. ', 'simplr'), '<cite><a href="http://en.wikipedia.org/wiki/Web_safe_fonts" title="Web safe fonts - Wikipedia">web safe</a></cite>'); ?></span>
+					<input id="sr_headingfontArial" name="sr_headingfontfamily" type="radio" class="radio" value="arial, helvetica, sans-serif" <?php if ( ( get_settings('simplr_headingfontfamily') == "") || ( get_settings('simplr_headingfontfamily') == "arial, helvetica, sans-serif") ) { echo 'checked="checked"'; } ?> tabindex="11" /> <label for="sr_headingfontArial" class="arial">Arial</label><br />
+					<input id="sr_headingfontCourier" name="sr_headingfontfamily" type="radio" class="radio" value="'courier new', courier, monospace" <?php if ( get_settings('simplr_headingfontfamily') == "'courier new', courier, monospace" ) { echo 'checked="checked"'; } ?> tabindex="12" /> <label for="sr_headingfontCourier" class="courier">Courier</label><br />
+					<input id="sr_headingfontGeorgia" name="sr_headingfontfamily" type="radio" class="radio" value="georgia, times, serif" <?php if ( get_settings('simplr_headingfontfamily') == "georgia, times, serif" ) { echo 'checked="checked"'; } ?> tabindex="13" /> <label for="sr_headingfontGeorgia" class="georgia">Georgia</label><br />
+					<input id="sr_headingfontLucidaConsole" name="sr_headingfontfamily" type="radio" class="radio" value="'lucida console', monaco, monospace" <?php if ( get_settings('simplr_headingfontfamily') == "'lucida console', monaco, monospace" ) { echo 'checked="checked"'; } ?> tabindex="14" /> <label for="sr_headingfontLucidaConsole" class="lucida-console">Lucida Console</label><br />
+					<input id="sr_headingfontLucidaUnicode" name="sr_headingfontfamily" type="radio" class="radio" value="'lucida sans unicode', 'lucida grande', sans-serif" <?php if ( get_settings('simplr_headingfontfamily') == "'lucida sans unicode', 'lucida grande', sans-serif" ) { echo 'checked="checked"'; } ?> tabindex="15" /> <label for="sr_headingfontLucidaUnicode" class="lucida-unicode">Lucida Sans Unicode</label><br />
+					<input id="sr_headingfontTahoma" name="sr_headingfontfamily" type="radio" class="radio" value="tahoma, geneva, sans-serif" <?php if ( get_settings('simplr_headingfontfamily') == "tahoma, geneva, sans-serif" ) { echo 'checked="checked"'; } ?> tabindex="16" /> <label for="sr_headingfontTahoma" class="tahoma">Tahoma</label><br />
+					<input id="sr_headingfontTimes" name="sr_headingfontfamily" type="radio" class="radio" value="'times new roman', times, serif" <?php if ( get_settings('simplr_headingfontfamily') == "'times new roman', times, serif" ) { echo 'checked="checked"'; } ?> tabindex="17" /> <label for="sr_headingfontTimes" class="times">Times</label><br />
+					<input id="sr_headingfontTrebuchetMS" name="sr_headingfontfamily" type="radio" class="radio" value="'trebuchet ms', helvetica, sans-serif" <?php if ( get_settings('simplr_headingfontfamily') == "'trebuchet ms', helvetica, sans-serif" ) { echo 'checked="checked"'; } ?> tabindex="18" /> <label for="sr_headingfontTrebuchetMS" class="trebuchet">Trebuchet MS</label><br />
+					<input id="sr_headingfontVerdana" name="sr_headingfontfamily" type="radio" class="radio" value="verdana, geneva, sans-serif" <?php if ( get_settings('simplr_headingfontfamilyfamily') == "verdana, geneva, sans-serif" ) { echo 'checked="checked"'; } ?> tabindex="19" /> <label for="sr_headingfontVerdana" class="verdana">Verdana</label>
+					<p class="info"><?php printf(__('The heading font family sets the font for all content headings. The selection is limited to %1$s fonts, as they will display correctly. Default is <span class="arial">Arial</span>. ', 'simplr'), '<cite><a href="http://en.wikipedia.org/wiki/Web_safe_fonts" title="Web safe fonts - Wikipedia">web safe</a></cite>'); ?></p>
 				</td>
 			</tr>
-
+		</table>
+		<h3><?php _e('Layout', 'simplr'); ?></h3>
+		<table class="form-table" summary="Simplr layout options">
 			<tr valign="top">
-				<th scope="row" width="33%"><h3><?php _e('Layout', 'simplr'); ?></h3></th>
-			</tr>
-
-			<tr valign="top">
-				<th scope="row" width="33%"><label for="sr_layoutwidth"><?php _e('Layout width', 'simplr'); ?></label></th> 
+				<th scope="row"><label for="sr_layoutwidth"><?php _e('Layout width', 'simplr'); ?></label></th> 
 				<td>
-					<input id="sr_layoutwidth" name="sr_layoutwidth" type="text" class="text" value="<?php if ( get_settings('simplr_layoutwidth') == "" ) { echo "45em"; } else { echo get_settings('simplr_layoutwidth'); } ?>" tabindex="20" size="10" /><br/>
-					<span class="info"><?php _e('The layout width determines the normal width of the entire layout. This can be in any unit (e.g., px, pt, %), but I suggest using an em value. Default is <span>45em</span>.', 'simplr'); ?></span>
+					<input id="sr_layoutwidth" name="sr_layoutwidth" type="text" class="text" value="<?php if ( get_settings('simplr_layoutwidth') == "" ) { echo "45em"; } else { echo attribute_escape( get_settings('simplr_layoutwidth') ); } ?>" tabindex="20" size="10" />
+					<p class="info"><?php _e('The layout width determines the normal width of the entire layout. This can be in any unit (e.g., px, pt, %), but I suggest using an em value. Default is <span>45em</span>.', 'simplr'); ?></p>
 				</td>
 			</tr>
-
 			<tr valign="top">
-				<th scope="row" width="33%"><label for="sr_posttextalignment"><?php _e('Post text alignment', 'simplr'); ?></label></th> 
+				<th scope="row"><label for="sr_posttextalignment"><?php _e('Post text alignment', 'simplr'); ?></label></th> 
 				<td>
 					<select id="sr_posttextalignment" name="sr_posttextalignment" tabindex="21" class="dropdown">
 						<option value="center" <?php if ( get_settings('simplr_posttextalignment') == "center" ) { echo 'selected="selected"'; } ?>><?php _e('Centered', 'simplr'); ?> </option>
@@ -551,135 +595,108 @@ function simplr_admin() { // Theme options menu
 						<option value="left" <?php if ( ( get_settings('simplr_posttextalignment') == "") || ( get_settings('simplr_posttextalignment') == "left") ) { echo 'selected="selected"'; } ?>><?php _e('Left', 'simplr'); ?> </option>
 						<option value="right" <?php if ( get_settings('simplr_posttextalignment') == "right" ) { echo 'selected="selected"'; } ?>><?php _e('Right', 'simplr'); ?> </option>
 					</select>
-					<br/>
-					<span class="info"><?php _e('Choose one of the options for the alignment of the post entry text. Default is <span>left</span>.', 'simplr'); ?></span>
+					<p class="info"><?php _e('Choose one of the options for the alignment of the post entry text. Default is <span>left</span>.', 'simplr'); ?></p>
 				</td>
 			</tr>
-
 			<tr valign="top">
-				<th scope="row" width="33%"><label for="sr_sidebarposition"><?php _e('Sidebar position', 'simplr'); ?></label></th> 
+				<th scope="row"><label for="sr_sidebarposition"><?php _e('Sidebar position', 'simplr'); ?></label></th> 
 				<td>
 					<select id="sr_sidebarposition" name="sr_sidebarposition" tabindex="22" class="dropdown">
 						<option value="col1-col2" <?php if ( ( get_settings('simplr_sidebarposition') == "") || ( get_settings('simplr_sidebarposition') == "col1-col2") ) { echo 'selected="selected"'; } ?>><?php _e('Column 1 - Column 2', 'simplr'); ?> </option>
 						<option value="col2-col1" <?php if ( get_settings('simplr_sidebarposition') == "col2-col1" ) { echo 'selected="selected"'; } ?>><?php _e('Column 2 - Column 1', 'simplr'); ?> </option>
 					</select>
-					<br/>
-					<span class="info"><?php _e('Choose one of the options for the position of the "sidebar" columns. Default is <span>Column 1 - Column 2</span>.', 'simplr'); ?></span>
+					<p class="info"><?php _e('Choose one of the options for the position of the "sidebar" columns. Default is <span>Column 1 - Column 2</span>.', 'simplr'); ?></p>
 				</td>
 			</tr>
-
+		</table>
+		<h3><?php _e('Banner Nav', 'simplr'); ?></h3>
+		<table class="form-table" summary="Simplr banner nav options">
 			<tr valign="top">
-				<th scope="row" width="33%"><h3><?php _e('Banner Nav', 'simplr'); ?></h3></th>
-			</tr>
-
-			<tr valign="top">
-				<th scope="row" width="33%"><label for="sr_accesslinks"><?php _e('Access links', 'simplr'); ?></label></th> 
+				<th scope="row"><label for="sr_accesslinks"><?php _e('Access links', 'simplr'); ?></label></th> 
 				<td>
 					<select id="sr_accesslinks" name="sr_accesslinks" tabindex="23" class="dropdown">
 						<option value="hide" <?php if ( get_settings('simplr_accesslinks') == "hide" ) { echo 'selected="selected"'; } ?>><?php _e('Hide always', 'simplr'); ?> </option>
 						<option value="show" <?php if ( get_settings('simplr_accesslinks') == "show" ) { echo 'selected="selected"'; } ?>><?php _e('Show always', 'simplr'); ?> </option>
 						<option value="mouseover" <?php if ( ( get_settings('simplr_accesslinks') == "") || ( get_settings('simplr_accesslinks') == "mouseover") ) { echo 'selected="selected"'; } ?>><?php _e('Show on mouseover', 'simplr'); ?> </option>
 					</select>
-					<br/>
-					<span class="info"><?php _e('Choose to either show, hide, or show on mouseover the "Skip to . . ." links in the banner. Note that mouseover doesn\'t work with IE6. Default is <span>show on mouseover</span>.', 'simplr'); ?></span>
+					<p class="info"><?php _e('Choose to either show, hide, or show on mouseover the "Skip to . . ." links in the banner. Note that mouseover doesn\'t work with IE6. Default is <span>show on mouseover</span>.', 'simplr'); ?></p>
 				</td>
 			</tr>
-
 		</table>
-
 		<p class="submit">
-			<input name="save" type="submit" value="<?php _e('Save Options &raquo;', 'simplr'); ?>" tabindex="24" accesskey="S" />  
+			<input name="save" type="submit" value="<?php _e('Save Options', 'simplr'); ?>" tabindex="24" accesskey="S" />  
 			<input name="action" type="hidden" value="save" />
+			<input name="page_options" type="hidden" value="sr_basefontsize,sr_basefontfamily,sr_headingfontfamily,sr_layoutwidth,sr_posttextalignment,sr_sidebarposition,sr_accesslinks" />
 		</p>
-
 	</form>
-
-	<h2 id="reset"><?php _e('Reset Options', 'simplr'); ?></h2>
-	<p><?php _e('<strong>Resetting clears all changes to the above options.</strong> After resetting, default options are loaded and this theme will continue to be the active theme. A reset does not affect the actual theme files in any way.', 'simplr'); ?></p>
-
-	<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
+	<h3><?php _e('Reset Options', 'simplr'); ?></h3>
+	<p><?php _e('Resetting deletes all stored Simplr options from your database. After resetting, default options are loaded but are not stored until you click <i>Save Options</i>. A reset does not affect the actual theme files in any way. If you are uninstalling Simplr, please reset before removing the theme files to clear your databse.', 'simplr'); ?></p>
+	<form action="<?php echo wp_specialchars( $_SERVER['REQUEST_URI'] ) ?>" method="post">
+		<?php wp_nonce_field('simplr_reset_options'); echo "\n"; ?>
 		<p class="submit">
-			<input name="reset" type="submit" value="<?php _e('Reset', 'simplr'); ?>" onclick="return confirm('<?php _e('Click OK to reset. Any changes to these theme options will be lost!', 'simplr'); ?>');" tabindex="25" accesskey="R" />
+			<input name="reset" type="submit" value="<?php _e('Reset Options', 'simplr'); ?>" onclick="return confirm('<?php _e('Click OK to reset. Any changes to these theme options will be lost!', 'simplr'); ?>');" tabindex="25" accesskey="R" />
 			<input name="action" type="hidden" value="reset" />
+			<input name="page_options" type="hidden" value="sr_basefontsize,sr_basefontfamily,sr_headingfontfamily,sr_layoutwidth,sr_posttextalignment,sr_sidebarposition,sr_accesslinks" />
 		</p>
 	</form>
-
 </div>
-
-<div id="theme-information" class="wrap">
-
-	<h2 id="info"><?php _e('Theme Information'); ?></h2>
-	<p><?php _e('You are currently using the <a href="http://www.plaintxt.org/themes/simplr/" title="Simplr for WordPress"><span class="theme-title">Simplr</span></a> theme, version ' . $installedVersion . ', by <span class="vcard"><a class="url xfn-me" href="http://scottwallick.com/" title="scottwallick.com" rel="me designer"><span class="n"><span class="given-name">Scott</span> <span class="additional-name">Allan</span> <span class="family-name">Wallick</span></span></a></span>.', 'simplr'); ?></p>
-
-	<p><?php printf(__('Please read the included <a href="%1$s" title="Open the readme.html" rel="enclosure"  tabindex="26">documentation</a> for more information about the <span class="theme-title">Simplr</span> theme and its advanced features.', 'simplr'), get_template_directory_uri() . '/readme.html'); ?></p>
-
-	<h3 id="license" style="margin-bottom:-8px;"><?php _e('License', 'simplr'); ?></h3>
-	<p><?php printf(__('The <span class="theme-title">Simplr</span> theme copyright &copy; 2006&ndash;%1$s by <span class="vcard"><a class="url xfn-me" href="http://scottwallick.com/" title="scottwallick.com" rel="me designer"><span class="n"><span class="given-name">Scott</span> <span class="additional-name">Allan</span> <span class="family-name">Wallick</span></span></a></span> is distributed with the <cite class="vcard"><a class="fn org url" href="http://www.gnu.org/licenses/gpl.html" title="GNU General Public License" rel="license">GNU General Public License</a></cite>.', 'simplr'), gmdate('Y') ); ?></p>
-
-</div>
-
 <?php
 }
 
 // Loads settings for the theme options to use
 function simplr_wp_head() {
-	global $wp_version;
-
-	if ( version_compare($wp_version, '2.1.10', '>') )
-		echo "\t", '<link rel="introspection" type="application/atomserv+xml" title="' . get_bloginfo('name') .__(" Atom API"). '" href="' . get_bloginfo('url') . '/wp-app.php" />', "\n";
-
 	if ( get_settings('simplr_basefontsize') == "" ) {
 		$basefontsize = '75%';
 	} else {
-		$basefontsize = stripslashes( get_settings('simplr_basefontsize') ); 
+		$basefontsize = attribute_escape( stripslashes( get_settings('simplr_basefontsize') ) ); 
 	};
 	if ( get_settings('simplr_basefontfamily') == "" ) {
 		$basefontfamily = 'verdana, geneva, sans-serif';
 	} else {
-		$basefontfamily = stripslashes( get_settings('simplr_basefontfamily') ); 
+		$basefontfamily = attribute_escape( stripslashes( get_settings('simplr_basefontfamily') ) ); 
 	};
 	if ( get_settings('simplr_headingfontfamily') == "" ) {
 		$headingfontfamily = 'arial, helvetica, sans-serif';
 	} else {
-		$headingfontfamily = stripslashes( get_settings('simplr_headingfontfamily') ); 
+		$headingfontfamily = attribute_escape( stripslashes( get_settings('simplr_headingfontfamily') ) ); 
 	};
 	if ( get_settings('simplr_layoutwidth') == "" ) {
 		$layoutwidth = '45em';
 	} else {
-		$layoutwidth = stripslashes( get_settings('simplr_layoutwidth') ); 
+		$layoutwidth = attribute_escape( stripslashes( get_settings('simplr_layoutwidth') ) ); 
 	};
 	if ( get_settings('simplr_posttextalignment') == "" ) {
 		$posttextalignment = 'left';
 	} else {
-		$posttextalignment = stripslashes( get_settings('simplr_posttextalignment') ); 
+		$posttextalignment = attribute_escape( stripslashes( get_settings('simplr_posttextalignment') ) ); 
 	};
 	if ( get_settings('simplr_sidebarposition') == "" ) {
 		$sidebarposition = 'body div#primary{clear:both;float:left;}
 body div#secondary{float:right;}';
-		} else if ( get_settings('simplr_sidebarposition') =="col1-col2" ) {
+		} elseif ( get_settings('simplr_sidebarposition') =="col1-col2" ) {
 			$sidebarposition = 'body div#primary{clear:both;float:left;}
 body div#secondary{float:right;}';
-		} else if ( get_settings('simplr_sidebarposition') =="col2-col1" ) {
+		} elseif ( get_settings('simplr_sidebarposition') =="col2-col1" ) {
 			$sidebarposition = 'body div#secondary{float:left;}
 body div#primary{float:right;}';
 	};
 	if ( get_settings('simplr_accesslinks') == "" ) {
 		$accesslinks = 'div.banner:hover div.access{display:block;}';
-		} else if ( get_settings('simplr_accesslinks') =="hide" ) {
+		} elseif ( get_settings('simplr_accesslinks') =="hide" ) {
 			$accesslinks = 'div.banner:hover div.access{display:none;}';
-		} else if ( get_settings('simplr_accesslinks') =="show" ) {
+		} elseif ( get_settings('simplr_accesslinks') =="show" ) {
 			$accesslinks = 'body div.banner div.access{display:block;background:#cbd3db;color:#0c141c;font-size:0.8em;font-style:italic;letter-spacing:1px;line-height:100%;padding:0.6em 0;text-transform:uppercase;}';
-		} else if ( get_settings('simplr_accesslinks') =="mouseover" ) {
+		} elseif ( get_settings('simplr_accesslinks') =="mouseover" ) {
 			$accesslinks = 'div.banner:hover div.access{display:block;}';
 	};
 ?>
-<style type="text/css" media="all">
+<style type="text/css" media="screen,projection">
 /*<![CDATA[*/
 /* CSS inserted by theme options */
 body{font-family:<?php echo $basefontfamily; ?>;font-size:<?php echo $basefontsize; ?>;}
 body div#wrapper{width:<?php echo $layoutwidth; ?>;}
 div#header,div.hentry .entry-title,div#content .page-title,div.entry-content h2,div.entry-content h3,div.entry-content h4,div.entry-content h5,div.entry-content h6{font-family:<?php echo $headingfontfamily; ?>;}
-div.hentry{text-align:<?php echo $posttextalignment; ?>;}
+div.hentry div.entry-content{text-align:<?php echo $posttextalignment; ?>;}
 <?php echo $sidebarposition; ?>
 <?php echo $accesslinks; ?>
 
@@ -687,6 +704,7 @@ div.hentry{text-align:<?php echo $posttextalignment; ?>;}
 </style>
 <?php // Checks that everything has loaded properly
 }
+
 add_action('admin_menu', 'simplr_add_admin');
 add_action('wp_head', 'simplr_wp_head');
 add_action('init', 'simplr_widgets_init');

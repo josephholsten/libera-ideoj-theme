@@ -1,10 +1,11 @@
 /*
 THEME NAME: Simplr
 THEME URI: http://www.plaintxt.org/themes/simplr/
-DESCRIPTION: Single column and content-centered. A different type of theme. For WordPress 2.3+.
-VERSION: 4.0
+DESCRIPTION: Single column and content-centered. A different type of theme. For WordPress 2.5.x.
+VERSION: 4.5
 AUTHOR: Scott Allan Wallick
 AUTHOR URI: http://scottwallick.com/
+TAGS:  variable width, fixed width, one column, widgets, theme options, white, blue, typography, gray
 */
 body{background:#fff;color:#111;line-height:133%;margin:0 0 3em;padding:0;text-align:center;}
 a,a:link{color:#28425e;outline:none;}

@@ -41,7 +41,7 @@
 				<h3><label for="s"><?php _e('Search', 'simplr') ?></label></h3>
 				<form id="searchform" method="get" action="<?php bloginfo('home') ?>">
 					<div>
-						<input id="s" name="s" type="text" value="<?php echo wp_specialchars(stripslashes($_GET['s']), true) ?>" size="10" />
+						<input id="s" name="s" type="text" value="<?php the_search_query() ?>" size="10" />
 						<input id="searchsubmit" name="searchsubmit" type="submit" value="<?php _e('Find', 'simplr') ?>" />
 					</div>
 				</form>
