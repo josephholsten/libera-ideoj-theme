@@ -2,7 +2,7 @@
 THEME NAME: Simplr
 THEME URI: http://www.plaintxt.org/themes/simplr/
 DESCRIPTION: Single column and content-centered. A different type of theme. For WordPress 2.5.x.
-VERSION: 4.5
+VERSION: 4.5 (beta 1)
 AUTHOR: Scott Allan Wallick
 AUTHOR URI: http://scottwallick.com/
 TAGS:  variable width, fixed width, one column, widgets, theme options, white, blue, typography, gray
@@ -16,7 +16,7 @@ a:active,div#header a:active,.entry-title a:active,div.sidebar h3 a:active{color
 div.banner a,div.banner a:link,div.banner a:visited{color:#0c141c;margin:0 0.5em;padding:0 0.5em;text-decoration:none;}
 div.banner a:active{color:#999;}
 div.sidebar ul li ul li a,div.sidebar ul li ul li a:link{color:#28425e;text-decoration:none;}
-div.sidebar ul li#categories ul li a,div.sidebar ul li.linkcat ul li a,div.sidebar ul li#archives ul li a,div.sidebar ul li#categories ul li a:link,div.sidebar ul li.linkcat ul li a:link,div.sidebar ul li#archives ul li a:link,div.sidebar ul li#rss-links ul li a,div.sidebar ul li#rss-links ul li a:link,div.sidebar ul li#meta ul li a,div.sidebar ul li#meta ul li a:link{background:#ebeef1;display:block;font-size:1em;padding:0.5em;width:99%;}
+div.sidebar ul li#categories ul li a,div.sidebar ul li.linkcat ul li a,div.sidebar ul li#archives ul li a,div.sidebar ul li#categories ul li a:link,div.sidebar ul li.xoxo ul li a:link,div.sidebar ul li.xoxo ul li a:link,div.sidebar ul li#rss-links ul li a,div.sidebar ul li#rss-links ul li a:link,div.sidebar ul li#meta ul li a,div.sidebar ul li#meta ul li a:link{background:#ebeef1;display:block;font-size:1em;padding:0.5em;width:99%;}
 div.sidebar ul li ul li:hover,div.sidebar ul li#categories ul li a:hover,div.sidebar ul li.linkcat ul li a:hover,div.sidebar ul li#archives ul li a:hover,div.sidebar ul li#rss-links ul li a:hover,div.sidebar ul li#meta ul li a:hover{background:#cbd3db;color:#e15119;}
 div.sidebar ul li ul li:hover a{text-decoration:underline;}
 div.sidebar ul li ul li:hover a:hover,div.sidebar ul li ul li a:hover{color:#e15119;text-decoration:none;}
@@ -41,15 +41,21 @@ div.entry-content strong,div.comments ol#comments li strong{text-transform:upper
 div.entry-content blockquote{background:#ebeef1;border-left:3px solid #c8cacd;}
 div.entry-content blockquote p{padding:0.5em 1em;}
 div.entry-content blockquote blockquote{background:#f0f3f5;border-left:3px solid #c8cacd;}
-div.entry-content ul#linkcats{margin:0;padding:0;list-style:none;}
-div.entry-content ul#linkcats li ul{margin:0.8em 0 0 2em;padding:0;}
-div.entry-content ul#linkcats li ul li{list-style:disc;}
+div.entry-content ul.xoxo,div.entry-content ul.xoxo li{margin:0;padding:0;list-style:none;}
+div.entry-content ul.xoxo li h3{margin-bottom:0;}
+div.entry-content ul.xoxo p{margin-top:0;}
+div.entry-content ul.xoxo li ul{margin:0 0 0 2em;padding:0;}
+div.entry-content ul.xoxo li ul li{list-style:disc;}
+div.entry-content ul.xoxo li ul li ul li{list-style:circle;}
+div.entry-content ul.xoxo li ul li ul li ul li{list-style:square;}
 div#wrapper .html,div#wrapper .download,div#wrapper .pdf,div#wrapper .zip{margin-left:2px;padding:2px 0 2px 19px;}
 div#wrapper .download{background:url(images/file-download.png) no-repeat center left;}
 div#wrapper .html{background:url(images/file-html.png) no-repeat center left;}
 div#wrapper .pdf{background:url(images/file-pdf.png) no-repeat center left;}
 div#wrapper .zip{background:url(images/file-zip.png) no-repeat center left;}
 div#wrapper .important{background:#f5f5dc url(images/important.png) no-repeat 0.5em center;border-bottom:1px solid #d0d0bb;border-top:1px solid #d0d0bb;padding:0.2em 0.5em 0.2em 2.2em;}
+div#content div#post-0 form{width:100%;margin:0 auto;}
+div#content div#post-0 form input#noresults-s{border:1px inset #637b93;font-size:1em;margin:0;padding:0.2em;width:70%;}
 div.entry-content .content-column{width:40%;}
 div.entry-content div.tag-archives{clear:both;width:100%;}
 div.entry-content div.tag-archives p{line-height:200%;}

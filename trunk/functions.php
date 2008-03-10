@@ -528,12 +528,12 @@ function simplr_admin_head() {
 }
 
 function simplr_admin() { // Theme options menu 
-	if ( $_REQUEST['saved'] ) { ?><div id="message1" class="updated fade"><p><?php printf(__('Simplr theme options saved. <a href="%s">View site</a>', 'simplr'), get_bloginfo('home') . '/'); ?></p></div><?php }
+	if ( $_REQUEST['saved'] ) { ?><div id="message1" class="updated fade"><p><?php printf(__('Simplr theme options saved. <a href="%s">View site.</a>', 'simplr'), get_bloginfo('home') . '/'); ?></p></div><?php }
 	if ( $_REQUEST['reset'] ) { ?><div id="message2" class="updated fade"><p><?php _e('Simplr theme options reset.', 'simplr'); ?></p></div><?php } ?>
 
 <div class="wrap">
 	<h2><?php _e('Simplr Theme Options', 'simplr'); ?></h2>
-	<?php printf( __('%1$s<p>Thanks for selecting the <a href="http://www.plaintxt.org/themes/simplr/" title="Simplr theme for WordPress">Simplr</a> theme by <span class="vcard"><a class="url fn n" href="http://scottwallick.com/" title="scottwallick.com" rel="me designer"><span class="given-name">Scott</span> <span class="additional-name">Allan</span> <span class="family-name">Wallick</span></a></span>. Please read the included <a href="%2$s" title="Open the readme.html" rel="enclosure" id="readme">documentation</a> for more information about the blog.txt and its advanced features. <strong>If you find this theme useful, please consider <label for="paypal">donating</label>.</strong> You can customize blog.txt by modifying the options below. You must click on <i><u>S</u>ave Options</i> to save any changes. You can also discard your changes and reload the default settings by clicking on <i><u>R</u>eset</i>.</p>', 'simplr'), simplr_donate(), get_template_directory_uri() . '/readme.html' ); ?>
+	<?php printf( __('%1$s<p>Thanks for selecting the <a href="http://www.plaintxt.org/themes/simplr/" title="Simplr theme for WordPress">Simplr</a> theme by <span class="vcard"><a class="url fn n" href="http://scottwallick.com/" title="scottwallick.com" rel="me designer"><span class="given-name">Scott</span> <span class="additional-name">Allan</span> <span class="family-name">Wallick</span></a></span>. Please read the included <a href="%2$s" title="Open the readme.html" rel="enclosure" id="readme">documentation</a> for more information about the blog.txt and its advanced features. <strong>If you find this theme useful, please consider <label for="paypal">donating</label>.</strong> You must click on <i><u>S</u>ave Options</i> to save any changes. You can also discard your changes and reload the default settings by clicking on <i><u>R</u>eset</i>.</p>', 'simplr'), simplr_donate(), get_template_directory_uri() . '/readme.html' ); ?>
 
 	<form action="<?php echo wp_specialchars( $_SERVER['REQUEST_URI'] ) ?>" method="post">
 		<?php wp_nonce_field('simplr_save_options'); echo "\n"; ?>

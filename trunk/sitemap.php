@@ -1,32 +1,50 @@
 <?php
 /*
-Template Name: Archives Page
+Template Name: Sitemap Page
 */
 ?>
 <?php get_header() ?>
-	
+
 	<div id="container">
 		<div id="content" class="hfeed">
 
 <?php the_post() ?>
 
-			<div id="post-<?php the_ID() ?>" class="<?php simplr_post_class() ?>">
+			<div id="post-<?php the_ID(); ?>" class="<?php simplr_post_class() ?>">
 				<h2 class="entry-title"><?php the_title() ?></h2>
 				<div class="entry-content">
-<?php the_content(); ?>
+<?php the_content() ?>
 
-					<ul id="archives-page" class="xoxo">
-						<li>
-							<h3><?php _e('Archives by Month', 'simplr') ?></h3>
+					<ul id="sitemap-page" class="xoxo">
+						<li id="all-pages">
+							<h3><?php _e( 'All Pages', 'simplr' ) ?></h3>
+							<ul>
+<?php wp_list_pages('title_li='); ?>
+
+							</ul>
+						</li>
+						<li id="all-posts">
+							<h3><?php _e( 'All Posts', 'simplr' ) ?></h3>
+							<ul>
+<?php $post_archives = new wp_query('showposts=1000'); 
+while ( $post_archives->have_posts() ) : $post_archives->the_post(); ?>
+								<li class="hentry">
+									<span class="entry-title"><a href="<?php the_permalink() ?>" title="<?php printf(__( 'Permalink to %s', 'plaintxtblog' ), wp_specialchars( get_the_title(), 1 ) ) ?>" rel="bookmark"><?php the_title(); ?></a></span>
+								</li>
+<?php endwhile; ?>
+							</ul>
+						</li>
+						<li id="monthly-archives">
+							<h3><?php _e( 'All Monthly Archives', 'simplr' ) ?></h3>
 							<ul>
 <?php wp_get_archives('type=monthly&show_post_count=1') ?>
 
 							</ul>
 						</li>
-						<li>
-							<h3><?php _e('Archives by Category', 'simplr') ?></h3>
+						<li id="category-archives">
+							<h3><?php _e( 'All Category Archives', 'simplr' ) ?></h3>
 							<ul>
-<?php wp_list_categories('title_li=&orderby=name&show_count=1&use_desc_for_title=1&feed_image='.get_bloginfo('template_url').'/images/feed.png') ?>
+<?php wp_list_categories('optioncount=1&title_li=&show_count=1') ?> 
 
 							</ul>
 						</li>
@@ -35,6 +53,7 @@ Template Name: Archives Page
 							<p><?php wp_tag_cloud() ?></p>
 						</li>
 					</ul>
+
 <?php edit_post_link(__('Edit this entry.', 'simplr'),'<p class="entry-edit">','</p>') ?>
 
 				</div>

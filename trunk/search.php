@@ -42,13 +42,13 @@
 				<div class="entry-content">
 					<p><?php _e('Sorry, but nothing matched your search criteria. Please try again with some different keywords.', 'simplr') ?></p>
 				</div>
+				<form id="noresults-searchform" method="get" action="<?php bloginfo('home') ?>">
+					<div>
+						<input id="noresults-s" name="s" type="text" value="<?php the_search_query() ?>" size="40" />
+						<input id="noresults-searchsubmit" name="searchsubmit" type="submit" value="<?php _e('Search', 'simplr') ?>" />
+					</div>
+				</form>
 			</div><!-- #post-0 .post -->
-			<form id="noresults-searchform" method="get" action="<?php bloginfo('home') ?>">
-				<div>
-					<input id="noresults-s" name="s" type="text" value="<?php the_search_query() ?>" size="40" />
-					<input id="noresults-searchsubmit" name="searchsubmit" type="submit" value="<?php _e('Search', 'simplr') ?>" />
-				</div>
-			</form>
 
 <?php endif; ?>
 
