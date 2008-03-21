@@ -176,10 +176,15 @@ function simplr_other_tags($glue) {
 
 // Produces an avatar image with the hCard-compliant photo class
 function simplr_commenter_link() {
-	$simplr_commenter = str_replace( "<a href", "<a class='url' href", get_comment_author_link() );
+	$commenter = get_comment_author_link();
+	if ( ereg( '<a[^>]* class=[^>]+>', $commenter ) ) {
+		$commenter = ereg_replace( '(<a[^>]* class=[\'"]?)', '\\1url ' , $commenter );
+	} else {
+		$commenter = ereg_replace( '(<a )/', '\\1class="url "' , $commenter );
+	}
 	$email = get_comment_author_email();
-	$simplr_avatar = str_replace( "class='avatar", "class='photo avatar", get_avatar( "$email", 32 ) );
-	echo $simplr_avatar . '<span class="fn n">' . $simplr_commenter . '</span>';
+	$avatar = str_replace( "class='avatar", "class='photo avatar", get_avatar( "$email", "64" ) );
+	echo $avatar . '<span class="fn n">' . $commenter . '</span>';
 }
 
 // Loads a simplr-style Search widget
