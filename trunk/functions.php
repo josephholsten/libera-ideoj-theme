@@ -710,12 +710,12 @@ function simplr_wp_head() {
 	if ( get_settings('simplr_basefontfamily') == "" ) {
 		$basefontfamily = 'verdana, geneva, sans-serif';
 	} else {
-		$basefontfamily = attribute_escape( stripslashes( get_settings('simplr_basefontfamily') ) ); 
+		$basefontfamily = wp_specialchars( stripslashes( get_settings('simplr_basefontfamily') ) ); 
 	};
 	if ( get_settings('simplr_headingfontfamily') == "" ) {
 		$headingfontfamily = 'arial, helvetica, sans-serif';
 	} else {
-		$headingfontfamily = attribute_escape( stripslashes( get_settings('simplr_headingfontfamily') ) ); 
+		$headingfontfamily = wp_specialchars( stripslashes( get_settings('simplr_headingfontfamily') ) ); 
 	};
 	if ( get_settings('simplr_layoutwidth') == "" ) {
 		$layoutwidth = '45em';
