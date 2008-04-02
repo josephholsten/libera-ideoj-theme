@@ -2,10 +2,10 @@
 THEME NAME: Simplr
 THEME URI: http://www.plaintxt.org/themes/simplr/
 DESCRIPTION: Single column and content-centered. A different type of theme. For WordPress 2.5.x.
-VERSION: 4.5.1
+TAGS: variable width, fixed width, one column, widgets, theme options, white, blue, typography, gray
+VERSION: 4.5.2
 AUTHOR: Scott Allan Wallick
 AUTHOR URI: http://scottwallick.com/
-TAGS:  variable width, fixed width, one column, widgets, theme options, white, blue, typography, gray
 */
 body{background:#fff;color:#111;line-height:133%;margin:0 0 3em;padding:0;text-align:center;}
 a,a:link{color:#28425e;outline:none;}
@@ -73,10 +73,22 @@ div.entry-content h5,div.entry-content h6{font-size:1.2em;font-style:italic;marg
 div.entry-content code,div.entry-content pre,div.comments ol.commentlist li code,div.comments ol.commentlist li pre{font:1em/133% "courier new",courier,monospace;}
 div.entry-content ins,div.comments ol.commentlist li ins{background:#ffffcd;}
 div.entry-content del,div.comments ol.commentlist li del{background:#d8dee4;}
+div.entry-content div.gallery{clear:both;float:left;margin:0 0 1em 0;width:100%;}
+div.entry-content div.gallery dl{float:left;text-align:center;}
+div.entry-content div.gallery dl dt{margin:0;}
+div.entry-content div.gallery dl dd{font-style:italic;margin-left:0;}
+div.entry-content div.entry-caption p{color:#fff;font-size:1em;font-weight:700;margin:-2em 0 2em 1em;}
+div.entry-content div.entry-attachment{margin-top:1em;}
+div.entry-content div.entry-attachment,div.entry-content div.entry-caption{text-align:center;}
+div.entry-content div.entry-attachment img,div#nav-images div img{overflow:hidden;}
+body.attachment div#wrapper div#content div#nav-images{background:#fff;clear:both;margin:0;width:100%;}
+body.attachment div#nav-images div{margin:0;padding:1em 2% 2em 2%;width:46%;}
+body.attachment div#nav-images div.nav-previous{text-align:right;}
+body.attachment div#nav-images div.nav-next{text-align:left;}
+body.attachment div#content div.entry-footer{clear:both;}
 div.hentry .entry-title{font-weight:400;line-height:133%;margin:0;}
 div.hentry h2.entry-title{font-size:1.6em;}
 div.hentry h3.entry-title{font-size:1.5em;}
-div.entry-content p.smallattachment-name,div.entry-content p.attachment-name{color:#fff;font-size:1em;font-weight:700;margin:-3em 0 2em 1em;}
 div#content .page-title{font-size:1.7em;font-weight:400;line-height:133%;margin:0 0 0.5em;text-transform:uppercase;}
 div.hentry div.entry-date{background:#fff;color:#637b93;font-size:0.9em;margin:0 0 0 2em;}
 div.hentry div.entry-meta,body.single div.hentry div.entry-footer{font-size:0.8em;font-weight:700;margin:1em 0 2em;}
@@ -91,6 +103,7 @@ div.comments h3{border-bottom:2px solid #637b93;font-size:1.2em;line-height:133%
 div.comments ol.commentlist{margin:0 0 3em 2em;padding:0;}
 div.comments ol.commentlist li{background:#cbd3db;margin:0.5em 0;padding:1em;}
 div.comments ol.commentlist li.alt{background:#ebeef1;}
+div.comments ol.commentlist li img.photo{float:right;border:4px solid #fff;margin:-1em -1em 1em 1em}
 div.comments ol.commentlist li blockquote{border:2px solid #b0b3b5;padding:0 0.5em;}
 div.comments ol.commentlist li div.comment-meta{font-size:0.9em;}
 div.comments ol.commentlist li p{margin:0.5em 0;}

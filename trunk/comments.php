@@ -31,7 +31,7 @@ foreach ( $comments as $comment )
 <?php foreach ($comments as $comment) : ?>
 <?php if ( get_comment_type() == "comment" ) : ?>
 		<li id="comment-<?php comment_ID() ?>" class="<?php simplr_comment_class() ?>">
-			<div class="comment-author vcard"><span class="fn n"><?php comment_author_link() ?></span> wrote:</div>
+			<div class="comment-author vcard"><?php simplr_commenter_link(); _e( ' wrote:', 'simplr' ) ?>:</div>
 			<?php if ($comment->comment_approved == '0') : ?><span class="unapproved"><?php _e('Your comment is awaiting moderation.', 'simplr') ?></span><?php endif; ?>
 			<?php comment_text() ?>
 			<div class="comment-meta">
