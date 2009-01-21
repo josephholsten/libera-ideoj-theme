@@ -1,24 +1,9 @@
 <?php
-// Produces links for every page just below the header
-function simplr_globalnav() {
-	echo "<div id=\"globalnav\"><ul id=\"menu\">";
-	if ( !is_front_page() ) { ?><li class="page_item_home home-link"><a href="<?php bloginfo('home'); ?>/" title="<?php echo wp_specialchars(get_bloginfo('name'), 1) ?>" rel="home"><?php _e('Home', 'plaintxtblog') ?></a></li><?php }
-	$menu = wp_list_pages('title_li=&sort_column=menu_order&echo=0'); // Params for the page list in header.php
-	echo str_replace(array("\r", "\n", "\t"), '', $menu);
-	echo "</ul></div>\n";
-}
-
 // Produces an hCard for the "admin" user
 function simplr_admin_hCard() {
 	global $wpdb, $user_info;
 	$user_info = get_userdata(1);
 	echo '<span class="vcard"><a class="url fn n" href="' . $user_info->user_url . '"><span class="given-name">' . $user_info->first_name . '</span> <span class="family-name">' . $user_info->last_name . '</span></a></span>';
-}
-
-// Produces an hCard for post authors
-function simplr_author_hCard() {
-	global $wpdb, $authordata;
-	echo '<span class="entry-author author vcard"><a class="url fn n" href="' . get_author_link(false, $authordata->ID, $authordata->user_nicename) . '" title="View all posts by ' . $authordata->display_name . '">' . get_the_author() . '</a></span>';
 }
 
 // Produces semantic classes for the body element; Originally from the Sandbox, http://www.plaintxt.org/themes/sandbox/
@@ -100,36 +85,6 @@ function simplr_post_class( $print = true ) {
 }
 $simplr_post_alt = 1;
 
-// Produces semantic classes for the each individual comment li; Originally from the Sandbox, http://www.plaintxt.org/themes/sandbox/
-function simplr_comment_class( $print = true ) {
-	global $comment, $post, $simplr_comment_alt;
-
-	$c = array($comment->comment_type);
-
-	if ( $comment->user_id > 0 ) {
-		$user = get_userdata($comment->user_id);
-
-		$c[] = "byuser commentauthor-$user->user_login";
-
-		if ( $comment->user_id === $post->post_author )
-			$c[] = 'bypostauthor';
-	}
-
-	simplr_date_classes(mysql2date('U', $comment->comment_date), $c, 'c-');
-	if ( ++$simplr_comment_alt % 2 )
-		$c[] = 'alt';
-
-	$c[] = "c$simplr_comment_alt";
-
-	if ( is_trackback() ) {
-		$c[] = 'trackback';
-	}
-
-	$c = join(' ', apply_filters('comment_class', $c));
-
-	return $print ? print($c) : $c;
-}
-
 // Produces date-based classes for the three functions above; Originally from the Sandbox, http://www.plaintxt.org/themes/sandbox/
 function simplr_date_classes($t, &$c, $p = '') {
 	$t = $t + (get_option('gmt_offset') * 3600);
@@ -137,59 +92,6 @@ function simplr_date_classes($t, &$c, $p = '') {
 	$c[] = $p . 'm' . gmdate('m', $t);
 	$c[] = $p . 'd' . gmdate('d', $t);
 	$c[] = $p . 'h' . gmdate('h', $t);
-}
-
-// Returns other categories except the current one (redundant); Originally from the Sandbox, http://www.plaintxt.org/themes/sandbox/
-function simplr_other_cats($glue) {
-	$current_cat = single_cat_title('', false);
-	$separator = "\n";
-	$cats = explode($separator, get_the_category_list($separator));
-
-	foreach ( $cats as $i => $str ) {
-		if ( strstr($str, ">$current_cat<") ) {
-			unset($cats[$i]);
-			break;
-		}
-	}
-
-	if ( empty($cats) )
-		return false;
-
-	return trim(join($glue, $cats));
-}
-
-// Returns other tags except the current one (redundant); Originally from the Sandbox, http://www.plaintxt.org/themes/sandbox/
-function simplr_other_tags($glue) {
-	$current_tag = single_tag_title('', '',  false);
-	$separator = "\n";
-	$tags = explode($separator, get_the_tag_list("", "$separator", ""));
-
-	foreach ( $tags as $i => $str ) {
-		if ( strstr($str, ">$current_tag<") ) {
-			unset($tags[$i]);
-			break;
-		}
-	}
-
-	if ( empty($tags) )
-		return false;
-
-	return trim(join($glue, $tags));
-}
-
-// Produces an avatar image with the hCard-compliant photo class
-function simplr_commenter_link() {
-	$commenter = get_comment_author_link();
-	if ( ereg( '<a[^>]* class=[^>]+>', $commenter ) ) {
-		$commenter = ereg_replace( '(<a[^>]* class=[\'"]?)', '\\1url ' , $commenter );
-	} else {
-		$commenter = ereg_replace( '(<a )/', '\\1class="url "' , $commenter );
-	}
-	$email = get_comment_author_email();
-	$avatar_size = get_option('simplr_avatarsize');
-	if ( empty($avatar_size) ) $avatar_size = '40';
-	$avatar = str_replace( "class='avatar", "class='photo avatar", get_avatar( "$email", "$avatar_size" ) );
-	echo $avatar . ' <span class="fn n">' . $commenter . '</span>';
 }
 
 // Function to filter the default gallery shortcode
@@ -613,7 +515,7 @@ function simplr_admin() { // Theme options menu
 
 <div class="wrap">
 	<h2><?php _e('Simplr Theme Options', 'simplr'); ?></h2>
-	<?php printf( __('%1$s<p>Thanks for selecting the <a href="http://www.plaintxt.org/themes/simplr/" title="Simplr theme for WordPress">Simplr</a> theme by <span class="vcard"><a class="url fn n" href="http://scottwallick.com/" title="scottwallick.com" rel="me designer"><span class="given-name">Scott</span> <span class="additional-name">Allan</span> <span class="family-name">Wallick</span></a></span>. Please read the included <a href="%2$s" title="Open the readme.html" rel="enclosure" id="readme">documentation</a> for more information about the blog.txt and its advanced features. <strong>If you find this theme useful, please consider <label for="paypal">donating</label>.</strong> You must click on <i><u>S</u>ave Options</i> to save any changes. You can also discard your changes and reload the default settings by clicking on <i><u>R</u>eset</i>.</p>', 'simplr'), simplr_donate(), get_template_directory_uri() . '/readme.html' ); ?>
+	<?php printf( __('<p>Thanks for selecting the <a href="http://www.plaintxt.org/themes/simplr/" title="Simplr theme for WordPress">Simplr</a> theme by <span class="vcard"><a class="url fn n" href="http://scottwallick.com/" title="scottwallick.com" rel="me designer"><span class="given-name">Scott</span> <span class="additional-name">Allan</span> <span class="family-name">Wallick</span></a></span>. Please read the included <a href="%1$s" title="Open the readme.html" rel="enclosure" id="readme">documentation</a> for more information about the blog.txt and its advanced features. You must click on <i><u>S</u>ave Options</i> to save any changes. You can also discard your changes and reload the default settings by clicking on <i><u>R</u>eset</i>.</p>', 'simplr'), get_template_directory_uri() . '/readme.html' ); ?>
 
 	<form action="<?php echo wp_specialchars( $_SERVER['REQUEST_URI'] ) ?>" method="post">
 		<?php wp_nonce_field('simplr_save_options'); echo "\n"; ?>

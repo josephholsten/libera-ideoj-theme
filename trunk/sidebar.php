@@ -9,7 +9,6 @@
 
 					<li class="hentry" onclick="location.href='<?php the_permalink() ?>';">
 						<span class="entry-title"><a href="<?php the_permalink() ?>" title="Continue reading <?php get_the_title(); the_title(); ?>" rel="bookmark"><?php get_the_title(); the_title(); ?></a></span>
-						<span class="entry-summary"><?php the_content_rss('', TRUE, '', 10); ?></span>
 						<span class="entry-date"><abbr class="published" title="<?php the_time('Y-m-d\TH:i:sO'); ?>"><?php unset($previousday); printf(__('%1$s', 'simplr'), the_date('F jS, Y', false)) ?></abbr></span>
 					</li>
 				<?php endwhile; ?>

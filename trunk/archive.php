@@ -1,4 +1,8 @@
-<?php get_header() ?>
+<?php
+/*
+Template Name: Archive Page
+*/
+?><?php get_header() ?>
 
 	<div id="container">
 		<div id="content" class="hfeed">

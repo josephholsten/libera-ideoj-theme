@@ -1,3 +1,8 @@
+<?php
+/*
+Template Name: 404 Page
+*/
+?>
 <?php header("HTTP/1.1 404 Not Found"); ?>
 <?php get_header() ?>
 
