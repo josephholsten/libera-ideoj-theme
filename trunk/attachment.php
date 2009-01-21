@@ -12,26 +12,9 @@
 					<div class="entry-attachment"><a href="<?php echo wp_get_attachment_url($post->ID); ?>" title="<?php echo wp_specialchars( get_the_title($post->ID), 1 ) ?>" rel="attachment"><?php echo basename($post->guid) ?></a></div>
 					<div class="entry-caption"><?php if ( !empty($post->post_excerpt) ) the_excerpt(); ?></div>
 <?php the_content('<span class="more-link">'.__('Continued reading &gt;', 'simplr').'</span>'); ?>
-
-<?php edit_post_link(__('Edit this entry.', 'simplr'),'<p>','</p>'); ?>
-
-				</div>
-				<div class="entry-footer">
-<?php if (('open' == $post-> comment_status) && ('open' == $post->ping_status)) : ?>
-					<?php printf(__('<a href="#respond" title="Post a comment">Post a comment</a> <span class="meta-sep">|</span> <a href="%s" rel="trackback" title="Trackback URL for your post">Trackback URI</a>', 'simplr'), get_trackback_url()) ?>
-<?php elseif (!('open' == $post-> comment_status) && ('open' == $post->ping_status)) : ?>
-					<?php printf(__('Comments closed <span class="meta-sep">|</span> <a href="%s" rel="trackback" title="Trackback URL for your post">Trackback URI</a>', 'simplr'), get_trackback_url()) ?>
-<?php elseif (('open' == $post-> comment_status) && !('open' == $post->ping_status)) : ?>
-					<?php printf(__('<a href="#respond" title="Post a comment">Post a comment</a> <span class="meta-sep">|</span> Trackbacks closed', 'simplr')) ?>
-<?php elseif (!('open' == $post-> comment_status) && !('open' == $post->ping_status)) : ?>
-					<?php _e('Comments closed <span class="meta-sep">|</span> Trackbacks closed', 'simplr') ?>
-<?php endif; ?>
-
 				</div>
 			</div><!-- .post -->
 		</div><!-- #content .hfeed -->
 	</div><!-- #container -->
-
-<?php comments_template(); ?>
 
 <?php get_footer() ?>

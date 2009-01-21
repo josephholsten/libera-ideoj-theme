@@ -12,15 +12,11 @@
 
 <?php link_pages('<div class="page-link">'.__('Pages: ', 'simplr'), '</div>', 'number'); ?>
 
-<?php edit_post_link(__('Edit this entry.', 'simplr'),'<p class="entry-edit">','</p>') ?>
-
 				</div>
 			</div><!-- .post -->
 		</div><!-- #content .hfeed -->
 	</div><!-- #container -->
-
-<?php if ( get_post_custom_values('comments') ) : comments_template(); else : // To show comments on this page, see the readme.html ?>
-
+	
 	<div id="primary" class="sidebar">
 		<ul>
 			<li class="entry-about">
@@ -35,19 +31,6 @@
 		</ul>
 	</div><!-- page.php #primary .sidebar -->
 
-	<div id="secondary" class="sidebar">
-		<ul>
-			<li id="search">
-				<h3><label for="s"><?php _e('Search', 'simplr') ?></label></h3>
-				<form id="searchform" method="get" action="<?php bloginfo('home') ?>">
-					<div>
-						<input id="s" name="s" type="text" value="<?php the_search_query() ?>" size="10" />
-						<input id="searchsubmit" name="searchsubmit" type="submit" value="<?php _e('Find', 'simplr') ?>" />
-					</div>
-				</form>
-			</li>
-		</ul>
-	</div><!-- page.php #secondary .sidebar -->
-<?php endif; ?>
+	<div id="secondary" class="sidebar"></div>
 
 <?php get_footer() ?>

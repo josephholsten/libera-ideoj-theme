@@ -5,8 +5,7 @@
 	<meta http-equiv="content-type" content="<?php bloginfo('html_type') ?>; charset=<?php bloginfo('charset') ?>" />
 	<link rel="stylesheet" type="text/css" media="screen,projection" href="<?php bloginfo('stylesheet_url'); ?>" title="Simplr" />
 	<link rel="stylesheet" type="text/css" media="print" href="<?php bloginfo('template_directory'); ?>/print.css" />
-	<link rel="alternate" type="application/rss+xml" href="<?php bloginfo('rss2_url') ?>" title="<?php bloginfo('name') ?> RSS feed" />
-	<link rel="alternate" type="application/rss+xml" href="<?php bloginfo('comments_rss2_url') ?>" title="<?php bloginfo('name') ?> comments RSS feed" />
+	<link rel="alternate" type="application/rss+xml" href="<?php bloginfo('rss2_url') ?>" title="<?php bloginfo('name') ?> RSS feed" /> 
 	<link rel="pingback" href="<?php bloginfo('pingback_url') ?>" />
 
 <?php wp_head() // Do not remove; helps plugins work ?>
@@ -16,7 +15,6 @@
 <body class="<?php simplr_body_class() ?>">
 
 <div class="banner">
-	<?php simplr_globalnav() ?>
 	<div class="access">
 		<span class="content-access"><a href="#content" title="<?php _e('Skip to content', 'simplr'); ?>"><?php _e('Skip to content', 'simplr'); ?></a></span>
 		<span class="sidebar-access"><a href="#primary" title="<?php _e('Skip past content', 'simplr'); ?>"><?php _e('Skip past content', 'simplr'); ?></a></span>

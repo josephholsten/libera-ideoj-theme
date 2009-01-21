@@ -23,26 +23,12 @@ Template Name: Archives Page
 
 							</ul>
 						</li>
-						<li>
-							<h3><?php _e('Archives by Category', 'simplr') ?></h3>
-							<ul>
-<?php wp_list_categories('title_li=&orderby=name&show_count=1&use_desc_for_title=1&feed_image='.get_bloginfo('template_url').'/images/feed.png') ?>
-
-							</ul>
-						</li>
-						<li>
-							<h3><?php _e('Archives by Tag', 'simplr') ?></h3>
-							<p><?php wp_tag_cloud() ?></p>
-						</li>
 					</ul>
-<?php edit_post_link(__('Edit this entry.', 'simplr'),'<p class="entry-edit">','</p>') ?>
 
 				</div>
 			</div><!-- .post -->
 		</div><!-- #content .hfeed -->
 	</div><!-- #container -->
-
-	<?php if ( get_post_custom_values('comments') ) : comments_template(); else : // To show comments on this page, see the readme.html ?>
 
 	<div id="primary" class="sidebar">
 		<ul>
@@ -59,17 +45,6 @@ Template Name: Archives Page
 	</div><!-- archives.php #primary .sidebar -->
 
 	<div id="secondary" class="sidebar">
-		<ul>
-			<li id="search">
-				<h3><label for="s"><?php _e('Search', 'simplr') ?></label></h3>
-				<form id="searchform" method="get" action="<?php bloginfo('home') ?>">
-					<div>
-						<input id="s" name="s" type="text" value="<?php the_search_query() ?>" size="10" />
-						<input id="searchsubmit" name="searchsubmit" type="submit" value="<?php _e('Find', 'simplr') ?>" />
-					</div>
-				</form>
-			</li>
-		</ul>
 	</div><!-- archives.php #secondary .sidebar -->
 <?php endif; ?>
 

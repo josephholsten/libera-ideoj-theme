@@ -19,15 +19,12 @@ Template Name: Links Page
 <?php wp_list_bookmarks('title_before=<h3>&title_after=</h3>&category_before=<li id="page-%id" class="%class">&after=</p></li>&between=<p>&show_description=1') ?>
 
 					</ul>
-<?php edit_post_link(__('Edit this entry.', 'simplr'),'<p class="entry-edit">','</p>') ?>
 
 				</div>
 			</div><!-- .post -->
 		</div><!-- #content .hfeed -->
 	</div><!-- #container -->
 	
-<?php if ( get_post_custom_values('comments') ) : comments_template(); else : // To show comments on this page, see the readme.html ?>
-
 	<div id="primary" class="sidebar">
 		<ul>
 			<li class="entry-about">
@@ -42,19 +39,6 @@ Template Name: Links Page
 		</ul>
 	</div><!-- links.php #primary .sidebar -->
 
-	<div id="secondary" class="sidebar">
-		<ul>
-			<li id="search">
-				<h3><label for="s"><?php _e('Search', 'simplr') ?></label></h3>
-				<form id="searchform" method="get" action="<?php bloginfo('home') ?>">
-					<div>
-						<input id="s" name="s" type="text" value="<?php the_search_query() ?>" size="10" />
-						<input id="searchsubmit" name="searchsubmit" type="submit" value="<?php _e('Find', 'simplr') ?>" />
-					</div>
-				</form>
-			</li>
-		</ul>
-	</div><!-- links.php #secondary .sidebar -->
-<?php endif; ?>
+	<div id="secondary" class="sidebar"></div>
 
 <?php get_footer() ?>

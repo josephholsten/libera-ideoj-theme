@@ -37,16 +37,6 @@
 <?php the_excerpt('<span class="more-link">'.__('Continued reading &gt;', 'simplr').'</span>') ?>
 
 				</div>
-				<div class="entry-meta">
-					<span class="entry-category"><?php if ( !is_category() ) { printf(__('Filed in %s', 'simplr'), get_the_category_list(', ') ); } else { $other_cats = simplr_other_cats(', '); printf(__('Also filed in %s', 'simplr'), $other_cats ); } ?></span>
-					<span class="meta-sep">|</span>
-					<span class="entry-tags"><?php if ( !is_tag() ) { echo the_tags(__('Tagged ', 'simplr'), ", "); } else { $other_tags = simplr_other_tags(', '); printf(__('Also tagged %s', 'simplr'), $other_tags); } ?></span>
-					<span class="meta-sep">|</span>
-					<span class="entry-permalink"><?php printf(__('<a href="%1$s" title="Permalink to %2$s">Permalink</a>', 'simplr'), get_permalink(), wp_specialchars(get_the_title(), 'double') ) ?></span>
-					<span class="meta-sep">|</span>
-<?php edit_post_link(__('Edit', 'simplr'), "\t\t\t\t\t<span class='entry-edit'>", "</span>\n\t\t\t\t\t<span class='meta-sep'>|</span>\n"); ?>
-					<span class="entry-comments"><?php comments_popup_link(__('Comments (0)', 'simplr'), __('Comments (1)', 'simplr'), __('Comments (%)', 'simplr')) ?></span>
-				</div>
 			</div><!-- .post -->
 
 <?php endwhile ?>

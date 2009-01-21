@@ -41,27 +41,12 @@ while ( $post_archives->have_posts() ) : $post_archives->the_post(); ?>
 
 							</ul>
 						</li>
-						<li id="category-archives">
-							<h3><?php _e( 'All Category Archives', 'simplr' ) ?></h3>
-							<ul>
-<?php wp_list_categories('optioncount=1&title_li=&show_count=1') ?> 
-
-							</ul>
-						</li>
-						<li>
-							<h3><?php _e('Archives by Tag', 'simplr') ?></h3>
-							<p><?php wp_tag_cloud() ?></p>
-						</li>
 					</ul>
-
-<?php edit_post_link(__('Edit this entry.', 'simplr'),'<p class="entry-edit">','</p>') ?>
 
 				</div>
 			</div><!-- .post -->
 		</div><!-- #content .hfeed -->
 	</div><!-- #container -->
-
-	<?php if ( get_post_custom_values('comments') ) : comments_template(); else : // To show comments on this page, see the readme.html ?>
 
 	<div id="primary" class="sidebar">
 		<ul>
@@ -77,19 +62,6 @@ while ( $post_archives->have_posts() ) : $post_archives->the_post(); ?>
 		</ul>
 	</div><!-- archives.php #primary .sidebar -->
 
-	<div id="secondary" class="sidebar">
-		<ul>
-			<li id="search">
-				<h3><label for="s"><?php _e('Search', 'simplr') ?></label></h3>
-				<form id="searchform" method="get" action="<?php bloginfo('home') ?>">
-					<div>
-						<input id="s" name="s" type="text" value="<?php the_search_query() ?>" size="10" />
-						<input id="searchsubmit" name="searchsubmit" type="submit" value="<?php _e('Find', 'simplr') ?>" />
-					</div>
-				</form>
-			</li>
-		</ul>
-	</div><!-- archives.php #secondary .sidebar -->
-<?php endif; ?>
+	<div id="secondary" class="sidebar"></div>
 
 <?php get_footer() ?>
