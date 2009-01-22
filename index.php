@@ -1,8 +1,4 @@
-<?php
-/*
-Template Name: Index Page
-*/
-?><?php get_header() ?>
+<?php get_header() ?>
 
 	<div id="container">
 		<div id="content">

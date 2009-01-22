@@ -1,8 +1,4 @@
-<?php
-/*
-Template Name: Single Page
-*/
-?><?php get_header(); ?>
+<?php get_header(); ?>
 
 	<div id="container">
 		<div id="content" class="hfeed">
@@ -11,6 +7,7 @@ Template Name: Single Page
 
 			<div id="post-<?php the_ID(); ?>" class="<?php simplr_post_class(); ?>">
 				<h2 class="entry-title"><?php the_title() ?></h2>
+				<div class="entry-date"><abbr class="published" title="<?php the_time('Y-m-d\TH:i:sO'); ?>"><?php unset($previousday); printf(__('%1$s', 'simplr'), the_date('l, F jS, Y', false)) ?></abbr></div>
 				<div class="entry-content">
 <?php the_content('<span class="more-link">'.__('Continued reading &gt;', 'simplr').'</span>'); ?>
 
@@ -20,7 +17,5 @@ Template Name: Single Page
 			</div><!-- .post -->
 		</div><!-- #content .hfeed -->
 	</div><!-- #container -->
-
-<?php comments_template(); ?>
 
 <?php get_footer() ?>
