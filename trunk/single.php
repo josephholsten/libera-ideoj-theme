@@ -6,11 +6,6 @@ Template Name: Single Page
 
 	<div id="container">
 		<div id="content" class="hfeed">
-		
-			<div id="nav-above" class="navigation">
-				<div class="nav-previous"><?php previous_post_link(__('&lt; %link', 'simplr')) ?></div>
-				<div class="nav-next"><?php next_post_link(__('%link &gt;', 'simplr')) ?></div>
-			</div>
 
 <?php the_post(); ?>
 
