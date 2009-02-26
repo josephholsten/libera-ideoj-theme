@@ -109,8 +109,8 @@ div.entry-content blockquote p {
 padding: 0.5em 1em;
 }
 div.entry-content blockquote blockquote {
-background: #f0f3f5;
-border-left: 3px solid #c8cacd;
+border-left-width: 3px;
+border-left-style: solid;
 }
 div.entry-content ul.xoxo,div.entry-content ul.xoxo li {
 margin: 0;
@@ -153,9 +153,13 @@ div#wrapper .zip {
 background: url(images/file-zip.png) no-repeat center left;
 }
 div#wrapper .important {
-background: #f5f5dc url(images/important.png) no-repeat 0.5em center;
-border-bottom: 1px solid #d0d0bb;
-border-top: 1px solid #d0d0bb;
+background-image: url(images/important.png);
+background-repeat: no-repeat;
+background-position: 0.5em center;
+border-bottom-size: 1px;
+border-bottom-style: solid;
+border-top-size: 1px;
+border-top-style: solid;
 padding: 0.2em 0.5em 0.2em 2.2em;
 }
 div#content div#post-0 form {
@@ -163,7 +167,8 @@ width: 100%;
 margin: 0 auto;
 }
 div#content div#post-0 form input#noresults-s {
-border: 1px inset #637b93;
+border-size: 1px;
+border-style: inset;
 font-size: 1em;
 margin: 0;
 padding: 0.2em;
@@ -205,14 +210,12 @@ font-weight: 700;
 text-transform: uppercase;
 }
 div.entry-content div.page-link {
-background: #ebeef1;
 margin: 1em auto 2em;
 padding: 0.3em 0.1em;
 text-align: center;
 width: 25%;
 }
 div.entry-content h2,div.entry-content h3,div.entry-content h4,div.entry-content h5,div.entry-content h6 {
-color: #333;
 font-weight: 400;
 }
 div.entry-content h2,div.entry-content h3 {
@@ -234,17 +237,10 @@ font: 1em/133% "courier new",courier,monospace;
 div.entry-content .verse pre {
 font-family: inherit;
 }
-div.entry-content ins,div.comments ol.commentlist li ins {
-background: #ffffcd;
-}
-div.entry-content del,div.comments ol.commentlist li del {
-background: #d8dee4;
-}
 div.entry-content .wp-caption-text {
 font-style: italic;
 margin: 0.2em auto 1em auto;
 text-align: center;
-color: #777;
 }
 div.entry-content div.gallery {
 clear: both;
@@ -280,7 +276,6 @@ margin: 0;
 padding: 0;
 }
 div.entry-content div.entry-caption p {
-color: #fff;
 font-size: 1em;
 font-weight: 700;
 margin: -2em 0 2em 1em;
@@ -295,7 +290,6 @@ div.entry-content div.entry-attachment img,div#nav-images div img {
 overflow: hidden;
 }
 body.attachment div#wrapper div#content div#nav-images {
-background: #fff;
 clear: both;
 margin: 0;
 width: 100%;
@@ -333,8 +327,6 @@ margin: 0 0 0.5em;
 text-transform: uppercase;
 }
 div.hentry div.entry-date {
-background: #fff;
-color: #637b93;
 font-size: 0.9em;
 margin: 0 0 0 2em;
 }
@@ -374,7 +366,8 @@ body.single div#nav-above {
 margin: 0 0 2em;
 }
 div.comments h3 {
-border-bottom: 2px solid #637b93;
+border-bottom-width: 2px;
+border-bottom-style: solid;
 font-size: 1.2em;
 line-height: 133%;
 margin: 1em 0 0;
@@ -384,20 +377,18 @@ margin: 0 0 3em 2em;
 padding: 0;
 }
 div.comments ol.commentlist li {
-background: #cbd3db;
 margin: 0.5em 0;
 padding: 1em;
 }
-div.comments ol.commentlist li.alt {
-background: #ebeef1;
-}
 div.comments ol.commentlist li img.photo {
 float: right;
-border: 4px solid #fff;
+border-width: 4px;
+border-style: solid;
 margin: -1em -1em 1em 1em
 }
 div.comments ol.commentlist li blockquote {
-border: 2px solid #b0b3b5;
+border-width: 2px;
+border-style: solid;
 padding: 0 0.5em;
 }
 div.comments ol.commentlist li div.comment-meta {
@@ -443,7 +434,8 @@ div.sidebar ul li.widget_tag_cloud {
 line-height: 175%;
 }
 div.sidebar ul li h3 {
-border-bottom: 2px solid #637b93;
+border-bottom-width: 2px;
+border-bottom-style: solid;
 font-size: 1em;
 line-height: 133%;
 margin: 1em 0 0;
@@ -462,7 +454,8 @@ padding: 0.4em 0 0;
 width: 99%;
 }
 div.sidebar ul li#search input#s {
-border: 1px inset #637b93;
+border-width: 1px;
+border-style: inset;
 font-size: 1em;
 margin: 0;
 padding: 0.2em;
@@ -475,8 +468,6 @@ div.sidebar ul li#simplr-recent-entries span.entry-summary,div.sidebar ul li#sim
 display: block;
 }
 div.sidebar ul li ul li {
-background: #ebeef1;
-color: #28425e;
 font-size: 1em;
 margin: 0.5em 0;
 padding: 0.5em;
@@ -500,8 +491,8 @@ text-align: center;
 text-transform: uppercase;
 }
 div#footer {
-border-top: 2px solid #637b93;
-color: #637b93;
+border-top-width: 2px;
+border-top-style: solid;
 font-size: 0.8em;
 padding: 0.7em 0 0;
 text-align: center;
@@ -509,12 +500,6 @@ text-align: center;
 div#footer span.footer-meta {
 line-height: 150%;
 margin: 0.2em 2em;
-}
-a:visited,div.sidebar ul li ul li a:visited {
-color: #5e7287;
-}
-a:hover,div#footer a:hover,div#header a:hover,.entry-title a:hover,div.sidebar h3 a:hover,div.banner a:hover,div.formcontainer span.req-field {
-color: #e15119;
 }
 div.banner div#globalnav ul li.current_page_item {
 font-weight: 700;
@@ -568,57 +553,97 @@ max-width: 99%;
 }
 /* Color */
 
-
-body {
-background: #fff;
-color: #111;
+/* color: #28425e */
+div#header a:visited,.entry-title a:visited,div.sidebar h3 a:visited, div.sidebar ul li ul li a,div.sidebar ul li ul li a:link, div.sidebar ul li ul li, a, a:link {
+    color: #28425e;
 }
 
-a,a:link {
-color: #28425e;
+/* color: #637b93 */
+div#footer a,div#footer a:link, div#footer a:visited, div.hentry div.entry-date, div#footer {
+    color: #637b93;
 }
-div#footer a,div#footer a:link,div#footer a:visited {
-color: #637b93;
+div#content div#post-0 form input#noresults-s, div.sidebar ul li#search input#s {
+    border-color: #637b93;
 }
-div#header a:visited,.entry-title a:visited,div.sidebar h3 a:visited {
-color: #28425e;
+div.comments h3, div.sidebar ul li h3 {
+    border-bottom-color: #637b93;
+}
+div#footer {
+    border-top-color: #637b93;
+}
+
+/* color: #0c141c */
+div.banner a,div.banner a:link,div.banner a:visited , div.banner:hover div.access,div.banner div#globalnav {
+    color: #0c141c;
+}
+
+/* background: #ebeef1 */
+div.sidebar ul li#categories ul li a,div.sidebar ul li.linkcat ul li a,div.sidebar ul li#archives ul li a,div.sidebar ul li#categories ul li a:link,div.sidebar ul li.xoxo ul li a:link,div.sidebar ul li.xoxo ul li a:link,div.sidebar ul li#rss-links ul li a,div.sidebar ul li#rss-links ul li a:link,div.sidebar ul li#meta ul li a,div.sidebar ul li#meta ul li a:link,div.banner div#globalnav, div.entry-content blockquote, div.entry-content div.page-link, div.sidebar ul li ul li, div.comments ol.commentlist li.alt {
+    background: #ebeef1;
+}
+
+/* color: #e15119 */
+div.sidebar ul li ul li:hover,div.sidebar ul li#categories ul li a:hover,div.sidebar ul li.linkcat ul li a:hover,div.sidebar ul li#archives ul li a:hover,div.sidebar ul li#rss-links ul li a:hover,div.sidebar ul li#meta ul li a:hover, div.sidebar ul li ul li:hover a:hover,div.sidebar ul li ul li a:hover, a:hover,div#footer a:hover,div#header a:hover,.entry-title a:hover,div.sidebar h3 a:hover,div.banner a:hover,div.formcontainer span.req-field {
+    color: #e15119;
+}
+
+/* background: #cbd3db */
+div.sidebar ul li ul li:hover,div.sidebar ul li#categories ul li a:hover,div.sidebar ul li.linkcat ul li a:hover,div.sidebar ul li#archives ul li a:hover,div.sidebar ul li#rss-links ul li a:hover,div.sidebar ul li#meta ul li a:hover, div.banner:hover div.access, div.comments ol.commentlist li, div.banner div#globalnav {
+    border-top-color: #cbd3db;
+}
+
+/* border-left-color: #c8cacd */
+    div.entry-content blockquote, div.entry-content blockquote blockquote {
+    border-left-color: #c8cacd;
+    }
+
+/* color: #fff */
+    div.entry-content div.entry-caption p {
+    color: #fff;
+    }
+    div.hentry div.entry-date, body.attachment div#wrapper div#content div#nav-images, body {
+    background: #fff;
+    }
+    div.comments ol.commentlist li img.photo {
+    border-color: #fff;
+    }
+
+/* unique */
+div.entry-content blockquote blockquote {
+background: #f0f3f5;
+}
+
+div#wrapper .important {
+background-color: #f5f5dc;
+}
+div#wrapper .important {
+border-bottom-color: #d0d0bb;
+border-top-color: #d0d0bb;
+}
+div.entry-content h2,div.entry-content h3,div.entry-content h4,div.entry-content h5,div.entry-content h6 {
+color: #333333;
+}
+div.entry-content ins,div.comments ol.commentlist li ins {
+background: #ffffcd;
+}
+div.entry-content del,div.comments ol.commentlist li del {
+background: #d8dee4;
+}
+div.entry-content .wp-caption-text {
+color: #777777;
+}
+a:visited,div.sidebar ul li ul li a:visited {
+color: #5e7287;
+}
+div.comments ol.commentlist li blockquote {
+border-color: #b0b3b5;
 }
 a:active,div#header a:active,.entry-title a:active,div.sidebar h3 a:active {
 color: #e97d53;
 }
-
-div.banner a,div.banner a:link,div.banner a:visited {
-color: #0c141c;
-}
 div.banner a:active {
-color: #999;
+color: #999999;
 }
-
-div.sidebar ul li ul li a,div.sidebar ul li ul li a:link {
-color: #28425e;
+body {
+color: #111;
 }
-
-div.sidebar ul li#categories ul li a,div.sidebar ul li.linkcat ul li a,div.sidebar ul li#archives ul li a,div.sidebar ul li#categories ul li a:link,div.sidebar ul li.xoxo ul li a:link,div.sidebar ul li.xoxo ul li a:link,div.sidebar ul li#rss-links ul li a,div.sidebar ul li#rss-links ul li a:link,div.sidebar ul li#meta ul li a,div.sidebar ul li#meta ul li a:link {
-background: #ebeef1;
-}
-div.sidebar ul li ul li:hover,div.sidebar ul li#categories ul li a:hover,div.sidebar ul li.linkcat ul li a:hover,div.sidebar ul li#archives ul li a:hover,div.sidebar ul li#rss-links ul li a:hover,div.sidebar ul li#meta ul li a:hover {
-background: #cbd3db;
-color: #e15119;
-}
-div.sidebar ul li ul li:hover a:hover,div.sidebar ul li ul li a:hover {
-color: #e15119;
-}
-div.banner div#globalnav {
-background: #ebeef1;
-border-top-color: #cbd3db;
-}
-div.banner:hover div.access,div.banner div#globalnav {
-color: #0c141c;
-}
-div.banner:hover div.access {
-background: #cbd3db;
-}
-div.entry-content blockquote {
-background: #F3F4F6;
-border-left-color: #c8cacd;
-} /*original background: #EBEEF1*/
