@@ -34,7 +34,6 @@ msgstr ""
 #: links.php:48
 #: page.php:41
 #: search.php:48
-#: sidebar.php:43
 #: sitemap.php:83
 msgid "Search"
 msgstr ""
@@ -106,7 +105,6 @@ msgstr ""
 #: functions.php:399
 #: index.php:10
 #: search.php:14
-#: sidebar.php:13
 #, php-format
 msgid "%1$s"
 msgstr ""
@@ -237,7 +235,6 @@ msgstr ""
 #: functions.php:268
 #: links.php:52
 #: page.php:45
-#: sidebar.php:47
 #: sitemap.php:87
 msgid "Find"
 msgstr ""
@@ -477,7 +474,6 @@ msgstr ""
 #: functions.php:306
 #: functions.php:506
 #: functions.php:508
-#: sidebar.php:78
 msgid "Meta"
 msgstr ""
 
@@ -496,7 +492,6 @@ msgid "Posts RSS feed"
 msgstr ""
 
 #: functions.php:358
-#: sidebar.php:72
 msgid "All posts"
 msgstr ""
 
@@ -505,14 +500,12 @@ msgid "Comments RSS feed"
 msgstr ""
 
 #: functions.php:359
-#: sidebar.php:73
 msgid "All comments"
 msgstr ""
 
 #: functions.php:387
 #: functions.php:523
 #: functions.php:524
-#: sidebar.php:7
 msgid "Recent Entries"
 msgstr ""
 
@@ -522,17 +515,14 @@ msgid "5"
 msgstr ""
 
 #: functions.php:400
-#: sidebar.php:14
 msgid "No comments"
 msgstr ""
 
 #: functions.php:400
-#: sidebar.php:14
 msgid "One comment"
 msgstr ""
 
 #: functions.php:400
-#: sidebar.php:14
 #, php-format
 msgid "% comments"
 msgstr ""
@@ -549,12 +539,10 @@ msgstr ""
 #: functions.php:439
 #: functions.php:531
 #: functions.php:532
-#: sidebar.php:25
 msgid "Recent Comments"
 msgstr ""
 
 #: functions.php:447
-#: sidebar.php:28
 #, php-format
 msgid "<span class=\"comment-author vcard\"><span class=\"fn n\">%1$s</span> wrote:</span> <span class=\"comment-summary\">%2$s ...</span> <span class=\"comment-entry\">On %3$s</span>"
 msgstr ""
@@ -681,20 +669,12 @@ msgstr ""
 msgid "Choose one of the options for the alignment of the post entry text. Default is <span>left</span>."
 msgstr ""
 
-#: functions.php:682
-msgid "Sidebar position"
-msgstr ""
-
 #: functions.php:685
 msgid "Column 1 - Column 2"
 msgstr ""
 
 #: functions.php:686
 msgid "Column 2 - Column 1"
-msgstr ""
-
-#: functions.php:688
-msgid "Choose one of the options for the position of the \"sidebar\" columns. Default is <span>Column 1 - Column 2</span>."
 msgstr ""
 
 #: functions.php:692
@@ -798,22 +778,6 @@ msgstr ""
 
 #: search.php:43
 msgid "Sorry, but nothing matched your search criteria. Please try again with some different keywords."
-msgstr ""
-
-#: sidebar.php:52
-msgid "Categories"
-msgstr ""
-
-#: sidebar.php:59
-msgid "Tags"
-msgstr ""
-
-#: sidebar.php:63
-msgid "Archives"
-msgstr ""
-
-#: sidebar.php:70
-msgid "RSS Feeds"
 msgstr ""
 
 #: single.php:7

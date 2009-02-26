@@ -17,7 +17,6 @@
 <div class="banner">
 	<div class="access">
 		<span class="content-access"><a href="#content" title="<?php _e('Skip to content', 'simplr'); ?>"><?php _e('Skip to content', 'simplr'); ?></a></span>
-		<span class="sidebar-access"><a href="#primary" title="<?php _e('Skip past content', 'simplr'); ?>"><?php _e('Skip past content', 'simplr'); ?></a></span>
 	</div>
 </div><!-- .banner -->
 

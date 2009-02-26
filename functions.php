@@ -201,247 +201,6 @@ function widget_simplr_search_control() {
 <?php
 }
 
-// Loads Simplr-style Meta widget
-function widget_simplr_meta($args) {
-	extract($args);
-	$options = get_option('widget_meta');
-	$title = empty($options['title']) ? __('Meta', 'simplr') : $options['title'];
-?>
-		<?php echo $before_widget; ?>
-			<?php echo $before_title . $title . $after_title; ?>
-			<ul>
-				<?php wp_register() ?>
-				<li><?php wp_loginout() ?></li>
-				<?php wp_meta() ?>
-			</ul>
-		<?php echo $after_widget; ?>
-<?php
-}
-
-function widget_simplr_homelink($args) {
-	extract($args);
-	$options = get_option('widget_simplr_homelink');
-	$title = empty($options['title']) ? __( 'Home', 'simplr' ) : $options['title'];
-	if ( !is_front_page() || is_paged() ) {
-?>
-			<?php echo $before_widget; ?>
-				<?php echo $before_title; ?><a href="<?php bloginfo('home'); ?>/" title="<?php echo wp_specialchars(get_bloginfo('name'), 1) ?>" rel="home"><?php echo $title; ?></a><?php echo $after_title; ?>
-			<?php echo $after_widget; ?>
-<?php }
-}
-
-// Loads the control functions for the Home Link, allowing control of its text
-function widget_simplr_homelink_control() {
-	$options = $newoptions = get_option('widget_simplr_homelink');
-	if ( $_POST['homelink-submit'] ) {
-		$newoptions['title'] = strip_tags( stripslashes( $_POST['homelink-title'] ) );
-	}
-	if ( $options != $newoptions ) {
-		$options = $newoptions;
-		update_option( 'widget_simplr_homelink', $options );
-	}
-	$title = attribute_escape( $options['title'] );
-?>
-			<p><?php _e('Adds a link to the home page on every page <em>except</em> the home.', 'simplr'); ?></p>
-			<p><label for="homelink-title"><?php _e( 'Title:', 'simplr' ) ?> <input class="widefat" id="homelink-title" name="homelink-title" type="text" value="<?php echo $title; ?>" /></label></p>
-			<input type="hidden" id="homelink-submit" name="homelink-submit" value="1" />
-<?php
-}
-
-// Loads simplr-style RSS Links (separate from Meta) widget
-function widget_simplr_rsslinks($args) {
-	extract($args);
-	$options = get_option('widget_simplr_rsslinks');
-	$title = empty($options['title']) ? __( 'RSS Links', 'simplr' ) : $options['title'];
-?>
-		<?php echo $before_widget; ?>
-			<?php echo $before_title . $title . $after_title; ?>
-			<ul>
-				<li><a href="<?php bloginfo('rss2_url') ?>" title="<?php echo wp_specialchars( get_bloginfo('name'), 1 ) ?> <?php _e( 'Posts RSS feed', 'simplr' ); ?>" rel="alternate" type="application/rss+xml"><?php _e( 'All posts', 'simplr' ) ?></a></li>
-				<li><a href="<?php bloginfo('comments_rss2_url') ?>" title="<?php echo wp_specialchars(bloginfo('name'), 1) ?> <?php _e( 'Comments RSS feed', 'simplr' ); ?>" rel="alternate" type="application/rss+xml"><?php _e( 'All comments', 'simplr' ) ?></a></li>
-			</ul>
-		<?php echo $after_widget; ?>
-<?php
-}
-
-// Loads the control functions for the RSS Links, allowing control of its text
-function widget_simplr_rsslinks_control() {
-	$options = $newoptions = get_option('widget_simplr_rsslinks');
-	if ( $_POST['rsslinks-submit'] ) {
-		$newoptions['title'] = strip_tags( stripslashes( $_POST['rsslinks-title'] ) );
-	}
-	if ( $options != $newoptions ) {
-		$options = $newoptions;
-		update_option( 'widget_simplr_rsslinks', $options );
-	}
-	$title = attribute_escape( $options['title'] );
-?>
-			<p><label for="rsslinks-title"><?php _e( 'Title:', 'simplr' ) ?> <input class="widefat" id="rsslinks-title" name="rsslinks-title" type="text" value="<?php echo $title; ?>" /></label></p>
-			<input type="hidden" id="rsslinks-submit" name="rsslinks-submit" value="1" />
-<?php
-}
-
-// Loads the Simplr-style recent entries widget
-function widget_simplr_recent_entries($args) {
-	global $wpdb, $comments, $comment;
-	extract($args);
-	$options = get_option('widget_simplr_recent_entries');
-	$title = empty($options['title']) ? __('Recent Entries', 'simplr') : $options['title'];
-	$count = empty($options['count']) ? __('5', 'simplr') : $options['count'];
-	global $wpdb, $r;
-	$r = new wp_query("showposts=$count");
-	if ($r->have_posts()) : ?>
-		<?php echo $before_widget; ?>
-			<?php echo $before_title ?><?php echo $title ?><?php echo $after_title ?>
-			<ul><?php while ($r->have_posts()) : $r->the_post(); ?>
-
-				<li class="hentry" onclick="location.href='<?php the_permalink() ?>';">
-					<span class="entry-title"><a href="<?php the_permalink() ?>" title="Continue reading <?php get_the_title(); the_title(); ?>" rel="bookmark"><?php get_the_title(); the_title(); ?></a></span>
-					<span class="entry-summary"><?php the_content_rss('', TRUE, '', 10); ?></span>
-					<span class="entry-date"><abbr class="published" title="<?php the_time('Y-m-d\TH:i:sO'); ?>"><?php unset($previousday); printf(__('%1$s', 'simplr'), the_date('F jS, Y', false)) ?></abbr></span>
-					<span class="entry-comments"><?php comments_popup_link(__('No comments', 'simplr'), __('One comment', 'simplr'), __('% comments', 'simplr')) ?></span>
-				</li>
-			<?php endwhile; ?>
-
-			</ul>
-		<?php echo $after_widget; ?>
-<?php endif; ?>
-<?php
-}
-
-// Loads controls for changing the options of the Simplr recent entries widget
-function widget_simplr_recent_entries_control() {
-	$options = $newoptions = get_option('widget_simplr_recent_entries');
-	if ( $_POST['rc-submit'] ) {
-		$newoptions['title'] = strip_tags( stripslashes( $_POST['re-title'] ) );
-		$newoptions['count'] = strip_tags( stripslashes( $_POST['re-count'] ) );
-	}
-	if ( $options != $newoptions ) {
-		$options = $newoptions;
-		update_option( 'widget_simplr_recent_entries', $options );
-	}
-	$re_title = attribute_escape( $options['title'] );
-	$re_count = attribute_escape( $options['count'] );
-?>
-			<p><label for="re-title"><?php _e( 'Title:', 'simplr' ) ?> <input class="widefat" id="re-title" name="re-title" type="text" value="<?php echo $re_title; ?>" /></label></p>
-			<p>
-				<label for="re-count"><?php _e('Number of entries to show:', 'simplr'); ?> <input style="width:25px;text-align:center;" id="re-count" name="re-count" type="text" value="<?php echo $re_count; ?>" /></label>
-				<br />
-				<small><?php _e('(at most 15)'); ?></small>
-			</p>
-			<input type="hidden" id="re-submit" name="re-submit" value="1" />
-<?php
-}
-
-// Loads the Simplr-style recent comments widget
-function widget_simplr_recent_comments($args) {
-	global $wpdb, $comments, $comment;
-	extract($args);
-	$options = get_option('widget_simplr_recent_comments');
-	$title = empty($options['title']) ? __('Recent Comments', 'simplr') : $options['title'];
-	$count = empty($options['count']) ? __('5', 'simplr') : $options['count'];
-	$comments = $wpdb->get_results("SELECT comment_author, comment_author_url, comment_ID, comment_post_ID, SUBSTRING(comment_content,1,65) AS comment_excerpt FROM $wpdb->comments LEFT OUTER JOIN $wpdb->posts ON ($wpdb->comments.comment_post_ID = $wpdb->posts.ID) WHERE comment_approved = '1' AND comment_type = '' AND post_password = '' ORDER BY comment_date_gmt DESC LIMIT $count");
-?>
-		<?php echo $before_widget; ?>
-			<?php echo $before_title ?><?php echo $title ?><?php echo $after_title ?>
-				<ul id="recentcomments"><?php
-				if ( $comments ) : foreach ($comments as $comment) :
-				echo  '<li class="recentcomments" onclick="location.href=\''. get_permalink($comment->comment_post_ID) . '#comment-' . $comment->comment_ID . '\';">' . sprintf(__('<span class="comment-author vcard"><span class="fn n">%1$s</span> wrote:</span> <span class="comment-summary">%2$s ...</span> <span class="comment-entry">On %3$s</span>'),
-					get_comment_author_link(),
-					strip_tags($comment->comment_excerpt),
-					'<a href="'. get_permalink($comment->comment_post_ID) . '#comment-' . $comment->comment_ID . '" title="">' . get_the_title($comment->comment_post_ID) . '</a>') . '</li>';
-				endforeach; endif;?></ul>
-		<?php echo $after_widget; ?>
-<?php
-}
-
-// Loads controls to change the options of the Simplr recent comments widget
-function widget_simplr_recent_comments_control() {
-	$options = $newoptions = get_option('widget_simplr_recent_comments');
-	if ( $_POST['rc-submit'] ) {
-		$newoptions['title'] = strip_tags( stripslashes( $_POST['rc-title'] ) );
-		$newoptions['count'] = strip_tags( stripslashes( $_POST['rc-count'] ) );
-	}
-	if ( $options != $newoptions ) {
-		$options = $newoptions;
-		update_option( 'widget_simplr_recent_comments', $options );
-	}
-	$rc_title = attribute_escape( $options['title'] );
-	$rc_count = attribute_escape( $options['count'] );
-?>
-			<p><label for="rc-title"><?php _e( 'Title:', 'simplr' ) ?> <input class="widefat" id="rc-title" name="rc-title" type="text" value="<?php echo $rc_title; ?>" /></label></p>
-			<p>
-				<label for="rc-count"><?php _e('Number of comments to show:', 'simplr'); ?> <input style="width:25px;text-align:center;" id="rc-count" name="rc-count" type="text" value="<?php echo $rc_count; ?>" /></label>
-				<br />
-				<small><?php _e('(at most 15)'); ?></small>
-			</p>
-			<input type="hidden" id="rc-submit" name="rc-submit" value="1" />
-<?php
-}
-
-// Loads, checks that Widgets are loaded and working
-function simplr_widgets_init() {
-	if ( !function_exists('register_sidebars') )
-		return;
-
-	$p = array(
-		'before_title' => "<h3 class='widgettitle'>",
-		'after_title' => "</h3>\n",
-	);
-
-	register_sidebars(2, $p);
-
-	// Finished intializing Widgets plugin, now let's load the Simplr default widgets; first, Simplr search widget
-	$widget_ops = array(
-		'classname'    =>  'widget_search',
-		'description'  =>  __( "A search form for your blog (Simplr)", "simplr" )
-	);
-	wp_register_sidebar_widget( 'search', __( 'Search', 'simplr' ), 'widget_simplr_search', $widget_ops );
-	unregister_widget_control('search');
-	wp_register_widget_control( 'search', __( 'Search', 'simplr' ), 'widget_simplr_search_control' );
-
-	// Simplr Meta widget
-	$widget_ops = array(
-		'classname'    =>  'widget_meta',
-		'description'  =>  __( "Log in/out and administration links (Simplr)", "simplr" )
-	);
-	wp_register_sidebar_widget( 'meta', __( 'Meta', 'simplr' ), 'widget_simplr_meta', $widget_ops );
-	unregister_widget_control('meta');
-	wp_register_widget_control( 'meta', __('Meta'), 'wp_widget_meta_control' );
-
-	//Simplr Home Link widget
-	$widget_ops = array(
-		'classname'    =>  'widget_home_link',
-		'description'  =>  __( "Link to the front page when elsewhere (Simplr)", "simplr" )
-	);
-	wp_register_sidebar_widget( 'home_link', __( 'Home Link', 'simplr' ), 'widget_simplr_homelink', $widget_ops );
-	wp_register_widget_control( 'home_link', __( 'Home Link', 'simplr' ), 'widget_simplr_homelink_control' );
-
-	//Simplr Recent Comments widget
-	$widget_ops = array(
-		'classname'    =>  'widget_simplr_recent_entries',
-		'description'  =>  __( "Semantic recent entries (Simplr)", "simplr" )
-	);
-	wp_register_sidebar_widget( 'simplr-recent-entries', __( 'Recent Entries', 'simplr' ), 'widget_simplr_recent_entries', $widget_ops );
-	wp_register_widget_control( 'simplr-recent-entries', __( 'Recent Entries', 'simplr' ), 'widget_simplr_recent_entries_control' );
-
-	//Simplr Recent Comments widget
-	$widget_ops = array(
-		'classname'    =>  'widget_simplr_recent_comments',
-		'description'  =>  __( "Semantic recent comments (Simplr)", "simplr" )
-	);
-	wp_register_sidebar_widget( 'simplr-recent-comments', __( 'Recent Comments', 'simplr' ), 'widget_simplr_recent_comments', $widget_ops );
-	wp_register_widget_control( 'simplr-recent-comments', __( 'Recent Comments', 'simplr' ), 'widget_simplr_recent_comments_control' );
-
-	//Simplr RSS Links widget
-	$widget_ops = array(
-		'classname'    =>  'widget_rss_links',
-		'description'  =>  __( "RSS links for both posts and comments (Simplr)", "simplr" )
-	);
-	wp_register_sidebar_widget( 'rss_links', __( 'RSS Links', 'simplr' ), 'widget_simplr_rsslinks', $widget_ops );
-	wp_register_widget_control( 'rss_links', __( 'RSS Links', 'simplr' ), 'widget_simplr_rsslinks_control' );
-}
-
 // Loads the admin menu; sets default settings for each
 function simplr_add_admin() {
 	if ( $_GET['page'] == basename(__FILE__) ) {
@@ -452,9 +211,7 @@ function simplr_add_admin() {
 			update_option( 'simplr_headingfontfamily', strip_tags( stripslashes( $_REQUEST['sr_headingfontfamily'] ) ) );
 			update_option( 'simplr_layoutwidth', strip_tags( stripslashes( $_REQUEST['sr_layoutwidth'] ) ) );
 			update_option( 'simplr_posttextalignment', strip_tags( stripslashes( $_REQUEST['sr_posttextalignment'] ) ) );
-			update_option( 'simplr_sidebarposition', strip_tags( stripslashes( $_REQUEST['sr_sidebarposition'] ) ) );
 			update_option( 'simplr_accesslinks', strip_tags( stripslashes( $_REQUEST['sr_accesslinks'] ) ) );
-			update_option( 'simplr_avatarsize', strip_tags( stripslashes( $_REQUEST['sr_avatarsize'] ) ) );
 			header("Location: themes.php?page=functions.php&saved=true");
 			die;
 		} else if( 'reset' == $_REQUEST['action'] ) {
@@ -464,27 +221,13 @@ function simplr_add_admin() {
 			delete_option('simplr_headingfontfamily');
 			delete_option('simplr_layoutwidth');
 			delete_option('simplr_posttextalignment');
-			delete_option('simplr_sidebarposition');
 			delete_option('simplr_accesslinks');
-			delete_option('simplr_avatarsize');
 			header("Location: themes.php?page=functions.php&reset=true");
 			die;
 		}
 		add_action('admin_head', 'simplr_admin_head');
 	}
 	add_theme_page( __( 'Simplr Theme Options', 'simplr' ), __( 'Theme Options', 'simplr' ), 'edit_themes', basename(__FILE__), 'simplr_admin' );
-}
-
-function simplr_donate() { 
-	$form = '<form id="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">
-		<div id="donate">
-			<input type="hidden" name="cmd" value="_s-xclick" />
-			<input type="image" name="submit" src="https://www.paypal.com/en_US/i/btn/x-click-butcc-donate.gif" alt="Donate with PayPal - it\'s fast, free and secure!" />
-			<img src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" alt="Donate with PayPal" />
-			<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----" />
-		</div>
-	</form>' . "\n\t";
-	echo $form;
 }
 
 function simplr_admin_head() {
@@ -515,7 +258,6 @@ function simplr_admin() { // Theme options menu
 
 <div class="wrap">
 	<h2><?php _e('Simplr Theme Options', 'simplr'); ?></h2>
-	<?php printf( __('<p>Thanks for selecting the <a href="http://www.plaintxt.org/themes/simplr/" title="Simplr theme for WordPress">Simplr</a> theme by <span class="vcard"><a class="url fn n" href="http://scottwallick.com/" title="scottwallick.com" rel="me designer"><span class="given-name">Scott</span> <span class="additional-name">Allan</span> <span class="family-name">Wallick</span></a></span>. Please read the included <a href="%1$s" title="Open the readme.html" rel="enclosure" id="readme">documentation</a> for more information about the blog.txt and its advanced features. You must click on <i><u>S</u>ave Options</i> to save any changes. You can also discard your changes and reload the default settings by clicking on <i><u>R</u>eset</i>.</p>', 'simplr'), get_template_directory_uri() . '/readme.html' ); ?>
 
 	<form action="<?php echo wp_specialchars( $_SERVER['REQUEST_URI'] ) ?>" method="post">
 		<?php wp_nonce_field('simplr_save_options'); echo "\n"; ?>
@@ -580,16 +322,6 @@ function simplr_admin() { // Theme options menu
 					<p class="info"><?php _e('Choose one of the options for the alignment of the post entry text. Default is <span>left</span>.', 'simplr'); ?></p>
 				</td>
 			</tr>
-			<tr valign="top">
-				<th scope="row"><label for="sr_sidebarposition"><?php _e('Sidebar position', 'simplr'); ?></label></th> 
-				<td>
-					<select id="sr_sidebarposition" name="sr_sidebarposition" tabindex="22" class="dropdown">
-						<option value="col1-col2" <?php if ( ( get_option('simplr_sidebarposition') == "") || ( get_option('simplr_sidebarposition') == "col1-col2") ) { echo 'selected="selected"'; } ?>><?php _e('Column 1 - Column 2', 'simplr'); ?> </option>
-						<option value="col2-col1" <?php if ( get_option('simplr_sidebarposition') == "col2-col1" ) { echo 'selected="selected"'; } ?>><?php _e('Column 2 - Column 1', 'simplr'); ?> </option>
-					</select>
-					<p class="info"><?php _e('Choose one of the options for the position of the "sidebar" columns. Default is <span>Column 1 - Column 2</span>.', 'simplr'); ?></p>
-				</td>
-			</tr>
 		</table>
 		<h3><?php _e('Banner Nav', 'simplr'); ?></h3>
 		<table class="form-table" summary="Simplr banner nav options">
@@ -605,20 +337,10 @@ function simplr_admin() { // Theme options menu
 				</td>
 			</tr>
 		</table>
-		<h3><?php _e('Content', 'simplr'); ?></h3>
-		<table class="form-table" summary="Simplr content options">
-			<tr valign="top">
-				<th scope="row"><label for="sr_avatarsize"><?php _e('Avatar size', 'simplr'); ?></label></th> 
-				<td>
-					<input id="sr_avatarsize" name="sr_avatarsize" type="text" class="text" value="<?php if ( get_option('simplr_avatarsize') == "" ) { echo "40"; } else { echo attribute_escape( get_option('simplr_avatarsize') ); } ?>" size="6" />
-					<p class="info"><?php _e('Sets the avatar size in pixels, if avatars are enabled. Default is <span>40</span>.', 'simplr'); ?></p>
-				</td>
-			</tr>
-		</table>
 		<p class="submit">
 			<input name="save" type="submit" value="<?php _e('Save Options', 'simplr'); ?>" tabindex="24" accesskey="S" />  
 			<input name="action" type="hidden" value="save" />
-			<input name="page_options" type="hidden" value="sr_basefontsize,sr_basefontfamily,sr_headingfontfamily,sr_layoutwidth,sr_posttextalignment,sr_sidebarposition,sr_accesslinks,sr_avatarsize" />
+			<input name="page_options" type="hidden" value="sr_basefontsize,sr_basefontfamily,sr_headingfontfamily,sr_layoutwidth,sr_posttextalignment,sr_accesslinks" />
 		</p>
 	</form>
 	<h3><?php _e('Reset Options', 'simplr'); ?></h3>
@@ -628,7 +350,7 @@ function simplr_admin() { // Theme options menu
 		<p class="submit">
 			<input name="reset" type="submit" value="<?php _e('Reset Options', 'simplr'); ?>" onclick="return confirm('<?php _e('Click OK to reset. Any changes to these theme options will be lost!', 'simplr'); ?>');" tabindex="25" accesskey="R" />
 			<input name="action" type="hidden" value="reset" />
-			<input name="page_options" type="hidden" value="sr_basefontsize,sr_basefontfamily,sr_headingfontfamily,sr_layoutwidth,sr_posttextalignment,sr_sidebarposition,sr_accesslinks,sr_avatarsize" />
+			<input name="page_options" type="hidden" value="sr_basefontsize,sr_basefontfamily,sr_headingfontfamily,sr_layoutwidth,sr_posttextalignment,sr_accesslinks" />
 		</p>
 	</form>
 </div>
@@ -662,16 +384,6 @@ function simplr_wp_head() {
 	} else {
 		$posttextalignment = attribute_escape( stripslashes( get_option('simplr_posttextalignment') ) ); 
 	};
-	if ( get_option('simplr_sidebarposition') == "" ) {
-		$sidebarposition = 'body div#primary{clear:both;float:left;}
-body div#secondary{float:right;}';
-		} elseif ( get_option('simplr_sidebarposition') =="col1-col2" ) {
-			$sidebarposition = 'body div#primary{clear:both;float:left;}
-body div#secondary{float:right;}';
-		} elseif ( get_option('simplr_sidebarposition') =="col2-col1" ) {
-			$sidebarposition = 'body div#secondary{float:left;}
-body div#primary{float:right;}';
-	};
 	if ( get_option('simplr_accesslinks') == "" ) {
 		$accesslinks = 'div.banner:hover div.access{display:block;}';
 		} elseif ( get_option('simplr_accesslinks') =="hide" ) {
@@ -689,7 +401,6 @@ body{font-family:<?php echo $basefontfamily; ?>;font-size:<?php echo $basefontsi
 body div#wrapper{width:<?php echo $layoutwidth; ?>;}
 div#header,div.hentry .entry-title,div#content .page-title,div.entry-content h2,div.entry-content h3,div.entry-content h4,div.entry-content h5,div.entry-content h6{font-family:<?php echo $headingfontfamily; ?>;}
 div.hentry div.entry-content{text-align:<?php echo $posttextalignment; ?>;}
-<?php echo $sidebarposition; ?>
 <?php echo $accesslinks; ?>
 
 /*]]>*/
@@ -699,7 +410,6 @@ div.hentry div.entry-content{text-align:<?php echo $posttextalignment; ?>;}
 
 add_action('admin_menu', 'simplr_add_admin');
 add_action('wp_head', 'simplr_wp_head');
-add_action('init', 'simplr_widgets_init');
 
 add_filter('archive_meta', 'wptexturize');
 add_filter('archive_meta', 'convert_smilies');

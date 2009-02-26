@@ -13,29 +13,14 @@ text-align: center;
 a,a:link {
 outline: none;
 }
-div#header a,div#header a:link,div#header a:visited,body div.navigation a,body div.navigation a:link,.entry-title a,.entry-title a:link,div.sidebar h3 a,div.sidebar li#tag-cloud a,div.sidebar h3 a:link,div.sidebar li#tag-cloud a:link {
+div#header a,div#header a:link,div#header a:visited,body div.navigation a,body div.navigation a:link,.entry-title a,.entry-title a:link {
 text-decoration: none;
 }
 div.banner a,div.banner a:link,div.banner a:visited {
 text-decoration: none;
 }
-div.sidebar ul li ul li a,div.sidebar ul li ul li a:link {
-text-decoration: none;
-}
-div.sidebar ul li#categories ul li a,div.sidebar ul li.linkcat ul li a,div.sidebar ul li#archives ul li a,div.sidebar ul li#categories ul li a:link,div.sidebar ul li.xoxo ul li a:link,div.sidebar ul li.xoxo ul li a:link,div.sidebar ul li#rss-links ul li a,div.sidebar ul li#rss-links ul li a:link,div.sidebar ul li#meta ul li a,div.sidebar ul li#meta ul li a:link {
-display: block;
-}
-div.sidebar ul li ul li:hover a {
-text-decoration: underline;
-}
-div.sidebar ul li ul li:hover a:hover,div.sidebar ul li ul li a:hover {
-text-decoration: none;
-}
 body div#wrapper {
 text-align: left;
-}
-body div.sidebar {
-overflow: hidden;
 }
 body div#footer {
 clear: both;
@@ -422,74 +407,6 @@ width: 92%;
 div.formcontainer {
 width: 99%;
 }
-div.sidebar ul,div.sidebar ul li {
-list-style: none;
-margin: 0;
-padding: 0;
-}
-div.sidebar ul li .textwidget {
-margin: 0.5em 0 1.5em;
-}
-div.sidebar ul li.widget_tag_cloud {
-line-height: 175%;
-}
-div.sidebar ul li h3 {
-border-bottom-width: 2px;
-border-bottom-style: solid;
-font-size: 1em;
-line-height: 133%;
-margin: 1em 0 0;
-}
-div.sidebar ul li#simplr-rss-links a {
-background: url(images/feed.png) no-repeat right center;
-padding-right: 15px;
-}
-div.sidebar ul p a.rss-linK {
-background: url(images/feed.png) no-repeat left center;
-padding-left: 13px;
-}
-div.sidebar ul li#search form {
-margin: 0;
-padding: 0.4em 0 0;
-width: 99%;
-}
-div.sidebar ul li#search input#s {
-border-width: 1px;
-border-style: inset;
-font-size: 1em;
-margin: 0;
-padding: 0.2em;
-width: 70%;
-}
-div.sidebar ul li#search input#searchsubmit {
-width: 25%;
-}
-div.sidebar ul li#simplr-recent-entries span.entry-summary,div.sidebar ul li#simplr-recent-comments span.comment-entry {
-display: block;
-}
-div.sidebar ul li ul li {
-font-size: 1em;
-margin: 0.5em 0;
-padding: 0.5em;
-text-decoration: none;
-width: 96%;
-}
-div.sidebar ul li#simplr-recent-entries ul li,div.sidebar ul li#simplr-recent-comments ul li,div.sidebar ul li#simplr-recent-entries ul li abbr,div.sidebar ul li#simplr-recent-comments ul li abbr {
-cursor: pointer;
-}
-div.sidebar ul li#categories ul li,div.sidebar ul li#archives ul li,div.sidebar ul li.linkcat ul li,div.sidebar ul li#rss-links ul li,div.sidebar ul li#meta ul li {
-padding: 0;
-}
-div.sidebar ul li table#wp-calendar {
-margin: 0.2em auto;
-text-align: center;
-width: 90%;
-}
-div.sidebar ul li table#wp-calendar caption {
-margin: 0.5em auto 0.2em;
-text-align: center;
-text-transform: uppercase;
-}
 div#footer {
 border-top-width: 2px;
 border-top-style: solid;
@@ -504,21 +421,14 @@ margin: 0.2em 2em;
 div.banner div#globalnav ul li.current_page_item {
 font-weight: 700;
 }
-div.banner div#globalnav ul li ul li,div.comments ol.commentlist li div.comment-author,div.sidebar ul li#simplr-recent-comments span.comment-author {
+div.banner div#globalnav ul li ul li,div.comments ol.commentlist li div.comment-author {
 font-style: italic;
 }
 div.banner div.access,div#footer span#theme-link span.additional-name,div#footer span#theme-link span.family-name {
 display: none;
 }
-div.sidebar form#commentform p,div.sidebar ul li {
-margin: 0.5em 0 1em;
-}
-div.comments h3 span,div.sidebar ul li#simplr-recent-entries span.entry-date,div.sidebar ul li#simplr-recent-entries span.entry-comments,div.sidebar ul li#simplr-recent-comments span.comment-entry {
+div.comments h3 span {
 font-size: 0.8em;
-}
-div.comments ol.commentlist li div.comment-author span.fn,div.sidebar ul li#simplr-recent-entries span.entry-title,div.sidebar ul li#simplr-recent-comments span.comment-author span.fn {
-font-style: normal;
-font-weight: 700;
 }
 div.form-input,div.form-textarea,div.form-submit,div.form-input input,div.form-textarea textarea {
 width: 90%;
@@ -533,17 +443,8 @@ div.banner a,div.banner a:link,div.banner a:visited {
 margin: 0 0.5em;
 padding: 0 0.5em;
 }
-div.sidebar ul li#categories ul li a,div.sidebar ul li.linkcat ul li a,div.sidebar ul li#archives ul li a,div.sidebar ul li#categories ul li a:link,div.sidebar ul li.xoxo ul li a:link,div.sidebar ul li.xoxo ul li a:link,div.sidebar ul li#rss-links ul li a,div.sidebar ul li#rss-links ul li a:link,div.sidebar ul li#meta ul li a,div.sidebar ul li#meta ul li a:link {
-font-size: 1em;
-padding: 0.5em;
-width: 99%;
-}
 body div#wrapper {
 margin: 2em auto;
-}
-body div.sidebar {
-margin: 0 0 2em;
-width: 47%;
 }
 body div#footer {
 width: 100%;
@@ -554,7 +455,7 @@ max-width: 99%;
 /* Color */
 
 /* color: #28425e */
-div#header a:visited,.entry-title a:visited,div.sidebar h3 a:visited, div.sidebar ul li ul li a,div.sidebar ul li ul li a:link, div.sidebar ul li ul li, a, a:link {
+div#header a:visited,.entry-title a:visited, a, a:link {
     color: #28425e;
 }
 
@@ -562,10 +463,10 @@ div#header a:visited,.entry-title a:visited,div.sidebar h3 a:visited, div.sideba
 div#footer a,div#footer a:link, div#footer a:visited, div.hentry div.entry-date, div#footer {
     color: #637b93;
 }
-div#content div#post-0 form input#noresults-s, div.sidebar ul li#search input#s {
+div#content div#post-0 form input#noresults-s {
     border-color: #637b93;
 }
-div.comments h3, div.sidebar ul li h3 {
+div.comments h3 {
     border-bottom-color: #637b93;
 }
 div#footer {
@@ -578,17 +479,17 @@ div.banner a,div.banner a:link,div.banner a:visited , div.banner:hover div.acces
 }
 
 /* background: #ebeef1 */
-div.sidebar ul li#categories ul li a,div.sidebar ul li.linkcat ul li a,div.sidebar ul li#archives ul li a,div.sidebar ul li#categories ul li a:link,div.sidebar ul li.xoxo ul li a:link,div.sidebar ul li.xoxo ul li a:link,div.sidebar ul li#rss-links ul li a,div.sidebar ul li#rss-links ul li a:link,div.sidebar ul li#meta ul li a,div.sidebar ul li#meta ul li a:link,div.banner div#globalnav, div.entry-content blockquote, div.entry-content div.page-link, div.sidebar ul li ul li, div.comments ol.commentlist li.alt {
+div.banner div#globalnav,div.entry-content blockquote,div.entry-content div.page-link,div.comments ol.commentlist li.alt {
     background: #ebeef1;
 }
 
 /* color: #e15119 */
-div.sidebar ul li ul li:hover,div.sidebar ul li#categories ul li a:hover,div.sidebar ul li.linkcat ul li a:hover,div.sidebar ul li#archives ul li a:hover,div.sidebar ul li#rss-links ul li a:hover,div.sidebar ul li#meta ul li a:hover, div.sidebar ul li ul li:hover a:hover,div.sidebar ul li ul li a:hover, a:hover,div#footer a:hover,div#header a:hover,.entry-title a:hover,div.sidebar h3 a:hover,div.banner a:hover,div.formcontainer span.req-field {
+a:hover,div#footer a:hover,div#header a:hover,.entry-title a:hover,div.banner a:hover,div.formcontainer span.req-field {
     color: #e15119;
 }
 
 /* background: #cbd3db */
-div.sidebar ul li ul li:hover,div.sidebar ul li#categories ul li a:hover,div.sidebar ul li.linkcat ul li a:hover,div.sidebar ul li#archives ul li a:hover,div.sidebar ul li#rss-links ul li a:hover,div.sidebar ul li#meta ul li a:hover, div.banner:hover div.access, div.comments ol.commentlist li, div.banner div#globalnav {
+div.banner:hover div.access,div.comments ol.commentlist li,div.banner div#globalnav {
     border-top-color: #cbd3db;
 }
 
@@ -632,13 +533,13 @@ background: #d8dee4;
 div.entry-content .wp-caption-text {
 color: #777777;
 }
-a:visited,div.sidebar ul li ul li a:visited {
+a:visited {
 color: #5e7287;
 }
 div.comments ol.commentlist li blockquote {
 border-color: #b0b3b5;
 }
-a:active,div#header a:active,.entry-title a:active,div.sidebar h3 a:active {
+a:active,div#header a:active,.entry-title a:active {
 color: #e97d53;
 }
 div.banner a:active {
