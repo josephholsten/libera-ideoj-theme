@@ -1,22 +1,33 @@
 /*
 THEME NAME:libera-ideoj
 THEME URI:http://blog.josephholsten.com
-DESCRIPTION:A wordpress theme,derived from simplr,designed custom for blog.josephholsten.com
+DESCRIPTION:A wordpress theme,
+derived from simplr,
+designed custom for blog.josephholsten.com
 VERSION:1.0.0
 AUTHOR:Joseph Holsten
 AUTHOR URI:http://josephholsten.com/
-TAGS:variable width,fixed width,one column,widgets,theme options,options page,white,orange,blue,microformats,hatom,hcard
+TAGS:variable width, fixed width, one column, widgets, theme options, options page, white, orange, blue, microformats, hatom, hcard
 */
 body {
 text-align: center;
 }
-a,a:link {
+a,
+a:link {
 outline: none;
 }
-div#header a,div#header a:link,div#header a:visited,body div.navigation a,body div.navigation a:link,.entry-title a,.entry-title a:link {
+div#header a,
+div#header a:link,
+div#header a:visited,
+body div.navigation a,
+body div.navigation a:link,
+.entry-title a,
+.entry-title a:link {
 text-decoration: none;
 }
-div.banner a,div.banner a:link,div.banner a:visited {
+div.banner a,
+div.banner a:link,
+div.banner a:visited {
 text-decoration: none;
 }
 body div#wrapper {
@@ -38,7 +49,8 @@ border-top-style: solid;
 div.banner div#globalnav ul li.current_page_item ul li {
 font-weight: 400;
 }
-div.banner div#globalnav ul,div.banner div#globalnav ul li {
+div.banner div#globalnav ul,
+div.banner div#globalnav ul li {
 display: inline;
 list-style: none;
 margin: 0;
@@ -53,7 +65,8 @@ left: 1em;
 position: relative;
 top: 0.12em;
 }
-div.banner:hover div.access,div.banner div#globalnav {
+div.banner:hover div.access,
+div.banner div#globalnav {
 font-size: 0.8em;
 letter-spacing: 1px;
 line-height: 100%;
@@ -72,87 +85,93 @@ font-size: 2.7em;
 line-height: 133%;
 margin: 0;
 }
-div#header div#blog-description {
-font-size: 1.2em;
-line-height: 133%;
-}
 div.hentry {
 margin: 0 0 4em;
 }
-div.entry-content p {
-margin: 1em 0 0 0;
-}
-div.entry-content p + p {
-text-indent: 1em;
-margin: 0 0;
-}
-div.entry-content blockquote {
-border-left-width: 3px;
-border-left-style: solid;
-}
-div.entry-content blockquote p {
-padding: 0.5em 1em;
-}
-div.entry-content blockquote blockquote {
-border-left-width: 3px;
-border-left-style: solid;
-}
-div.entry-content ul.xoxo,div.entry-content ul.xoxo li {
-margin: 0;
-padding: 0;
-list-style: none;
-}
-div.entry-content ul.xoxo li h3 {
-margin-bottom: 0;
-}
-div.entry-content ul.xoxo p {
-margin-top: 0;
-}
-div.entry-content ul.xoxo li ul {
-margin: 0 0 0 2em;
-padding: 0;
-}
-div.entry-content ul.xoxo li ul li {
-list-style: disc;
-}
-div.entry-content ul.xoxo li ul li ul li {
-list-style: circle;
-}
-div.entry-content ul.xoxo li ul li ul li ul li {
-list-style: square;
-}
-div#wrapper .html,div#wrapper .download,div#wrapper .pdf,div#wrapper .zip {
-margin-left: 2px;
-padding: 2px 0 2px 19px;
-}
-div#wrapper .download {
-background: url(images/file-download.png) no-repeat center left;
-}
-div#wrapper .html {
-background: url(images/file-html.png) no-repeat center left;
-}
-div#wrapper .pdf {
-background: url(images/file-pdf.png) no-repeat center left;
-}
-div#wrapper .zip {
-background: url(images/file-zip.png) no-repeat center left;
-}
-div#wrapper .important {
-background-image: url(images/important.png);
-background-repeat: no-repeat;
-background-position: 0.5em center;
-border-bottom-size: 1px;
-border-bottom-style: solid;
-border-top-size: 1px;
-border-top-style: solid;
-padding: 0.2em 0.5em 0.2em 2.2em;
-}
+/* .entry-content*/
+    div.entry-content p {
+    margin: 1em 0 0 0;
+    }
+        div.entry-content p + p {
+        text-indent: 1em;
+        margin: 0 0;
+        }
+    div.entry-content blockquote {
+    border-left-width: 3px;
+    border-left-style: solid;
+    }
+        div.entry-content blockquote p {
+        padding: 0.5em 1em;
+        }
+        div.entry-content blockquote blockquote {
+        border-left-width: 3px;
+        border-left-style: solid;
+        }
+    div.entry-content ul.xoxo,
+    div.entry-content ul.xoxo li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    }
+        div.entry-content ul.xoxo li h3 {
+        margin-bottom: 0;
+        }
+        div.entry-content ul.xoxo p {
+        margin-top: 0;
+        }
+        div.entry-content ul.xoxo li ul {
+        margin: 0 0 0 2em;
+        padding: 0;
+        }
+            div.entry-content ul.xoxo li ul li {
+            list-style: disc;
+            }
+                div.entry-content ul.xoxo li ul li ul li {
+                list-style: circle;
+                }
+                    div.entry-content ul.xoxo li ul li ul li ul li {
+                    list-style: square;
+                    }
+/* END .entry-content */
+
+/* #wrapper */
+    div#wrapper .html,
+    div#wrapper .download,
+    div#wrapper .pdf,
+    div#wrapper .zip {
+    margin-left: 2px;
+    padding: 2px 0 2px 19px;
+    }
+    div#wrapper .download {
+    background: url(images/file-download.png) no-repeat center left;
+    }
+    div#wrapper .html {
+    background: url(images/file-html.png) no-repeat center left;
+    }
+    div#wrapper .pdf {
+    background: url(images/file-pdf.png) no-repeat center left;
+    }
+    div#wrapper .zip {
+    background: url(images/file-zip.png) no-repeat center left;
+    }
+    div#wrapper .important {
+    background-image: url(images/important.png);
+    background-repeat: no-repeat;
+    background-position: 0.5em center;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-top-width: 1px;
+    border-top-style: solid;
+    padding: 0.2em 0.5em 0.2em 2.2em;
+    }
+/* END #wrapper */
+
 div#content div#post-0 form {
 width: 100%;
 margin: 0 auto;
 }
 div#content div#post-0 form input#noresults-s {
-border-size: 1px;
+border-width: 1px;
 border-style: inset;
 font-size: 1em;
 margin: 0;
@@ -169,27 +188,36 @@ width: 100%;
 div.entry-content div.tag-archives p {
 line-height: 200%;
 }
-div.entry-content .alignright,img.alignright {
+div.entry-content .alignright,
+img.alignright {
 float: right;
 margin: 1em 0 1em 1em;
 }
-div.entry-content .alignleft,img.alignleft {
+div.entry-content .alignleft,
+img.alignleft {
 float: left;
 margin: 1em 1em 1em 0;
 }
-div.entry-content .center,img.aligncenter,.aligncenter {
+div.entry-content .center,
+img.aligncenter,
+.aligncenter {
 display: block;
 margin: 1em auto;
 text-align: center;
 }
-div.entry-content ul ul,div.entry-content ol ol,div.entry-content ol ul,div.entry-content ol ul {
+div.entry-content ul ul,
+div.entry-content ol ol,
+div.entry-content ol ul,
+div.entry-content ol ul {
 margin-bottom: 0.5em;
 }
-div.entry-content .clearer,p.entry-edit {
+div.entry-content .clearer,
+p.entry-edit {
 clear: both;
 width: 99%;
 }
-div.entry-content span.more-link,div.entry-content div.page-link {
+div.entry-content span.more-link,
+div.entry-content div.page-link {
 font-size: 0.9em;
 font-weight: 700;
 text-transform: uppercase;
@@ -200,10 +228,15 @@ padding: 0.3em 0.1em;
 text-align: center;
 width: 25%;
 }
-div.entry-content h2,div.entry-content h3,div.entry-content h4,div.entry-content h5,div.entry-content h6 {
+div.entry-content h2,
+div.entry-content h3,
+div.entry-content h4,
+div.entry-content h5,
+div.entry-content h6 {
 font-weight: 400;
 }
-div.entry-content h2,div.entry-content h3 {
+div.entry-content h2,
+div.entry-content h3 {
 font-size: 1.4em;
 margin: 1.5em 0 -0.5em;
 }
@@ -211,13 +244,17 @@ div.entry-content h4 {
 font-size: 1.3em;
 margin: 1.5em 0 -0.6em;
 }
-div.entry-content h5,div.entry-content h6 {
+div.entry-content h5,
+div.entry-content h6 {
 font-size: 1.2em;
 font-style: italic;
 margin: 1.5em 0 -0.7em;
 }
-div.entry-content code,div.entry-content pre,div.comments ol.commentlist li code,div.comments ol.commentlist li pre {
-font: 1em/133% "courier new",courier,monospace;
+div.entry-content code,
+div.entry-content pre {
+font: 1em/133% "courier new",
+courier,
+monospace;
 }
 div.entry-content .verse pre {
 font-family: inherit;
@@ -268,10 +305,12 @@ margin: -2em 0 2em 1em;
 div.entry-content div.entry-attachment {
 margin-top: 1em;
 }
-div.entry-content div.entry-attachment,div.entry-content div.entry-caption {
+div.entry-content div.entry-attachment,
+div.entry-content div.entry-caption {
 text-align: center;
 }
-div.entry-content div.entry-attachment img,div#nav-images div img {
+div.entry-content div.entry-attachment img,
+div#nav-images div img {
 overflow: hidden;
 }
 body.attachment div#wrapper div#content div#nav-images {
@@ -319,7 +358,8 @@ body div#content div.entry-meta {
 clear: both;
 width: 100%;
 }
-div.hentry div.entry-meta,body.single div.hentry div.entry-footer {
+div.hentry div.entry-meta,
+body.single div.hentry div.entry-footer {
 font-size: 0.8em;
 font-weight: 700;
 margin: 1em 0 2em;
@@ -350,43 +390,9 @@ margin-bottom: 4em;
 body.single div#nav-above {
 margin: 0 0 2em;
 }
-div.comments h3 {
-border-bottom-width: 2px;
-border-bottom-style: solid;
-font-size: 1.2em;
-line-height: 133%;
-margin: 1em 0 0;
-}
-div.comments ol.commentlist {
-margin: 0 0 3em 2em;
-padding: 0;
-}
-div.comments ol.commentlist li {
-margin: 0.5em 0;
-padding: 1em;
-}
-div.comments ol.commentlist li img.photo {
-float: right;
-border-width: 4px;
-border-style: solid;
-margin: -1em -1em 1em 1em
-}
-div.comments ol.commentlist li blockquote {
-border-width: 2px;
-border-style: solid;
-padding: 0 0.5em;
-}
-div.comments ol.commentlist li div.comment-meta {
-font-size: 0.9em;
-}
-div.comments ol.commentlist li p {
-margin: 0.5em 0;
-}
-div.comments form#commentform {
-margin: 0;
-padding: 0;
-}
-div.form-label,div.form-input,div.form-textarea {
+div.form-label,
+div.form-input,
+div.form-textarea {
 display: inline;
 float: left;
 margin: 0.5em 0 0;
@@ -421,16 +427,19 @@ margin: 0.2em 2em;
 div.banner div#globalnav ul li.current_page_item {
 font-weight: 700;
 }
-div.banner div#globalnav ul li ul li,div.comments ol.commentlist li div.comment-author {
+div.banner div#globalnav ul li ul li {
 font-style: italic;
 }
-div.banner div.access,div#footer span#theme-link span.additional-name,div#footer span#theme-link span.family-name {
+div.banner div.access,
+div#footer span#theme-link span.additional-name,
+div#footer span#theme-link span.family-name {
 display: none;
 }
-div.comments h3 span {
-font-size: 0.8em;
-}
-div.form-input,div.form-textarea,div.form-submit,div.form-input input,div.form-textarea textarea {
+div.form-input,
+div.form-textarea,
+div.form-submit,
+div.form-input input,
+div.form-textarea textarea {
 width: 90%;
 }
 /* Size */
@@ -439,7 +448,9 @@ line-height: 133%;
 margin: 0 0 3em;
 padding: 0;
 }
-div.banner a,div.banner a:link,div.banner a:visited {
+div.banner a,
+div.banner a:link,
+div.banner a:visited {
 margin: 0 0.5em;
 padding: 0 0.5em;
 }
@@ -455,96 +466,115 @@ max-width: 99%;
 /* Color */
 
 /* color: #28425e */
-div#header a:visited,.entry-title a:visited, a, a:link {
+div#header a:visited,
+.entry-title a:visited,
+ a,
+ a:link {
     color: #28425e;
 }
 
 /* color: #637b93 */
-div#footer a,div#footer a:link, div#footer a:visited, div.hentry div.entry-date, div#footer {
+div#footer a,
+div#footer a:link,
+div#footer a:visited,
+div.hentry div.entry-date,
+div#footer {
     color: #637b93;
 }
 div#content div#post-0 form input#noresults-s {
     border-color: #637b93;
-}
-div.comments h3 {
-    border-bottom-color: #637b93;
 }
 div#footer {
     border-top-color: #637b93;
 }
 
 /* color: #0c141c */
-div.banner a,div.banner a:link,div.banner a:visited , div.banner:hover div.access,div.banner div#globalnav {
+div.banner a,
+div.banner a:link,
+div.banner a:visited ,
+div.banner:hover div.access,
+div.banner div#globalnav {
     color: #0c141c;
 }
 
 /* background: #ebeef1 */
-div.banner div#globalnav,div.entry-content blockquote,div.entry-content div.page-link,div.comments ol.commentlist li.alt {
+div.banner div#globalnav,
+div.entry-content blockquote,
+div.entry-content div.page-link {
     background: #ebeef1;
 }
 
 /* color: #e15119 */
-a:hover,div#footer a:hover,div#header a:hover,.entry-title a:hover,div.banner a:hover,div.formcontainer span.req-field {
+a:hover,
+div#footer a:hover,
+div#header a:hover,
+.entry-title a:hover,
+div.banner a:hover,
+div.formcontainer span.req-field {
     color: #e15119;
 }
 
 /* background: #cbd3db */
-div.banner:hover div.access,div.comments ol.commentlist li,div.banner div#globalnav {
+div.banner:hover div.access,
+div.banner div#globalnav {
     border-top-color: #cbd3db;
 }
 
 /* border-left-color: #c8cacd */
-    div.entry-content blockquote, div.entry-content blockquote blockquote {
+div.entry-content blockquote,
+div.entry-content blockquote blockquote {
     border-left-color: #c8cacd;
-    }
+}
 
 /* color: #fff */
-    div.entry-content div.entry-caption p {
+div.entry-content div.entry-caption p {
     color: #fff;
-    }
-    div.hentry div.entry-date, body.attachment div#wrapper div#content div#nav-images, body {
+}
+div.hentry div.entry-date,
+body.attachment div#wrapper div#content div#nav-images,
+body {
     background: #fff;
-    }
-    div.comments ol.commentlist li img.photo {
-    border-color: #fff;
-    }
+}
 
 /* unique */
 div.entry-content blockquote blockquote {
-background: #f0f3f5;
+    background: #f0f3f5;
 }
 
 div#wrapper .important {
-background-color: #f5f5dc;
+    background-color: #f5f5dc;
 }
 div#wrapper .important {
-border-bottom-color: #d0d0bb;
-border-top-color: #d0d0bb;
+    border-bottom-color: #d0d0bb;
+    border-top-color: #d0d0bb;
 }
-div.entry-content h2,div.entry-content h3,div.entry-content h4,div.entry-content h5,div.entry-content h6 {
-color: #333333;
+div.entry-content h2,
+div.entry-content h3,
+div.entry-content h4,
+div.entry-content h5,
+div.entry-content h6 {
+    color: #333333;
 }
-div.entry-content ins,div.comments ol.commentlist li ins {
-background: #ffffcd;
+div.entry-content ins {
+    background: #ffffcd;
 }
-div.entry-content del,div.comments ol.commentlist li del {
-background: #d8dee4;
+div.entry-content del {
+    background: #d8dee4;
 }
 div.entry-content .wp-caption-text {
-color: #777777;
+    color: #777777;
 }
 a:visited {
-color: #5e7287;
+    color: #5e7287;
 }
-div.comments ol.commentlist li blockquote {
-border-color: #b0b3b5;
-}
-a:active,div#header a:active,.entry-title a:active {
-color: #e97d53;
+a:active,
+div#header a:active,
+.entry-title a:active {
+    color: #e97d53;
 }
 div.banner a:active {
-color: #999999;
+    color: #999999;
 }
 body {
-color: #111;
+    color: #111111;
 }
