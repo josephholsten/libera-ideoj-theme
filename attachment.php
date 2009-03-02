@@ -11,7 +11,7 @@
 				<div class="entry-content">
 					<div class="entry-attachment"><a href="<?php echo wp_get_attachment_url($post->ID); ?>" title="<?php echo wp_specialchars( get_the_title($post->ID), 1 ) ?>" rel="attachment"><?php echo basename($post->guid) ?></a></div>
 					<div class="entry-caption"><?php if ( !empty($post->post_excerpt) ) the_excerpt(); ?></div>
-<?php the_content('<span class="more-link">'.__('Continued reading &gt;', 'simplr').'</span>'); ?>
+<?php the_content(); ?>
 				</div>
 			</div><!-- .post -->
 		</div><!-- #content .hfeed -->

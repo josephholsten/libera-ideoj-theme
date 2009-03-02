@@ -2,7 +2,6 @@
 /* Styles for basic printing only. If you want remove print styles,
  delete line 13 from the header.php file. */
 body p.access,
-body div#globalnav,
 body span.archive-meta,
 body div.cat-meta,
 body div#footer,
