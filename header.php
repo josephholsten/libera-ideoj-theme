@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<meta http-equiv="content-type" content="<?php bloginfo('html_type') ?>; charset=<?php bloginfo('charset') ?>" />
+<html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes() ?>>
+<head profile="http://gmpg.org/xfn/11">
 	<title><?php if ( is_404() ) : ?><?php _e('Page not found', 'simplr') ?><?php elseif ( is_home() ) : ?><?php bloginfo('name') ?><?php elseif ( is_category() ) : ?><?php echo single_cat_title(); ?><?php elseif ( is_date() ) : ?><?php _e('Blog archives', 'simplr') ?><?php elseif ( is_search() ) : ?><?php _e('Search results', 'simplr') ?><?php else : ?><?php the_title() ?><?php endif ?></title>
-	<link rel="profile" href="http://gmpg.org/xfn/11" />
+	<meta http-equiv="content-type" content="<?php bloginfo('html_type') ?>; charset=<?php bloginfo('charset') ?>" />
 	<link rel="stylesheet" type="text/css" media="screen,projection" href="<?php bloginfo('stylesheet_url'); ?>" title="Simplr" />
 	<link rel="stylesheet" type="text/css" media="print" href="<?php bloginfo('template_directory'); ?>/print.css" />
 	<link rel="alternate" type="application/atom+xml" href="<?php bloginfo('atom_url') ?>" title="<?php bloginfo('name') ?> feed" /> 
@@ -25,4 +24,5 @@
 
 	<div id="header">
 		<h1 id="blog-title"><a href="<?php echo get_settings('home') ?>/" title="<?php bloginfo('name') ?>"><?php bloginfo('name') ?></a></h1>
+		<div id="blog-description"><?php bloginfo('description') ?></div>
 	</div><!-- #header -->
