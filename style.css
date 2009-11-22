@@ -4,7 +4,7 @@ THEME URI:http://blog.josephholsten.com
 DESCRIPTION:A wordpress theme,
 derived from simplr,
 designed custom for blog.josephholsten.com
-VERSION:1.1.0
+VERSION:1.1.1
 AUTHOR:Joseph Holsten
 AUTHOR URI:http://josephholsten.com/
 TAGS:variable width, fixed width, one column, widgets, theme options, options page, white, orange, blue, microformats, hatom, hcard
@@ -17,10 +17,12 @@ TAGS:variable width, fixed width, one column, widgets, theme options, options pa
 
 
 body {
-  font-family: "lucida sans unicode", "lucida grande", sans-serif;
-  font-size:70%;
+  font-family: "lucida grande", "lucida sans unicode", "lucida sans", lucida, sans-serif;
+  font-size: 16px;
 }
-body div#wrapper{width:35em;}
+body div#wrapper{
+  width:35em;
+}
 div#header,
 div.hentry .entry-title,
 div#content .page-title,
@@ -29,7 +31,7 @@ div.entry-content h3,
 div.entry-content h4,
 div.entry-content h5,
 div.entry-content h6 {
-  font-family: "trebuchet ms", helvetica, sans-serif;
+  font-family: "trebuchet ms", sans-serif;
 }
 div.hentry div.entry-content{text-align:left;}
 div.banner:hover div.access{display:block;}
