@@ -12,7 +12,7 @@ TAGS:variable width, fixed width, one column, widgets, theme options, options pa
 
 
 /* Reset */
-
+html { height: 100%;  }
 /* END Reset*/
 
 
@@ -446,6 +446,36 @@ max-width: 99%;
           0 0, 100 100,
           from(rgb(242, 242, 230)),
           to(rgb(242, 242, 230)));
+      background:
+        /* top */
+        -moz-linear-gradient(
+          270deg,
+          rgb(242, 220, 190),
+          rgba(242, 242, 230, 0) 80px),
+        /* left */
+        -moz-linear-gradient(
+          0deg,
+          rgb(242, 220, 190),
+          rgba(242, 242, 230, 0) 10%),
+        /* left */
+        -moz-linear-gradient(
+          180deg,
+          rgb(242, 220, 190),
+          rgba(242, 242, 230, 0) 10%),
+        /* top left */
+        -moz-linear-gradient(
+          -45deg,
+          rgb(242, 220, 190),
+          rgba(242, 242, 230, 0) 300px),
+        /* top right */
+        -moz-linear-gradient(
+          225deg,
+          rgb(242, 220, 190),
+          rgba(242, 242, 230, 0) 300px),
+        -moz-linear-gradient(
+          0 0,
+          rgb(242, 242, 230),
+          rgb(242, 242, 230));
     }
     
     /* s:10 v:80 */
