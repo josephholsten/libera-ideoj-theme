@@ -409,6 +409,43 @@ max-width: 99%;
     /* s:10 v: 100 */
     body {
       background: #f2f2e6;
+      background:
+        /* top */
+        -webkit-gradient(
+          linear,
+          0 top, 0 80,
+          from(rgb(242, 220, 190)),
+          to(rgba(242, 242, 230, 0))),
+        /* left */
+        -webkit-gradient(
+          linear,
+          left 0, 10% 0,
+          from(rgb(242, 220, 190)),
+          to(rgba(242, 242, 230, 0))),
+        /* right */
+        -webkit-gradient(
+          linear,
+          90% 0, right 0,
+          from(rgba(242, 242, 230, 0)),
+          to(rgb(242, 220, 190))),
+        /* top left */
+        -webkit-gradient(
+          linear,
+          left top, 20% 200,
+          from(rgb(242, 220, 190)),
+          to(rgba(242, 242, 230, 0))),
+        /* top right */
+        -webkit-gradient(
+          linear,
+          right top, 80% 200,
+          from(rgb(242, 220, 190)),
+          to(rgba(242, 242, 230, 0))
+          ),
+        -webkit-gradient(
+          linear,
+          0 0, 100 100,
+          from(rgb(242, 242, 230)),
+          to(rgb(242, 242, 230)));
     }
     
     /* s:10 v:80 */
