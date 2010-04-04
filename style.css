@@ -465,6 +465,34 @@ max-width: 99%;
           rgba(242, 242, 230, 0) 300px),
         /* fill */
           rgb(242, 242, 230);
+      background:
+        /* top */
+        linear-gradient(
+          270deg,
+          rgb(242, 220, 190),
+          rgba(242, 242, 230, 0) 80px),
+        /* left */
+        linear-gradient(
+          0deg,
+          rgb(242, 220, 190),
+          rgba(242, 242, 230, 0) 10%),
+        /* left */
+        linear-gradient(
+          180deg,
+          rgb(242, 220, 190),
+          rgba(242, 242, 230, 0) 10%),
+        /* top left */
+        linear-gradient(
+          -45deg,
+          rgb(242, 220, 190),
+          rgba(242, 242, 230, 0) 300px),
+        /* top right */
+        linear-gradient(
+          225deg,
+          rgb(242, 220, 190),
+          rgba(242, 242, 230, 0) 300px),
+        /* fill */
+          rgb(242, 242, 230);
 
       background-size: 100%;
       -moz-background-size: 100% 100%;
