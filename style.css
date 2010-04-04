@@ -435,11 +435,8 @@ max-width: 99%;
           from(rgb(242, 220, 190)),
           to(rgba(242, 242, 230, 0))
           ),
-        -webkit-gradient(
-          linear,
-          0 0, 100 100,
-          from(rgb(242, 242, 230)),
-          to(rgb(242, 242, 230)));
+        /* fill */
+          rgb(242, 242, 230);
       background:
         /* top */
         -moz-linear-gradient(
@@ -466,10 +463,8 @@ max-width: 99%;
           225deg,
           rgb(242, 220, 190),
           rgba(242, 242, 230, 0) 300px),
-        -moz-linear-gradient(
-          0 0,
-          rgb(242, 242, 230),
-          rgb(242, 242, 230));
+        /* fill */
+          rgb(242, 242, 230);
 
       background-size: 100%;
       -moz-background-size: 100% 100%;
