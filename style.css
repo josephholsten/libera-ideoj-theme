@@ -403,98 +403,51 @@ max-width: 99%;
     /* s:10 v: 100 */
     body {
       background: #f2f2e6;
+      /* Webkit */
       background:
         /* top */
-        -webkit-gradient(
-          linear,
-          0 top, 0 80,
-          from(rgb(242, 220, 190)),
-          to(rgba(242, 242, 230, 0))),
+        -webkit-gradient(linear, 0 top, 0 80, from(rgb(242, 220, 190)), to(rgba(242, 242, 230, 0))),
         /* left */
-        -webkit-gradient(
-          linear,
-          left 0, 10% 0,
-          from(rgb(242, 220, 190)),
-          to(rgba(242, 242, 230, 0))),
+        -webkit-gradient(linear, left 0, 10% 0, from(rgb(242, 220, 190)), to(rgba(242, 242, 230, 0))),
         /* right */
-        -webkit-gradient(
-          linear,
-          90% 0, right 0,
-          from(rgba(242, 242, 230, 0)),
-          to(rgb(242, 220, 190))),
+        -webkit-gradient(linear, 90% 0, right 0, from(rgba(242, 242, 230, 0)), to(rgb(242, 220, 190))),
         /* top left */
-        -webkit-gradient(
-          linear,
-          left top, 20% 200,
-          from(rgb(242, 220, 190)),
-          to(rgba(242, 242, 230, 0))),
+        -webkit-gradient(linear, left top, 20% 200, from(rgb(242, 220, 190)), to(rgba(242, 242, 230, 0))),
         /* top right */
-        -webkit-gradient(
-          linear,
-          right top, 80% 200,
-          from(rgb(242, 220, 190)),
-          to(rgba(242, 242, 230, 0))
-          ),
+        -webkit-gradient(linear, right top, 80% 200, from(rgb(242, 220, 190)), to(rgba(242, 242, 230, 0))),
         /* fill */
-          rgb(242, 242, 230);
+        rgb(242, 242, 230);
+      /* Moz */
       background:
         /* top */
-        -moz-linear-gradient(
-          270deg,
-          rgb(242, 220, 190),
-          rgba(242, 242, 230, 0) 80px),
+        -moz-linear-gradient(270deg, rgb(242, 220, 190), rgba(242, 242, 230, 0) 80px),
         /* left */
-        -moz-linear-gradient(
-          0deg,
-          rgb(242, 220, 190),
-          rgba(242, 242, 230, 0) 10%),
+        -moz-linear-gradient(0deg, rgb(242, 220, 190), rgba(242, 242, 230, 0) 10%),
         /* left */
-        -moz-linear-gradient(
-          180deg,
-          rgb(242, 220, 190),
-          rgba(242, 242, 230, 0) 10%),
+        -moz-linear-gradient(180deg, rgb(242, 220, 190), rgba(242, 242, 230, 0) 10%),
         /* top left */
-        -moz-linear-gradient(
-          -45deg,
-          rgb(242, 220, 190),
-          rgba(242, 242, 230, 0) 300px),
+        -moz-linear-gradient(-45deg, rgb(242, 220, 190), rgba(242, 242, 230, 0) 300px),
         /* top right */
-        -moz-linear-gradient(
-          225deg,
-          rgb(242, 220, 190),
-          rgba(242, 242, 230, 0) 300px),
+        -moz-linear-gradient(225deg, rgb(242, 220, 190), rgba(242, 242, 230, 0) 300px),
         /* fill */
-          rgb(242, 242, 230);
+        rgb(242, 242, 230);
+      /* CSS3 */
       background:
         /* top */
-        linear-gradient(
-          270deg,
-          rgb(242, 220, 190),
-          rgba(242, 242, 230, 0) 80px),
+        linear-gradient(270deg, rgb(242, 220, 190), rgba(242, 242, 230, 0) 80px),
         /* left */
-        linear-gradient(
-          0deg,
-          rgb(242, 220, 190),
-          rgba(242, 242, 230, 0) 10%),
+        linear-gradient(0deg, rgb(242, 220, 190), rgba(242, 242, 230, 0) 10%),
         /* left */
-        linear-gradient(
-          180deg,
-          rgb(242, 220, 190),
-          rgba(242, 242, 230, 0) 10%),
+        linear-gradient(180deg, rgb(242, 220, 190), rgba(242, 242, 230, 0) 10%),
         /* top left */
-        linear-gradient(
-          -45deg,
-          rgb(242, 220, 190),
-          rgba(242, 242, 230, 0) 300px),
+        linear-gradient(-45deg, rgb(242, 220, 190), rgba(242, 242, 230, 0) 300px),
         /* top right */
-        linear-gradient(
-          225deg,
-          rgb(242, 220, 190),
-          rgba(242, 242, 230, 0) 300px),
+        linear-gradient(225deg, rgb(242, 220, 190), rgba(242, 242, 230, 0) 300px),
         /* fill */
-          rgb(242, 242, 230);
+        rgb(242, 242, 230);
 
       background-size: 100%;
+      /* Moz */
       -moz-background-size: 100% 100%;
     }
     
